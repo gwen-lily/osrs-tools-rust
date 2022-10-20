@@ -1,5 +1,5 @@
 pub mod equipment {
-    use std::collections::HashMap;
+    use std::{clone, collections::HashMap};
 
     use crate::{
         data::data::Slot,
@@ -75,14 +75,15 @@ pub mod equipment {
     }
 
     impl HasGearStats for Equipment {
-        fn get_agg(&self) -> &'static Agg {
+        fn get_agg(self) -> Agg {
             let mut agg: Agg = Agg::default();
 
             for gear in self.get_gear() {
-                agg = agg + *gear.get_agg();
+                agg = agg + gear.get_agg();
             }
 
-            &agg
+            let agg = agg;
+            agg
         }
 
         // fn get_def(&self) -> &Def {}

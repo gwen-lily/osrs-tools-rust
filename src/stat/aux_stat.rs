@@ -1,5 +1,5 @@
 pub mod aux_stat {
-    use std::ops::Add;
+    use std::ops::{Add, Deref};
 
     #[derive(Debug, PartialEq, Eq, Hash)]
     pub struct StyleStats {
@@ -159,12 +159,24 @@ pub mod aux_stat {
         }
     }
 
+    /// Deref trait
+
+    impl Deref for Agg {
+        type Target = Agg;
+
+        fn deref(&self) -> &Self::Target {
+            &self
+        }
+    }
+
     /// Default implementation
 
     impl Default for Agg {
         fn default() -> Self {
             Self {
-                ..Default::default()
+                melee: MeleeAgg::default(),
+                ranged: RangedAgg::default(),
+                magic: MagicAgg::default(),
             }
         }
     }

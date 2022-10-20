@@ -21,7 +21,7 @@ pub mod gear {
     /// Traits
 
     pub trait HasGearStats {
-        fn get_agg(&self) -> &Agg;
+        fn get_agg(self) -> Agg;
         // fn get_def(&self) -> &Def;
         // fn get_pry(&self) -> &u32;
         // fn get_lvl_reqs(&self) -> &PlayerLevels;
@@ -30,8 +30,8 @@ pub mod gear {
     /// Trait implementation
 
     impl HasGearStats for Gear {
-        fn get_agg(&self) -> &Agg {
-            &self.agg
+        fn get_agg(self) -> Agg {
+            self.agg
         }
         // fn get_def(&self) -> &Def {
         //     &self.def
