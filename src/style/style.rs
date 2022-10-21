@@ -18,7 +18,7 @@ pub struct StyleCollection {
 /// Implementation
 
 impl Style {
-    fn new(
+    pub fn new(
         name: StyleName,
         dt: DT,
         stance: Stance,
@@ -36,14 +36,14 @@ impl Style {
 }
 
 impl StyleCollection {
-    fn new(styles: Vec<Style>, default: usize) -> Self {
+    pub fn new(styles: Vec<Style>, default: usize) -> Self {
         match styles.len() > default {
             true => return Self { styles, default },
             false => panic!("Default index must point to a valid style in styles"),
         }
     }
 
-    fn default_style(&self) -> &Style {
+    pub fn default_style(&self) -> &Style {
         &self.styles.get(self.default).unwrap()
     }
 }

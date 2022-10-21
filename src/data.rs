@@ -4,7 +4,6 @@ use strum_macros::EnumIter;
 
 /// Damage types
 
-#[allow(dead_code)]
 #[derive(Debug)]
 pub enum DT {
     Melee(MeleeDamageType),
@@ -79,7 +78,6 @@ pub enum StyleName {
 
 /// Stances
 
-#[allow(dead_code)]
 #[derive(Debug)]
 pub enum Stance {
     Melee(MeleeStance),
@@ -103,17 +101,11 @@ pub enum RangedStance {
 }
 
 #[allow(dead_code)]
-#[derive(Debug)]
+#[derive(Debug, EnumIter, PartialEq, Eq, Hash)]
 pub enum MagicStance {
     Accurate,
     Longrange,
-    NoStyle(SpellStyle),
-}
-
-#[derive(Debug, EnumIter, PartialEq, Eq, Hash)]
-pub enum SpellStyle {
-    StandardSpell,
-    DefensiveSpell,
+    NoStyle,
 }
 
 /// Skill
