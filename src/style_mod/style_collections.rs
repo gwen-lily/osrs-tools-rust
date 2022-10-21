@@ -7,7 +7,7 @@ use std::collections::HashMap;
 use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
 
-use crate::style::style::StyleCollection;
+use crate::style_mod::style::StyleCollection;
 use magic_style_collections::add_all_magic_styles;
 use melee_style_collections::add_all_melee_styles;
 use ranged_style_collections::add_all_ranged_styles;
@@ -40,6 +40,7 @@ pub enum StylesCategory {
     Staves,
 }
 
+#[allow(dead_code)]
 pub fn get_all_player_styles(_: ()) -> StylesMap {
     let mut map = StylesMap::new();
 

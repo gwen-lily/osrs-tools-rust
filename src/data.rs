@@ -4,7 +4,8 @@ use strum_macros::EnumIter;
 
 /// Damage types
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
+#[allow(dead_code)]
 pub enum DT {
     Melee(MeleeDamageType),
     Ranged,
@@ -12,7 +13,7 @@ pub enum DT {
     Typeless,
 }
 
-#[derive(Debug, EnumIter)]
+#[derive(Debug, EnumIter, PartialEq, Eq, Hash, Clone, Copy)]
 pub enum MeleeDamageType {
     Stab,
     Slash,
@@ -78,7 +79,8 @@ pub enum StyleName {
 
 /// Stances
 
-#[derive(Debug)]
+#[allow(dead_code)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 pub enum Stance {
     Melee(MeleeStance),
     Ranged(RangedStance),
@@ -93,7 +95,7 @@ pub enum MeleeStance {
     Defensive,
 }
 
-#[derive(Debug, EnumIter, PartialEq, Eq, Hash)]
+#[derive(Debug, EnumIter, PartialEq, Eq, Hash, Clone, Copy)]
 pub enum RangedStance {
     Accurate,
     Rapid,
@@ -101,7 +103,7 @@ pub enum RangedStance {
 }
 
 #[allow(dead_code)]
-#[derive(Debug, EnumIter, PartialEq, Eq, Hash)]
+#[derive(Debug, EnumIter, PartialEq, Eq, Hash, Clone, Copy)]
 pub enum MagicStance {
     Accurate,
     Longrange,
@@ -250,3 +252,6 @@ pub enum OlmEffect {
     Acid,
     FallingCrystal,
 }
+
+#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
+pub enum SpellName {}

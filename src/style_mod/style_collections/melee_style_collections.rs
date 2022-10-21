@@ -7,7 +7,7 @@ use crate::data::StyleName::{
 
 use super::StylesCategory::*;
 use super::StylesMap;
-use crate::style::style::{Style, StyleCollection};
+use crate::style_mod::style::{Style, StyleCollection};
 
 pub fn add_all_melee_styles(map: &mut StylesMap) {
     // Two handed swords
@@ -336,6 +336,8 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
         ],
         1,
     );
+
+    map.insert(key, val);
 
     // Spears
     let key = Spears;

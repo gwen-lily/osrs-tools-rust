@@ -21,8 +21,7 @@ impl HasGearStats for Equipment {
             agg = agg + gear.get_agg();
         }
 
-        let immut_agg: Agg = agg.clone();
-        immut_agg
+        agg
     }
 
     fn get_def(&self) -> Def {
@@ -32,18 +31,17 @@ impl HasGearStats for Equipment {
             def = def + gear.get_def();
         }
 
-        let immut_def: Def = def.clone();
-        immut_def
+        def
     }
 
     fn get_pry(&self) -> u32 {
         let mut pry: u32 = 0;
 
         for gear in self.values() {
-            pry = pry + gear.get_pry();
+            pry += gear.get_pry();
         }
 
-        *&pry // returns immutable pry
+        pry
     }
 
     fn get_lvl_reqs(&self) -> Levels {
@@ -65,7 +63,6 @@ impl HasGearStats for Equipment {
             }
         }
 
-        let immut_levels: Levels = levels.clone();
-        immut_levels
+        levels
     }
 }

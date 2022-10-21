@@ -2,6 +2,8 @@ use crate::data::{Stance, StyleName, DT};
 
 /// Style and collection type
 
+#[allow(dead_code)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 pub struct Style {
     pub name: StyleName,
     pub dt: DT,
@@ -10,6 +12,7 @@ pub struct Style {
     pub attack_range_mod: Option<i8>,
 }
 
+#[allow(dead_code)]
 pub struct StyleCollection {
     pub styles: Vec<Style>,
     pub default: usize,
@@ -17,6 +20,7 @@ pub struct StyleCollection {
 
 /// Implementation
 
+#[allow(dead_code)]
 impl Style {
     pub fn new(
         name: StyleName,
@@ -35,15 +39,16 @@ impl Style {
     }
 }
 
+#[allow(dead_code)]
 impl StyleCollection {
     pub fn new(styles: Vec<Style>, default: usize) -> Self {
         match styles.len() > default {
-            true => return Self { styles, default },
+            true => Self { styles, default },
             false => panic!("Default index must point to a valid style in styles"),
         }
     }
 
-    pub fn default_style(&self) -> &Style {
-        &self.styles.get(self.default).unwrap()
+    pub fn default_style(&self) -> Style {
+        *self.styles.get(self.default).unwrap()
     }
 }

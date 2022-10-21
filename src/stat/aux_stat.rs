@@ -19,39 +19,39 @@ pub struct Agg {
     magic: MagicAgg,
 }
 
-#[derive(Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone, Default)]
 pub struct MeleeAgg {
     attack: AttackMeleeAgg,
     strength: i32,
 }
 
-#[derive(Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone, Default)]
 pub struct AttackMeleeAgg {
     stab: i32,
     slash: i32,
     crush: i32,
 }
 
-#[derive(Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone, Default)]
 pub struct RangedAgg {
     attack: i32,
     strength: i32,
 }
 
-#[derive(Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone, Default)]
 pub struct MagicAgg {
     attack: i32,
     strength: i32,
 }
 
-#[derive(Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone, Default)]
 pub struct Def {
     melee: MeleeDef,
     ranged: i32,
     magic: i32,
 }
 
-#[derive(Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone, Default)]
 pub struct MeleeDef {
     stab: i32,
     slash: i32,
@@ -166,63 +166,6 @@ impl Default for Agg {
             melee: MeleeAgg::default(),
             ranged: RangedAgg::default(),
             magic: MagicAgg::default(),
-        }
-    }
-}
-
-impl Default for MeleeAgg {
-    fn default() -> Self {
-        Self {
-            attack: Default::default(),
-            strength: 0,
-        }
-    }
-}
-
-impl Default for RangedAgg {
-    fn default() -> Self {
-        Self {
-            attack: 0,
-            strength: 0,
-        }
-    }
-}
-
-impl Default for MagicAgg {
-    fn default() -> Self {
-        Self {
-            attack: 0,
-            strength: 0,
-        }
-    }
-}
-
-impl Default for Def {
-    fn default() -> Self {
-        Self {
-            melee: Default::default(),
-            ranged: Default::default(),
-            magic: Default::default(),
-        }
-    }
-}
-
-impl Default for MeleeDef {
-    fn default() -> Self {
-        Self {
-            stab: 0,
-            slash: 0,
-            crush: 0,
-        }
-    }
-}
-
-impl Default for AttackMeleeAgg {
-    fn default() -> Self {
-        Self {
-            stab: 0,
-            slash: 0,
-            crush: 0,
         }
     }
 }

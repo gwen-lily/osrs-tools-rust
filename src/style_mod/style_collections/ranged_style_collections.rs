@@ -7,7 +7,7 @@ use crate::data::{
 
 use super::StylesCategory::*;
 use super::StylesMap;
-use crate::style::style::{Style, StyleCollection};
+use crate::style_mod::style::{Style, StyleCollection};
 
 pub fn add_all_ranged_styles(map: &mut StylesMap) {
     // Bows

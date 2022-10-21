@@ -23,7 +23,7 @@ impl HasCombatStats for Levels {
         let mut combat_stats = CombatStats::new();
 
         for skill in combat_skills.iter() {
-            let value: &i32 = &self.get(skill).expect(msg);
+            let value: &i32 = self.get(skill).expect(msg);
             combat_stats.insert(*skill, *value);
         }
 
