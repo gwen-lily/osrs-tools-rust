@@ -1,7 +1,10 @@
+#[allow(unused_imports)]
+use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
 
 /// Damage types
 
+#[allow(dead_code)]
 #[derive(Debug)]
 pub enum DT {
     Melee(MeleeDamageType),
@@ -76,6 +79,7 @@ pub enum StyleName {
 
 /// Stances
 
+#[allow(dead_code)]
 #[derive(Debug)]
 pub enum Stance {
     Melee(MeleeStance),
@@ -98,6 +102,7 @@ pub enum RangedStance {
     Longrange,
 }
 
+#[allow(dead_code)]
 #[derive(Debug)]
 pub enum MagicStance {
     Accurate,
@@ -113,7 +118,7 @@ pub enum SpellStyle {
 
 /// Skill
 
-#[derive(Debug, EnumIter, PartialEq, Eq, Hash)]
+#[derive(Debug, EnumIter, PartialEq, Eq, Hash, Clone, Copy)]
 pub enum Skill {
     Attack,
     Strength,
@@ -140,7 +145,8 @@ pub enum Skill {
     Farming,
 }
 
-#[derive(Debug)]
+#[allow(dead_code)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone)]
 pub enum MonsterType {
     Demon,
     Draconic,
@@ -158,14 +164,14 @@ pub enum MonsterType {
     Toa,
 }
 
-#[derive(Debug, EnumIter, PartialEq, Eq, Hash)]
+#[derive(Debug, EnumIter, PartialEq, Eq, Hash, Clone, Copy)]
 pub enum VampyreTier {
     One,
     Two,
     Three,
 }
 
-#[derive(Debug, EnumIter, PartialEq, Eq, Hash)]
+#[derive(Debug, EnumIter, PartialEq, Eq, Hash, Clone, Copy)]
 pub enum MonsterLocation {
     Wilderness,
     Cox,
@@ -173,7 +179,7 @@ pub enum MonsterLocation {
     Toa,
 }
 
-#[derive(Debug, EnumIter, PartialEq, Eq, Hash)]
+#[derive(Debug, EnumIter, PartialEq, Eq, Hash, Clone, Copy)]
 pub enum Slayer {
     AberrantSpectres,
     AbyssalDemons,
@@ -231,7 +237,8 @@ pub enum Slayer {
     Wyrms,
 }
 
-#[derive(Debug)]
+#[allow(dead_code)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone)]
 pub enum Effect {
     StaffOfTheDead,
     StaminaPotion,
@@ -244,7 +251,8 @@ pub enum Effect {
     Frozen,
 }
 
-#[derive(Debug, EnumIter, PartialEq, Eq, Hash)]
+#[allow(dead_code)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 pub enum OlmEffect {
     Burn,
     Acid,

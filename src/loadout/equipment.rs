@@ -1,115 +1,71 @@
-pub mod equipment {
-    use std::{clone, collections::HashMap};
+use std::collections::HashMap;
 
-    use crate::{
-        data::data::Slot,
-        loadout::gear::gear::{Gear, HasGearStats},
-        stat::{
-            aux_stat::aux_stat::{Agg, Def},
-            basic_stat::stat::PlayerLevels,
-        },
-    };
+use crate::{
+    data::Slot,
+    loadout::gear::{Gear, HasGearStats},
+    stat::{
+        aux_stat::{Agg, Def},
+        basic_stat::Levels,
+    },
+};
 
-    use strum::IntoEnumIterator;
+/// structs
 
-    /// structs
+type Equipment = HashMap<Slot, Gear>;
 
-    #[derive(Debug, Eq, PartialEq, Hash, Clone)]
-    pub struct Equipment {
-        pub head: Option<Gear>,
-        pub cape: Option<Gear>,
-        pub neck: Option<Gear>,
-        pub ammunition: Option<Gear>,
-        pub weapon: Option<Gear>,
-        pub body: Option<Gear>,
-        pub shield: Option<Gear>,
-        pub legs: Option<Gear>,
-        pub hands: Option<Gear>,
-        pub feet: Option<Gear>,
-        pub ring: Option<Gear>,
-    }
+impl HasGearStats for Equipment {
+    fn get_agg(&self) -> Agg {
+        let mut agg: Agg = Agg::default();
 
-    /// Traits
-
-    trait GearContainer {
-        fn get_gear(&self) -> Vec<&Gear>;
-    }
-
-    /// Implementation
-
-    impl Equipment {
-        fn as_array(&self) -> [&Option<Gear>; 11] {
-            [
-                &self.head,
-                &self.cape,
-                &self.neck,
-                &self.ammunition,
-                &self.weapon,
-                &self.body,
-                &self.shield,
-                &self.legs,
-                &self.hands,
-                &self.feet,
-                &self.ring,
-            ]
+        for gear in self.values() {
+            agg = agg + gear.get_agg();
         }
 
-        fn as_map(&self) -> HashMap<Slot, &Option<Gear>> {
-            let mut map: HashMap<Slot, &Option<Gear>> = HashMap::new();
-
-            let vals: [&Option<Gear>; 11] = self.as_array();
-            for (k, v) in Slot::iter().zip(vals.iter()) {
-                map.insert(k, v);
-            }
-
-            map
-        }
+        let immut_agg: Agg = agg.clone();
+        immut_agg
     }
 
-    /// Trait implementation
+    fn get_def(&self) -> Def {
+        let mut def: Def = Def::default();
 
-    impl GearContainer for Equipment {
-        fn get_gear(&self) -> Vec<&Gear> {
-            self.as_array().into_iter().flatten().collect()
-        }
-    }
-
-    impl HasGearStats for Equipment {
-        fn get_agg(self) -> Agg {
-            let mut agg: Agg = Agg::default();
-
-            for gear in self.get_gear() {
-                agg = agg + gear.get_agg();
-            }
-
-            let agg = agg;
-            agg
+        for gear in self.values() {
+            def = def + gear.get_def();
         }
 
-        // fn get_def(&self) -> &Def {}
-        //
-        // fn get_pry(&self) -> &u32 {}
-        //
-        // fn get_lvl_reqs(&self) -> &PlayerLevels {}
+        let immut_def: Def = def.clone();
+        immut_def
     }
 
-    /// Default implementation
+    fn get_pry(&self) -> u32 {
+        let mut pry: u32 = 0;
 
-    impl Default for Equipment {
-        fn default() -> Self {
-            Self {
-                head: None,
-                cape: None,
-                neck: None,
-                ammunition: None,
-                weapon: None,
-                body: None,
-                shield: None,
-                legs: None,
-                hands: None,
-                feet: None,
-                ring: None,
+        for gear in self.values() {
+            pry = pry + gear.get_pry();
+        }
+
+        *&pry // returns immutable pry
+    }
+
+    fn get_lvl_reqs(&self) -> Levels {
+        let mut levels: Levels = Levels::new();
+
+        for gear in self.values() {
+            for (skill, gear_req) in gear.get_lvl_reqs().iter() {
+                match levels.get(skill) {
+                    Some(cur_req) => {
+                        if gear_req > cur_req {
+                            levels.remove(skill);
+                            levels.insert(*skill, *gear_req);
+                        }
+                    }
+                    None => {
+                        levels.insert(*skill, *gear_req);
+                    }
+                }
             }
         }
+
+        let immut_levels: Levels = levels.clone();
+        immut_levels
     }
 }

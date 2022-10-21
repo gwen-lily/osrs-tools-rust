@@ -11,8 +11,8 @@ pub struct Style {
 }
 
 pub struct StyleCollection {
-    styles: Vec<Style>,
-    default: usize,
+    pub styles: Vec<Style>,
+    pub default: usize,
 }
 
 /// Implementation
@@ -29,15 +29,18 @@ impl Style {
             name,
             dt,
             stance,
-            attack_speed_mod: None,
-            attack_range_mod: None,
+            attack_speed_mod,
+            attack_range_mod,
         }
     }
 }
 
 impl StyleCollection {
     fn new(styles: Vec<Style>, default: usize) -> Self {
-        Self { styles, default }
+        match styles.len() > default {
+            true => return Self { styles, default },
+            false => panic!("Default index must point to a valid style in styles"),
+        }
     }
 
     fn default_style(&self) -> &Style {
