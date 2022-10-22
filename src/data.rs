@@ -13,11 +13,13 @@ pub enum DT {
     Typeless,
 }
 
-#[derive(Debug, EnumIter, PartialEq, Eq, Hash, Clone, Copy)]
+#[derive(Debug, Default, EnumIter, PartialEq, Eq, Hash, Clone, Copy)]
 pub enum MeleeDamageType {
     Stab,
     Slash,
     Crush,
+    #[default]
+    Default,
 }
 
 /// Slot
@@ -252,6 +254,3 @@ pub enum OlmEffect {
     Acid,
     FallingCrystal,
 }
-
-#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
-pub enum SpellName {}

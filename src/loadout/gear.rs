@@ -29,10 +29,10 @@ pub trait HasGearStats {
 
 impl HasGearStats for Gear {
     fn get_agg(&self) -> Agg {
-        self.agg.clone()
+        self.agg
     }
     fn get_def(&self) -> Def {
-        self.def.clone()
+        self.def
     }
     fn get_pry(&self) -> u32 {
         self.pry

@@ -1,2 +1,2 @@
 mod spell;
-mod spells;
+mod spell_collections;

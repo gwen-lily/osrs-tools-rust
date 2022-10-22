@@ -14,6 +14,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "derive_deref"
+version = "1.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "dcdbcee2d9941369faba772587a565f4f534e42cb8d17e5295871de730163b2b"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
 name = "heck"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -24,6 +35,7 @@ name = "osrs-tools"
 version = "0.1.0"
 dependencies = [
  "derive-getters",
+ "derive_deref",
  "strum",
  "strum_macros",
 ]
@@ -73,9 +85,9 @@ dependencies = [
 
 [[package]]
 name = "syn"
-version = "1.0.102"
+version = "1.0.103"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3fcd952facd492f9be3ef0d0b7032a6e442ee9b361d4acc2b1d0c4aaa5f613a1"
+checksum = "a864042229133ada95abf3b54fdc62ef5ccabe9515b64717bcb9a1919e59445d"
 dependencies = [
  "proc-macro2",
  "quote",

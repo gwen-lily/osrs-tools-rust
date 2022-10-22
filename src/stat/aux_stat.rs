@@ -1,6 +1,6 @@
 use std::ops::Add;
 
-#[derive(Debug, PartialEq, Eq, Hash)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 pub struct StyleStats {
     /// Style associated values
     pub melee_attack: u32,
@@ -11,7 +11,7 @@ pub struct StyleStats {
     pub defence: u32,
 }
 
-#[derive(Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 pub struct Agg {
     // aggressive bonuses
     melee: MeleeAgg,
@@ -19,39 +19,39 @@ pub struct Agg {
     magic: MagicAgg,
 }
 
-#[derive(Debug, PartialEq, Eq, Hash, Clone, Default)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy, Default)]
 pub struct MeleeAgg {
     attack: AttackMeleeAgg,
     strength: i32,
 }
 
-#[derive(Debug, PartialEq, Eq, Hash, Clone, Default)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy, Default)]
 pub struct AttackMeleeAgg {
     stab: i32,
     slash: i32,
     crush: i32,
 }
 
-#[derive(Debug, PartialEq, Eq, Hash, Clone, Default)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy, Default)]
 pub struct RangedAgg {
     attack: i32,
     strength: i32,
 }
 
-#[derive(Debug, PartialEq, Eq, Hash, Clone, Default)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy, Default)]
 pub struct MagicAgg {
     attack: i32,
     strength: i32,
 }
 
-#[derive(Debug, PartialEq, Eq, Hash, Clone, Default)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy, Default)]
 pub struct Def {
     melee: MeleeDef,
     ranged: i32,
     magic: i32,
 }
 
-#[derive(Debug, PartialEq, Eq, Hash, Clone, Default)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy, Default)]
 pub struct MeleeDef {
     stab: i32,
     slash: i32,

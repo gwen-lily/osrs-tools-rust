@@ -1,2 +1,2 @@
-mod style;
-mod style_collections;
+pub mod style;
+pub mod style_collections;

@@ -1,6 +1,6 @@
-mod magic_style_collections;
-mod melee_style_collections;
-mod ranged_style_collections;
+pub mod magic_style_collections;
+pub mod melee_style_collections;
+pub mod ranged_style_collections;
 
 use std::collections::HashMap;
 #[allow(unused_imports)]
