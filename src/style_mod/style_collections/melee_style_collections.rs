@@ -1,9 +1,10 @@
-use crate::data::{MeleeDamageType::*, MeleeStance::*, Stance::*, DT};
+use crate::data::{MeleeDamageType::*, DT};
 
 use crate::data::StyleName::{
     self, Block, Chop, Deflect, Fend, Flick, Hack, Impale, Jab, Kick, Lash, Lunge, Pound, Pummel,
     Punch, Reap, Smash, Spike, Swipe,
 };
+use crate::stance_mod::stance::{MeleeStance::*, Stance::*};
 
 use super::StylesCategory::*;
 use super::StylesMap;
@@ -14,34 +15,16 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
     let key = TwoHandedSwords;
     let val = StyleCollection::new(
         vec![
-            Style {
-                name: Chop,
-                dt: DT::Melee(Slash),
-                stance: Melee(Aggressive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: StyleName::Slash,
-                dt: DT::Melee(Slash),
-                stance: Melee(Aggressive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Smash,
-                dt: DT::Melee(Crush),
-                stance: Melee(Aggressive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Block,
-                dt: DT::Melee(Slash),
-                stance: Melee(Defensive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
+            Style::new(Chop, DT::Melee(Slash), Melee(Aggressive), None, None),
+            Style::new(
+                StyleName::Slash,
+                DT::Melee(Slash),
+                Melee(Aggressive),
+                None,
+                None,
+            ),
+            Style::new(Smash, DT::Melee(Crush), Melee(Aggressive), None, None),
+            Style::new(Block, DT::Melee(Slash), Melee(Defensive), None, None),
         ],
         1,
     );
@@ -52,34 +35,10 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
     let key = Axes;
     let val = StyleCollection::new(
         vec![
-            Style {
-                name: Chop,
-                dt: DT::Melee(Slash),
-                stance: Melee(Accurate),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Hack,
-                dt: DT::Melee(Slash),
-                stance: Melee(Aggressive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Smash,
-                dt: DT::Melee(Crush),
-                stance: Melee(Aggressive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Block,
-                dt: DT::Melee(Slash),
-                stance: Melee(Defensive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
+            Style::new(Chop, DT::Melee(Slash), Melee(Accurate), None, None),
+            Style::new(Hack, DT::Melee(Slash), Melee(Aggressive), None, None),
+            Style::new(Smash, DT::Melee(Crush), Melee(Aggressive), None, None),
+            Style::new(Block, DT::Melee(Slash), Melee(Defensive), None, None),
         ],
         1,
     );
@@ -90,27 +49,9 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
     let key = BluntWeapons;
     let val = StyleCollection::new(
         vec![
-            Style {
-                name: Pound,
-                dt: DT::Melee(Crush),
-                stance: Melee(Accurate),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Pummel,
-                dt: DT::Melee(Crush),
-                stance: Melee(Aggressive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Block,
-                dt: DT::Melee(Crush),
-                stance: Melee(Defensive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
+            Style::new(Pound, DT::Melee(Crush), Melee(Accurate), None, None),
+            Style::new(Pummel, DT::Melee(Crush), Melee(Aggressive), None, None),
+            Style::new(Block, DT::Melee(Crush), Melee(Defensive), None, None),
         ],
         0,
     );
@@ -120,13 +61,13 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
     // Bludgeons
     let key = Bludgeons;
     let val = StyleCollection::new(
-        vec![Style {
-            name: Pummel,
-            dt: DT::Melee(Crush),
-            stance: Melee(Aggressive),
-            attack_speed_mod: None,
-            attack_range_mod: None,
-        }],
+        vec![Style::new(
+            Pummel,
+            DT::Melee(Crush),
+            Melee(Aggressive),
+            None,
+            None,
+        )],
         0,
     );
 
@@ -136,20 +77,8 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
     let key = Bulwarks;
     let val = StyleCollection::new(
         vec![
-            Style {
-                name: Pummel,
-                dt: DT::Melee(Crush),
-                stance: Melee(Accurate),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Block,
-                dt: DT::Melee(Crush),
-                stance: Melee(Defensive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
+            Style::new(Pummel, DT::Melee(Crush), Melee(Accurate), None, None),
+            Style::new(Block, DT::Melee(Crush), Melee(Defensive), None, None),
         ],
         1,
     );
@@ -160,34 +89,16 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
     let key = Claws;
     let val = StyleCollection::new(
         vec![
-            Style {
-                name: Chop,
-                dt: DT::Melee(Slash),
-                stance: Melee(Accurate),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: StyleName::Slash,
-                dt: DT::Melee(Slash),
-                stance: Melee(Aggressive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Lunge,
-                dt: DT::Melee(Stab),
-                stance: Melee(Controlled),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Block,
-                dt: DT::Melee(Slash),
-                stance: Melee(Defensive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
+            Style::new(Chop, DT::Melee(Slash), Melee(Accurate), None, None),
+            Style::new(
+                StyleName::Slash,
+                DT::Melee(Slash),
+                Melee(Aggressive),
+                None,
+                None,
+            ),
+            Style::new(Lunge, DT::Melee(Stab), Melee(Controlled), None, None),
+            Style::new(Block, DT::Melee(Slash), Melee(Defensive), None, None),
         ],
         1,
     );
@@ -198,34 +109,10 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
     let key = Pickaxes;
     let val = StyleCollection::new(
         vec![
-            Style {
-                name: Spike,
-                dt: DT::Melee(Stab),
-                stance: Melee(Accurate),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Impale,
-                dt: DT::Melee(Stab),
-                stance: Melee(Aggressive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Smash,
-                dt: DT::Melee(Crush),
-                stance: Melee(Aggressive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Block,
-                dt: DT::Melee(Stab),
-                stance: Melee(Defensive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
+            Style::new(Spike, DT::Melee(Stab), Melee(Accurate), None, None),
+            Style::new(Impale, DT::Melee(Stab), Melee(Aggressive), None, None),
+            Style::new(Smash, DT::Melee(Crush), Melee(Aggressive), None, None),
+            Style::new(Block, DT::Melee(Stab), Melee(Defensive), None, None),
         ],
         2,
     );
@@ -236,27 +123,9 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
     let key = Polearms;
     let val = StyleCollection::new(
         vec![
-            Style {
-                name: Jab,
-                dt: DT::Melee(Stab),
-                stance: Melee(Controlled),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Swipe,
-                dt: DT::Melee(Slash),
-                stance: Melee(Aggressive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Fend,
-                dt: DT::Melee(Stab),
-                stance: Melee(Defensive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
+            Style::new(Jab, DT::Melee(Stab), Melee(Controlled), None, None),
+            Style::new(Swipe, DT::Melee(Slash), Melee(Aggressive), None, None),
+            Style::new(Fend, DT::Melee(Stab), Melee(Defensive), None, None),
         ],
         0,
     );
@@ -267,34 +136,10 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
     let key = Scythes;
     let val = StyleCollection::new(
         vec![
-            Style {
-                name: Reap,
-                dt: DT::Melee(Slash),
-                stance: Melee(Accurate),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Chop,
-                dt: DT::Melee(Slash),
-                stance: Melee(Aggressive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Jab,
-                dt: DT::Melee(Crush),
-                stance: Melee(Aggressive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Block,
-                dt: DT::Melee(Slash),
-                stance: Melee(Defensive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
+            Style::new(Reap, DT::Melee(Slash), Melee(Accurate), None, None),
+            Style::new(Chop, DT::Melee(Slash), Melee(Aggressive), None, None),
+            Style::new(Jab, DT::Melee(Crush), Melee(Aggressive), None, None),
+            Style::new(Block, DT::Melee(Slash), Melee(Defensive), None, None),
         ],
         1,
     );
@@ -305,34 +150,16 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
     let key = SlashSwords;
     let val = StyleCollection::new(
         vec![
-            Style {
-                name: Chop,
-                dt: DT::Melee(Slash),
-                stance: Melee(Accurate),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: StyleName::Slash,
-                dt: DT::Melee(Slash),
-                stance: Melee(Aggressive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Lunge,
-                dt: DT::Melee(Stab),
-                stance: Melee(Controlled),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Block,
-                dt: DT::Melee(Slash),
-                stance: Melee(Defensive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
+            Style::new(Chop, DT::Melee(Slash), Melee(Accurate), None, None),
+            Style::new(
+                StyleName::Slash,
+                DT::Melee(Slash),
+                Melee(Aggressive),
+                None,
+                None,
+            ),
+            Style::new(Lunge, DT::Melee(Stab), Melee(Controlled), None, None),
+            Style::new(Block, DT::Melee(Slash), Melee(Defensive), None, None),
         ],
         1,
     );
@@ -343,34 +170,10 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
     let key = Spears;
     let val = StyleCollection::new(
         vec![
-            Style {
-                name: Lunge,
-                dt: DT::Melee(Stab),
-                stance: Melee(Controlled),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Swipe,
-                dt: DT::Melee(Slash),
-                stance: Melee(Controlled),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Pound,
-                dt: DT::Melee(Crush),
-                stance: Melee(Controlled),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Block,
-                dt: DT::Melee(Stab),
-                stance: Melee(Defensive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
+            Style::new(Lunge, DT::Melee(Stab), Melee(Controlled), None, None),
+            Style::new(Swipe, DT::Melee(Slash), Melee(Controlled), None, None),
+            Style::new(Pound, DT::Melee(Crush), Melee(Controlled), None, None),
+            Style::new(Block, DT::Melee(Stab), Melee(Defensive), None, None),
         ],
         0,
     );
@@ -381,34 +184,10 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
     let key = SpikedWeapons;
     let val = StyleCollection::new(
         vec![
-            Style {
-                name: Pound,
-                dt: DT::Melee(Crush),
-                stance: Melee(Accurate),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Pummel,
-                dt: DT::Melee(Crush),
-                stance: Melee(Aggressive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Spike,
-                dt: DT::Melee(Stab),
-                stance: Melee(Controlled),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Block,
-                dt: DT::Melee(Crush),
-                stance: Melee(Defensive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
+            Style::new(Pound, DT::Melee(Crush), Melee(Accurate), None, None),
+            Style::new(Pummel, DT::Melee(Crush), Melee(Aggressive), None, None),
+            Style::new(Spike, DT::Melee(Stab), Melee(Controlled), None, None),
+            Style::new(Block, DT::Melee(Crush), Melee(Defensive), None, None),
         ],
         1,
     );
@@ -419,34 +198,22 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
     let key = StabSwords;
     let val = StyleCollection::new(
         vec![
-            Style {
-                name: StyleName::Stab,
-                dt: DT::Melee(Stab),
-                stance: Melee(Accurate),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Lunge,
-                dt: DT::Melee(Stab),
-                stance: Melee(Aggressive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: StyleName::Slash,
-                dt: DT::Melee(Slash),
-                stance: Melee(Aggressive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Block,
-                dt: DT::Melee(Stab),
-                stance: Melee(Defensive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
+            Style::new(
+                StyleName::Stab,
+                DT::Melee(Stab),
+                Melee(Accurate),
+                None,
+                None,
+            ),
+            Style::new(Lunge, DT::Melee(Stab), Melee(Aggressive), None, None),
+            Style::new(
+                StyleName::Slash,
+                DT::Melee(Slash),
+                Melee(Aggressive),
+                None,
+                None,
+            ),
+            Style::new(Block, DT::Melee(Stab), Melee(Defensive), None, None),
         ],
         1,
     );
@@ -457,27 +224,9 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
     let key = UnarmedWeapons;
     let val = StyleCollection::new(
         vec![
-            Style {
-                name: Punch,
-                dt: DT::Melee(Crush),
-                stance: Melee(Accurate),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Kick,
-                dt: DT::Melee(Crush),
-                stance: Melee(Aggressive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Block,
-                dt: DT::Melee(Crush),
-                stance: Melee(Defensive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
+            Style::new(Punch, DT::Melee(Crush), Melee(Accurate), None, None),
+            Style::new(Kick, DT::Melee(Crush), Melee(Aggressive), None, None),
+            Style::new(Block, DT::Melee(Crush), Melee(Defensive), None, None),
         ],
         1,
     );
@@ -488,27 +237,9 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
     let key = Whips;
     let val = StyleCollection::new(
         vec![
-            Style {
-                name: Flick,
-                dt: DT::Melee(Slash),
-                stance: Melee(Accurate),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Lash,
-                dt: DT::Melee(Slash),
-                stance: Melee(Controlled),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Deflect,
-                dt: DT::Melee(Slash),
-                stance: Melee(Defensive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
+            Style::new(Flick, DT::Melee(Slash), Melee(Accurate), None, None),
+            Style::new(Lash, DT::Melee(Slash), Melee(Controlled), None, None),
+            Style::new(Deflect, DT::Melee(Slash), Melee(Defensive), None, None),
         ],
         1,
     );

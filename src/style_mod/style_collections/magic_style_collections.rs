@@ -1,11 +1,10 @@
 use crate::data::{
-    MagicStance::*,
     MeleeDamageType::*,
-    MeleeStance,
-    Stance::*,
     StyleName::{self, Bash, DefensiveSpell, Fend, Focus, Jab, Pound, StandardSpell, Swipe},
     DT,
 };
+
+use crate::stance_mod::stance::{MagicStance::*, MeleeStance, Stance::*};
 
 use super::StylesCategory::*;
 use super::StylesMap;
@@ -16,41 +15,29 @@ pub fn add_all_magic_styles(map: &mut StylesMap) {
     let key = BladedStaves;
     let val = StyleCollection::new(
         vec![
-            Style {
-                name: Jab,
-                dt: DT::Melee(Stab),
-                stance: Melee(MeleeStance::Accurate),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Swipe,
-                dt: DT::Melee(Slash),
-                stance: Melee(MeleeStance::Aggressive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Fend,
-                dt: DT::Melee(Crush),
-                stance: Melee(MeleeStance::Defensive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: StandardSpell,
-                dt: DT::Magic,
-                stance: Magic(NoStyle),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: DefensiveSpell,
-                dt: DT::Magic,
-                stance: Magic(NoStyle),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
+            Style::new(
+                Jab,
+                DT::Melee(Stab),
+                Melee(MeleeStance::Accurate),
+                None,
+                None,
+            ),
+            Style::new(
+                Swipe,
+                DT::Melee(Slash),
+                Melee(MeleeStance::Aggressive),
+                None,
+                None,
+            ),
+            Style::new(
+                Fend,
+                DT::Melee(Crush),
+                Melee(MeleeStance::Defensive),
+                None,
+                None,
+            ),
+            Style::new(StandardSpell, DT::Magic, Magic(NoStyle), None, None),
+            Style::new(DefensiveSpell, DT::Magic, Magic(NoStyle), None, None),
         ],
         1,
     );
@@ -61,20 +48,14 @@ pub fn add_all_magic_styles(map: &mut StylesMap) {
     let key = PoweredStaves;
     let val = StyleCollection::new(
         vec![
-            Style {
-                name: StyleName::Accurate,
-                dt: DT::Magic,
-                stance: Magic(Accurate),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: StyleName::Longrange,
-                dt: DT::Magic,
-                stance: Magic(Longrange),
-                attack_speed_mod: None,
-                attack_range_mod: Some(2),
-            },
+            Style::new(StyleName::Accurate, DT::Magic, Magic(Accurate), None, None),
+            Style::new(
+                StyleName::Longrange,
+                DT::Magic,
+                Magic(Longrange),
+                None,
+                Some(2),
+            ),
         ],
         0,
     );
@@ -85,41 +66,29 @@ pub fn add_all_magic_styles(map: &mut StylesMap) {
     let key = Staves;
     let val = StyleCollection::new(
         vec![
-            Style {
-                name: Bash,
-                dt: DT::Melee(Crush),
-                stance: Melee(MeleeStance::Accurate),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Pound,
-                dt: DT::Melee(Crush),
-                stance: Melee(MeleeStance::Aggressive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: Focus,
-                dt: DT::Melee(Crush),
-                stance: Melee(MeleeStance::Defensive),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: StandardSpell,
-                dt: DT::Magic,
-                stance: Magic(NoStyle),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: DefensiveSpell,
-                dt: DT::Magic,
-                stance: Magic(NoStyle),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
+            Style::new(
+                Bash,
+                DT::Melee(Crush),
+                Melee(MeleeStance::Accurate),
+                None,
+                None,
+            ),
+            Style::new(
+                Pound,
+                DT::Melee(Crush),
+                Melee(MeleeStance::Aggressive),
+                None,
+                None,
+            ),
+            Style::new(
+                Focus,
+                DT::Melee(Crush),
+                Melee(MeleeStance::Defensive),
+                None,
+                None,
+            ),
+            Style::new(StandardSpell, DT::Magic, Magic(NoStyle), None, None),
+            Style::new(DefensiveSpell, DT::Magic, Magic(NoStyle), None, None),
         ],
         1,
     );

@@ -1,26 +1,24 @@
-use crate::data::{Stance, StyleName, DT};
+use crate::data::{StyleName, DT};
+use crate::stance_mod::stance::Stance;
+use crate::stance_mod::stance_stats::{get_all_stances, StanceMap, StanceStats};
 
-/// Style and collection type
-
-#[allow(dead_code)]
-#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Style {
     pub name: StyleName,
     pub dt: DT,
     pub stance: Stance,
+    pub stance_stats: Option<StanceStats>,
     pub attack_speed_mod: Option<i8>,
     pub attack_range_mod: Option<i8>,
 }
 
 #[allow(dead_code)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub struct StyleCollection {
     pub styles: Vec<Style>,
     pub default: usize,
 }
 
-/// Implementation
-
-#[allow(dead_code)]
 impl Style {
     pub fn new(
         name: StyleName,
@@ -29,17 +27,20 @@ impl Style {
         attack_speed_mod: Option<i8>,
         attack_range_mod: Option<i8>,
     ) -> Self {
+        let stance_map: StanceMap = get_all_stances();
+        let stance_stats = stance_map.get(&stance).unwrap().clone();
+
         Self {
             name,
             dt,
             stance,
+            stance_stats,
             attack_speed_mod,
             attack_range_mod,
         }
     }
 }
 
-#[allow(dead_code)]
 impl StyleCollection {
     pub fn new(styles: Vec<Style>, default: usize) -> Self {
         match styles.len() > default {
@@ -48,7 +49,7 @@ impl StyleCollection {
         }
     }
 
-    pub fn default_style(&self) -> Style {
-        *self.styles.get(self.default).unwrap()
+    pub fn default_style(&self) -> &Style {
+        self.styles.get(self.default).unwrap()
     }
 }

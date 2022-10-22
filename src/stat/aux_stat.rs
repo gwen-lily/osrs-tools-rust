@@ -1,17 +1,6 @@
 use std::ops::Add;
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
-pub struct StyleStats {
-    /// Style associated values
-    pub melee_attack: u32,
-    pub melee_strength: u32,
-    pub ranged_attack: u32,
-    pub ranged_strength: u32,
-    pub magic_attack: u32,
-    pub defence: u32,
-}
-
-#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 pub struct Agg {
     // aggressive bonuses
     melee: MeleeAgg,
@@ -58,25 +47,7 @@ pub struct MeleeDef {
     crush: i32,
 }
 
-/// Add trait
-
-impl Add for StyleStats {
-    type Output = Self;
-
-    fn add(self, rhs: Self) -> Self::Output {
-        Self {
-            melee_attack: self.melee_attack + rhs.melee_attack,
-            melee_strength: self.melee_strength + rhs.melee_strength,
-            ranged_attack: self.ranged_attack + rhs.ranged_attack,
-            ranged_strength: self.ranged_strength + rhs.ranged_strength,
-            magic_attack: self.magic_attack + rhs.magic_attack,
-            defence: self.defence + rhs.defence,
-        }
-    }
-}
-
-/// Agg & Def implementation is code duplication?
-///
+/// Add field-wise for Agg
 impl Add for Agg {
     type Output = Self;
 
@@ -89,6 +60,7 @@ impl Add for Agg {
     }
 }
 
+/// Add field-wise for Def
 impl Add for Def {
     type Output = Self;
 
@@ -101,6 +73,7 @@ impl Add for Def {
     }
 }
 
+/// Add field-wise for MeleeAgg
 impl Add for MeleeAgg {
     type Output = Self;
 
@@ -112,6 +85,7 @@ impl Add for MeleeAgg {
     }
 }
 
+/// Add field-wise for AttackMeleeAgg
 impl Add for AttackMeleeAgg {
     type Output = Self;
 
@@ -124,6 +98,7 @@ impl Add for AttackMeleeAgg {
     }
 }
 
+/// Add field-wise for RangedAgg
 impl Add for RangedAgg {
     type Output = Self;
 
@@ -135,6 +110,7 @@ impl Add for RangedAgg {
     }
 }
 
+/// Add field-wise for MagicAgg
 impl Add for MagicAgg {
     type Output = Self;
 
@@ -146,6 +122,7 @@ impl Add for MagicAgg {
     }
 }
 
+/// Add field-wise for MeleeDef
 impl Add for MeleeDef {
     type Output = Self;
 

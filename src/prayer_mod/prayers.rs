@@ -9,8 +9,7 @@ use crate::data::{
     DT::{Magic, Melee, Ranged},
 };
 
-// enum
-
+/// A list of all of the names of prayers in OSRS. These are used as lookup keys for a PrayerMap.
 #[allow(dead_code)]
 #[derive(Debug, EnumIter, PartialEq, Eq, Hash, Clone, Copy)]
 pub enum PrayerName {
@@ -45,10 +44,11 @@ pub enum PrayerName {
     Augury,
 }
 
-// type
+/// A PrayerMap has PrayerName keys which yield the associated Prayer struct.
 #[allow(dead_code)]
 pub type PrayerMap = HashMap<PrayerName, Prayer>;
 
+/// Return a PrayerMap of every prayer in OSRS.
 pub fn get_all_prayers() -> PrayerMap {
     use PrayerName::*;
 

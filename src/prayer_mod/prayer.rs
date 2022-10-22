@@ -5,14 +5,17 @@ use crate::data::{
     DT::{self, Typeless},
 };
 
-/// Structs
-
+/// A Prayer defines the drain effect and optional stat modifiers
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Prayer {
     drain_effect: u32,
     prayer_stats: Option<PrayerStats>,
 }
 
+/** A PrayerCollection contains a collection of prayers. During creation, additional
+ *  information aggregate information is collected and stored as part of the struct
+ *  which is made available by the PrayerLike trait
+ */
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub struct PrayerCollection {
     pub prayers: Vec<Prayer>,
@@ -20,19 +23,16 @@ pub struct PrayerCollection {
     prayer_stats: Option<PrayerStats>,
 }
 
-/// Type
-
+/// A PrayerStats map matches (DT, Skill) keys to integer representations of modifiers
 pub type PrayerStats = HashMap<(DT, Skill), i32>;
 
-/// trait
-
+/// The PrayerLike trait provides access to associated prayer fields
 pub trait PrayerLike {
     fn get_drain_effect(&self) -> u32;
     fn get_prayer_stats(&self) -> &Option<PrayerStats>;
 }
 
-/// trait implementation
-
+/// Simple getters for Prayer
 impl PrayerLike for Prayer {
     fn get_drain_effect(&self) -> u32 {
         self.drain_effect
@@ -43,6 +43,7 @@ impl PrayerLike for Prayer {
     }
 }
 
+/// Simple getters for PrayerCollection
 impl PrayerLike for PrayerCollection {
     fn get_drain_effect(&self) -> u32 {
         self.drain_effect
@@ -53,9 +54,9 @@ impl PrayerLike for PrayerCollection {
     }
 }
 
-/// Implementation
-
+/// Implements creation methods for Prayer
 impl Prayer {
+    /// Use new for Prayer structs with associated prayer stats
     pub fn new(drain_effect: u32, prayer_stats: Option<PrayerStats>) -> Self {
         Self {
             drain_effect,
@@ -63,6 +64,7 @@ impl Prayer {
         }
     }
 
+    /// Use new_statless for Prayer structs with no associated prayer stats
     pub fn new_statless(drain_effect: u32) -> Self {
         Self {
             drain_effect,
@@ -71,6 +73,7 @@ impl Prayer {
     }
 }
 
+/// Implements creation method for PrayerCollection and validates input under the hood
 impl PrayerCollection {
     #[allow(dead_code)]
     pub fn new(prayers: Vec<Prayer>) -> Self {
@@ -86,6 +89,7 @@ impl PrayerCollection {
         }
     }
 
+    /// The aggregate of prayer stats should be unique from prayers[stat] -> map[stat]
     fn aggregate_prayer_stats(prayers: &[Prayer], map: &mut PrayerStats) {
         // Iterate through the prayers in the collection
         for prayer in prayers.iter().filter(|p| p.prayer_stats != None) {
@@ -117,11 +121,11 @@ impl PrayerCollection {
         }
     }
 
+    /** Iterate again through the finished collection.  If we have more than one DT with an attack
+     *  or strength modifier, panic! This does not apply to defence, as magic and normal defence
+     *  can coexist.
+     */
     fn check_compatability(map: &PrayerStats) -> Result<(), Error> {
-        // Iterate again through the finished collection
-        // If we have more than one DT with an attack or strength modifier, panic!
-        // This does not apply to defence, magic and normal defence can coexist
-
         let no_dupes = [Attack, Strength];
 
         for skill in no_dupes.into_iter() {
@@ -134,6 +138,7 @@ impl PrayerCollection {
         Ok(())
     }
 
+    /// Return the sum of each individual prayer drain effect
     fn calculate_prayer_drain(prayers: &[Prayer]) -> u32 {
         let mut val: u32 = 0;
 
@@ -145,8 +150,7 @@ impl PrayerCollection {
     }
 }
 
-/// Default implementation
-
+/// Default prayer has no drain and no stat effects
 impl Default for Prayer {
     fn default() -> Self {
         Self {

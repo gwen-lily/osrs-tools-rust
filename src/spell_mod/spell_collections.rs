@@ -2,14 +2,14 @@ mod ancient_spells;
 mod powered_spells;
 mod standard_spells;
 
-use crate::spell_mod::spell::SpellTrait;
+use crate::spell_mod::spell::SpellLike;
 use std::collections::HashMap;
 
 use ancient_spells::add_ancient_spells;
 use powered_spells::add_powered_spells;
 use standard_spells::add_standard_spells;
 
-pub type SpellsMap = HashMap<SpellName, Box<dyn SpellTrait>>;
+pub type SpellsMap = HashMap<SpellName, Box<dyn SpellLike>>;
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 pub enum SpellName {
@@ -21,42 +21,42 @@ pub enum SpellName {
     WaterBolt,
     EarthBolt,
     FireBolt,
-    // WindBlast,
-    // WaterBlast,
-    // EarthBlast,
-    // FireBlast,
-    // WindWave,
-    // WaterWave,
-    // EarthWave,
-    // FireWave,
-    // WindSurge,
-    // WaterSurge,
-    // EarthSurge,
-    // FireSurge,
-    // CrumbleUndead,
-    // IbanBlast,
-    // SaradominStrike,
-    // ClawsOfGuthix,
-    // FlamesOfZamorak,
-    // SmokeRush,
-    // ShadowRush,
-    // BloodRush,
-    // IceRush,
+    WindBlast,
+    WaterBlast,
+    EarthBlast,
+    FireBlast,
+    WindWave,
+    WaterWave,
+    EarthWave,
+    FireWave,
+    WindSurge,
+    WaterSurge,
+    EarthSurge,
+    FireSurge,
+    CrumbleUndead,
+    IbanBlast,
+    SaradominStrike,
+    ClawsOfGuthix,
+    FlamesOfZamorak,
+    SmokeRush,
+    ShadowRush,
+    BloodRush,
+    IceRush,
     SmokeBurst,
     ShadowBurst,
     BloodBurst,
     IceBurst,
-    // SmokeBlitz,
-    // ShadowBlitz,
-    // BloodBlitz,
-    // IceBlitz,
-    // SmokeBarrage,
-    // ShadowBarrage,
-    // BloodBarrage,
-    // IceBarrage,
+    SmokeBlitz,
+    ShadowBlitz,
+    BloodBlitz,
+    IceBlitz,
+    SmokeBarrage,
+    ShadowBarrage,
+    BloodBarrage,
+    IceBarrage,
     TridentOfTheSeas(i32),
-    // TridentOfTheSwamp(i32),
-    // SanguinestiStaff(i32),
+    TridentOfTheSwamp(i32),
+    SanguinestiStaff(i32),
     TumekensShadow(i32),
 }
 

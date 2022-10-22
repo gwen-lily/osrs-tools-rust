@@ -9,11 +9,14 @@ use crate::{
     },
 };
 
-/// structs
+/// Equipment type is a HashMap linking Slot to Gear.
+pub type Equipment = HashMap<Slot, Gear>;
 
-type Equipment = HashMap<Slot, Gear>;
-
+/** Implement HasGearStats for Equipment, which aggregates individual gear fields
+ *  into a returned combination object. For most field getters, this is simple addition.
+ */
 impl HasGearStats for Equipment {
+    /// Get the sum of all aggressive stats
     fn get_agg(&self) -> Agg {
         let mut agg: Agg = Agg::default();
 
@@ -24,6 +27,7 @@ impl HasGearStats for Equipment {
         agg
     }
 
+    /// Get the sum of all defensive stats
     fn get_def(&self) -> Def {
         let mut def: Def = Def::default();
 
@@ -34,6 +38,7 @@ impl HasGearStats for Equipment {
         def
     }
 
+    /// Get the sum prayer bonus
     fn get_pry(&self) -> u32 {
         let mut pry: u32 = 0;
 
@@ -44,6 +49,7 @@ impl HasGearStats for Equipment {
         pry
     }
 
+    /// Get the minimum required stats to equip ALL of the gear in Equipment.
     fn get_lvl_reqs(&self) -> Levels {
         let mut levels: Levels = Levels::new();
 

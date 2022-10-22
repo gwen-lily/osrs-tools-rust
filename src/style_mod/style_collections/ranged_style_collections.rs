@@ -1,12 +1,11 @@
 use crate::data::{
-    RangedStance::*,
-    Stance::*,
     StyleName::{self, LongFuse, MediumFuse, ShortFuse},
     DT,
 };
 
 use super::StylesCategory::*;
 use super::StylesMap;
+use crate::stance_mod::stance::{RangedStance::*, Stance::*};
 use crate::style_mod::style::{Style, StyleCollection};
 
 pub fn add_all_ranged_styles(map: &mut StylesMap) {
@@ -14,27 +13,21 @@ pub fn add_all_ranged_styles(map: &mut StylesMap) {
     let key = Bows;
     let val = StyleCollection::new(
         vec![
-            Style {
-                name: StyleName::Accurate,
-                dt: DT::Ranged,
-                stance: Ranged(Accurate),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: StyleName::Rapid,
-                dt: DT::Ranged,
-                stance: Ranged(Rapid),
-                attack_speed_mod: Some(-1),
-                attack_range_mod: None,
-            },
-            Style {
-                name: StyleName::Longrange,
-                dt: DT::Ranged,
-                stance: Ranged(Longrange),
-                attack_speed_mod: None,
-                attack_range_mod: Some(2),
-            },
+            Style::new(
+                StyleName::Accurate,
+                DT::Ranged,
+                Ranged(Accurate),
+                None,
+                None,
+            ),
+            Style::new(StyleName::Rapid, DT::Ranged, Ranged(Rapid), Some(-1), None),
+            Style::new(
+                StyleName::Longrange,
+                DT::Ranged,
+                Ranged(Longrange),
+                None,
+                Some(2),
+            ),
         ],
         1,
     );
@@ -45,27 +38,9 @@ pub fn add_all_ranged_styles(map: &mut StylesMap) {
     let key = Chinchompas;
     let val = StyleCollection::new(
         vec![
-            Style {
-                name: ShortFuse,
-                dt: DT::Ranged,
-                stance: Ranged(Accurate),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: MediumFuse,
-                dt: DT::Ranged,
-                stance: Ranged(Rapid),
-                attack_speed_mod: Some(-1),
-                attack_range_mod: None,
-            },
-            Style {
-                name: LongFuse,
-                dt: DT::Ranged,
-                stance: Ranged(Longrange),
-                attack_speed_mod: None,
-                attack_range_mod: Some(2),
-            },
+            Style::new(ShortFuse, DT::Ranged, Ranged(Accurate), None, None),
+            Style::new(MediumFuse, DT::Ranged, Ranged(Rapid), Some(-1), None),
+            Style::new(LongFuse, DT::Ranged, Ranged(Longrange), None, Some(2)),
         ],
         1,
     );
@@ -76,27 +51,21 @@ pub fn add_all_ranged_styles(map: &mut StylesMap) {
     let key = Crossbows;
     let val = StyleCollection::new(
         vec![
-            Style {
-                name: StyleName::Accurate,
-                dt: DT::Ranged,
-                stance: Ranged(Accurate),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: StyleName::Rapid,
-                dt: DT::Ranged,
-                stance: Ranged(Rapid),
-                attack_speed_mod: Some(-1),
-                attack_range_mod: None,
-            },
-            Style {
-                name: StyleName::Longrange,
-                dt: DT::Ranged,
-                stance: Ranged(Longrange),
-                attack_speed_mod: None,
-                attack_range_mod: Some(2),
-            },
+            Style::new(
+                StyleName::Accurate,
+                DT::Ranged,
+                Ranged(Accurate),
+                None,
+                None,
+            ),
+            Style::new(StyleName::Rapid, DT::Ranged, Ranged(Rapid), Some(-1), None),
+            Style::new(
+                StyleName::Longrange,
+                DT::Ranged,
+                Ranged(Longrange),
+                None,
+                Some(2),
+            ),
         ],
         1,
     );
@@ -107,27 +76,21 @@ pub fn add_all_ranged_styles(map: &mut StylesMap) {
     let key = Thrown;
     let val = StyleCollection::new(
         vec![
-            Style {
-                name: StyleName::Accurate,
-                dt: DT::Ranged,
-                stance: Ranged(Accurate),
-                attack_speed_mod: None,
-                attack_range_mod: None,
-            },
-            Style {
-                name: StyleName::Rapid,
-                dt: DT::Ranged,
-                stance: Ranged(Rapid),
-                attack_speed_mod: Some(-1),
-                attack_range_mod: None,
-            },
-            Style {
-                name: StyleName::Longrange,
-                dt: DT::Ranged,
-                stance: Ranged(Longrange),
-                attack_speed_mod: None,
-                attack_range_mod: Some(2),
-            },
+            Style::new(
+                StyleName::Accurate,
+                DT::Ranged,
+                Ranged(Accurate),
+                None,
+                None,
+            ),
+            Style::new(StyleName::Rapid, DT::Ranged, Ranged(Rapid), Some(-1), None),
+            Style::new(
+                StyleName::Longrange,
+                DT::Ranged,
+                Ranged(Longrange),
+                None,
+                Some(2),
+            ),
         ],
         1,
     );

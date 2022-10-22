@@ -4,11 +4,14 @@ use crate::stat::{
     basic_stat::Levels,
 };
 
-/// Structs
-
-#[derive(Debug, PartialEq, Eq)]
+/** Gear struct which represents a single Gear item. Gear implements HasGearStats. Gear derives
+ *  default behavior, which yields a slotless husk with no bonuses or requirements
+ */
+#[derive(Debug, PartialEq, Eq, Default)]
 pub struct Gear {
     pub name: String,
+    /* Slot must be Some(Slot), but we choose Option to allow
+    for Default implementation */
     pub slot: Option<Slot>,
     agg: Agg,
     def: Def,
@@ -16,8 +19,7 @@ pub struct Gear {
     lvl_reqs: Levels,
 }
 
-/// Traits
-
+/// Trait which is useful for implementing higher-level access to Gear fields.
 pub trait HasGearStats {
     fn get_agg(&self) -> Agg;
     fn get_def(&self) -> Def;
@@ -25,8 +27,7 @@ pub trait HasGearStats {
     fn get_lvl_reqs(&self) -> Levels;
 }
 
-/// Trait implementation
-
+/// Implementing HasGearStats for Gear basically provides copies / clones of private fields
 impl HasGearStats for Gear {
     fn get_agg(&self) -> Agg {
         self.agg
@@ -42,17 +43,16 @@ impl HasGearStats for Gear {
     }
 }
 
-/// Default implementation
-
-impl Default for Gear {
-    fn default() -> Self {
+/// Implement new for gear which allows Gear to be constructed properly
+impl Gear {
+    pub fn new(name: String, slot: Slot, agg: Agg, def: Def, pry: u32, lvl_reqs: Levels) -> Self {
         Self {
-            name: Default::default(),
-            slot: None, // this should panic
-            agg: Default::default(),
-            def: Default::default(),
-            pry: 0,
-            lvl_reqs: Default::default(),
+            name,
+            slot: Some(slot),
+            agg,
+            def,
+            pry,
+            lvl_reqs,
         }
     }
 }

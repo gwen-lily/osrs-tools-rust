@@ -79,39 +79,6 @@ pub enum StyleName {
     NpcMagic,
 }
 
-/// Stances
-
-#[allow(dead_code)]
-#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
-pub enum Stance {
-    Melee(MeleeStance),
-    Ranged(RangedStance),
-    Magic(MagicStance),
-}
-
-#[derive(Debug, EnumIter, PartialEq, Eq, Hash, Clone, Copy)]
-pub enum MeleeStance {
-    Accurate,
-    Aggressive,
-    Controlled,
-    Defensive,
-}
-
-#[derive(Debug, EnumIter, PartialEq, Eq, Hash, Clone, Copy)]
-pub enum RangedStance {
-    Accurate,
-    Rapid,
-    Longrange,
-}
-
-#[allow(dead_code)]
-#[derive(Debug, EnumIter, PartialEq, Eq, Hash, Clone, Copy)]
-pub enum MagicStance {
-    Accurate,
-    Longrange,
-    NoStyle,
-}
-
 /// Skill
 
 #[derive(Debug, EnumIter, PartialEq, Eq, Hash, Clone, Copy)]
