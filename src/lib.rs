@@ -1,3 +1,4 @@
+pub mod boost_mod;
 pub mod character_mod;
 pub mod combat_mod;
 pub mod config;

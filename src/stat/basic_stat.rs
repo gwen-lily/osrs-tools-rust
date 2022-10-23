@@ -6,7 +6,7 @@ use strum::IntoEnumIterator;
 pub type Levels = HashMap<Skill, i32>;
 
 /// Trait which certifies that a HashMap has the necessary combat stats
-trait HasCombatStats {
+pub trait HasCombatStats {
     fn combat_stats(&self) -> Levels;
 }
 
