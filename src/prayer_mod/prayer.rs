@@ -8,8 +8,8 @@ use crate::data::{
 /// A Prayer defines the drain effect and optional stat modifiers
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Prayer {
-    drain_effect: u32,
-    prayer_stats: Option<PrayerStats>,
+    pub drain_effect: u32,
+    pub prayer_stats: Option<PrayerStats>,
 }
 
 /** A Prayers contains a collection of prayers. During creation, additional
@@ -19,40 +19,12 @@ pub struct Prayer {
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Prayers {
     pub prayers: Vec<&'static Prayer>,
-    drain_effect: u32,
-    prayer_stats: Option<PrayerStats>,
+    pub drain_effect: u32,
+    pub prayer_stats: Option<PrayerStats>,
 }
 
 /// A PrayerStats map matches (DT, Skill) keys to integer representations of modifiers
 pub type PrayerStats = HashMap<(DT, Skill), i32>;
-
-/// The PrayerLike trait provides access to associated prayer fields
-pub trait PrayerLike {
-    fn get_drain_effect(&self) -> u32;
-    fn get_prayer_stats(&self) -> &Option<PrayerStats>;
-}
-
-/// Simple getters for Prayer
-impl PrayerLike for Prayer {
-    fn get_drain_effect(&self) -> u32 {
-        self.drain_effect
-    }
-
-    fn get_prayer_stats(&self) -> &Option<PrayerStats> {
-        &self.prayer_stats
-    }
-}
-
-/// Simple getters for Prayers
-impl PrayerLike for Prayers {
-    fn get_drain_effect(&self) -> u32 {
-        self.drain_effect
-    }
-
-    fn get_prayer_stats(&self) -> &Option<PrayerStats> {
-        &self.prayer_stats
-    }
-}
 
 /// Implements creation methods for Prayer
 impl Prayer {
@@ -95,21 +67,23 @@ impl Prayers {
             // For each prayer that has prayer_stats
             // iterate through { (DT, Skill): prayer_stats } pairs
 
-            for ((dt, skill), ps) in prayer.get_prayer_stats().as_ref().unwrap().iter() {
-                // Panic if typeless attribute, else continue
-                if dt == &Typeless {
-                    panic!("bad prayer!")
-                }
-                // Panic if unrelated to existing prayer attributes
-                match skill {
-                    Attack => {}
-                    Strength => {}
-                    Defence => {}
-                    _ => panic!("bad prayer"),
-                }
-                // If a previous prayer already inserted this key, panic
-                if map.insert((*dt, *skill), *ps).is_some() {
-                    panic!("bad prayer!")
+            if let Some(prayer_stats) = prayer.prayer_stats {
+                for ((dt, skill), ps) in prayer_stats.iter() {
+                    // Panic if typeless attribute, else continue
+                    if *dt == Typeless {
+                        panic!("bad prayer!")
+                    }
+                    // Panic if unrelated to existing prayer attributes
+                    match skill {
+                        Attack => {}
+                        Strength => {}
+                        Defence => {}
+                        _ => panic!("bad prayer"),
+                    }
+                    // If a previous prayer already inserted this key, panic
+                    if map.insert((dt, skill), ps).is_some() {
+                        panic!("bad prayer!")
+                    }
                 }
             }
         }

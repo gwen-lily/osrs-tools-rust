@@ -7,19 +7,19 @@ use super::SpellsMap;
 pub fn add_ancient_spells(map: &mut SpellsMap) {
     // Rush
     let key = SmokeRush;
-    let val = Spell::standard(13, Some(Smoke));
+    let val = Spell::ancient(13, Some(Smoke));
     map.insert(key, val);
 
     let key = ShadowRush;
-    let val = Spell::standard(14, Some(Shadow));
+    let val = Spell::ancient(14, Some(Shadow));
     map.insert(key, val);
 
     let key = BloodRush;
-    let val = Spell::standard(15, Some(Blood));
+    let val = Spell::ancient(15, Some(Blood));
     map.insert(key, val);
 
     let key = IceRush;
-    let val = Spell::standard(16, Some(Ice));
+    let val = Spell::ancient(16, Some(Ice));
     map.insert(key, val);
 
     // Burst
@@ -41,19 +41,19 @@ pub fn add_ancient_spells(map: &mut SpellsMap) {
 
     // Blitz
     let key = SmokeBlitz;
-    let val = Spell::standard(23, Some(Smoke));
+    let val = Spell::ancient(23, Some(Smoke));
     map.insert(key, val);
 
     let key = ShadowBlitz;
-    let val = Spell::standard(24, Some(Shadow));
+    let val = Spell::ancient(24, Some(Shadow));
     map.insert(key, val);
 
     let key = BloodBlitz;
-    let val = Spell::standard(25, Some(Blood));
+    let val = Spell::ancient(25, Some(Blood));
     map.insert(key, val);
 
     let key = IceBlitz;
-    let val = Spell::standard(26, Some(Ice));
+    let val = Spell::ancient(26, Some(Ice));
     map.insert(key, val);
 
     // Barrage

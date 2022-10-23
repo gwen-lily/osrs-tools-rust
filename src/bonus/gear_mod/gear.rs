@@ -18,8 +18,8 @@ pub struct Gear {
     pub(super) def: Def,
     pub(super) pry: u32,
     pub(super) lvl_reqs: Levels,
-    weapon: Option<Weapon>,
-    special_weapon: Option<SpecialWeapon>,
+    pub weapon: Option<Weapon>,
+    pub special_weapon: Option<SpecialWeapon>,
 }
 
 #[derive(Debug, EnumIter, PartialEq, Eq, Hash, Clone, Copy)]

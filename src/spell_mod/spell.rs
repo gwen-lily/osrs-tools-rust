@@ -4,7 +4,17 @@ pub struct Spell {
     pub base_max: u8,
     pub attack_speed: u8,
     pub max_targets: u8,
+    pub spellbook: Spellbook,
     pub aspect: Option<Aspect>,
+}
+
+#[derive(Debug, PartialEq, Eq, PartialOrd, Clone, Copy, Hash)]
+pub enum Spellbook {
+    Standard,
+    Ancient,
+    Lunar,
+    Arceus,
+    Powered,
 }
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Clone, Copy, Hash)]
@@ -19,12 +29,25 @@ pub enum Aspect {
     Ice,
 }
 
+use Spellbook::*;
+
 impl Spell {
     pub fn standard(base_max: u8, aspect: Option<Aspect>) -> Self {
         Self {
             base_max,
             attack_speed: 5,
             max_targets: 1,
+            spellbook: Standard,
+            aspect,
+        }
+    }
+
+    pub fn ancient(base_max: u8, aspect: Option<Aspect>) -> Self {
+        Self {
+            base_max,
+            attack_speed: 5,
+            max_targets: 1,
+            spellbook: Ancient,
             aspect,
         }
     }
@@ -34,6 +57,7 @@ impl Spell {
             base_max,
             attack_speed: 5,
             max_targets: 9,
+            spellbook: Ancient,
             aspect,
         }
     }
@@ -43,6 +67,7 @@ impl Spell {
             base_max,
             attack_speed,
             max_targets: 1,
+            spellbook: Powered,
             aspect: None,
         }
     }
