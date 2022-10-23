@@ -2,6 +2,7 @@
 use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
 
+/// An enum with the combat options and sub-stance options.
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 pub enum Stance {
     Melee(MeleeStance),
@@ -9,6 +10,7 @@ pub enum Stance {
     Magic(MagicStance),
 }
 
+/// All melee stances
 #[derive(Debug, EnumIter, PartialEq, Eq, Hash, Clone, Copy)]
 pub enum MeleeStance {
     Accurate,
@@ -17,6 +19,7 @@ pub enum MeleeStance {
     Defensive,
 }
 
+/// All ranged stances
 #[derive(Debug, EnumIter, PartialEq, Eq, Hash, Clone, Copy)]
 pub enum RangedStance {
     Accurate,
@@ -24,6 +27,7 @@ pub enum RangedStance {
     Longrange,
 }
 
+/// All magic stances
 #[derive(Debug, EnumIter, PartialEq, Eq, Hash, Clone, Copy)]
 pub enum MagicStance {
     Accurate,
