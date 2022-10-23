@@ -1,3 +1,3 @@
-use crate::stat::basic_stat::HasCombatStats;
+use crate::levels::HasCombatStats;
 
 pub trait CharCombat: HasCombatStats {}

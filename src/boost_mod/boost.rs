@@ -1,4 +1,4 @@
-use crate::{data::Skill, stat::basic_stat::Levels};
+use crate::{data::Skill, levels::Levels};
 use std::collections::HashMap;
 
 /// Type alias for HashMap<Skill, i32>

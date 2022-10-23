@@ -1,12 +1,12 @@
 use std::collections::HashMap;
 
-use crate::{
-    data::Slot,
-    loadout::gear::{Gear, HasGearStats},
-    stat::{
-        aux_stat::{Agg, Def},
-        basic_stat::Levels,
-    },
+use crate::{data::Slot, levels::Levels};
+
+use super::{
+    gear::Gear,
+    gear_bonus::HasGearStats,
+    has_bonus::HasBonus,
+    secondary_bonus::{Agg, Def},
 };
 
 /// Equipment type is a HashMap linking Slot to Gear.
@@ -15,7 +15,7 @@ pub type Equipment = HashMap<Slot, Gear>;
 /** Implement HasGearStats for Equipment, which aggregates individual gear fields
  *  into a returned combination object. For most field getters, this is simple addition.
  */
-impl HasGearStats for Equipment {
+impl HasBonus for Equipment {
     /// Get the sum of all aggressive stats
     fn get_agg(&self) -> Agg {
         let mut agg: Agg = Agg::default();
@@ -37,7 +37,9 @@ impl HasGearStats for Equipment {
 
         def
     }
+}
 
+impl HasGearStats for Equipment {
     /// Get the sum prayer bonus
     fn get_pry(&self) -> u32 {
         let mut pry: u32 = 0;
