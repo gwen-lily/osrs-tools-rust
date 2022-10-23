@@ -10,6 +10,11 @@ pub trait HasCombatStats {
     fn combat_stats(&self) -> Levels;
 }
 
+pub trait LevelBuilders {
+    fn get_fresh_levels() -> Levels;
+    fn get_maxed_levels() -> Levels;
+}
+
 impl HasCombatStats for Levels {
     fn combat_stats(&self) -> Levels {
         let combat_skills: [Skill; 6] = [Attack, Strength, Defence, Ranged, Magic, Hitpoints];
@@ -26,23 +31,25 @@ impl HasCombatStats for Levels {
     }
 }
 
-pub fn get_fresh_levels() -> Levels {
-    let mut map: Levels = Levels::new();
+impl LevelBuilders for Levels {
+    fn get_fresh_levels() -> Levels {
+        let mut map: Levels = Levels::new();
 
-    for skill in Skill::iter() {
-        map.insert(skill, 1);
+        for skill in Skill::iter() {
+            map.insert(skill, 1);
+        }
+        map.insert(Skill::Hitpoints, 10);
+
+        map
     }
 
-    map.insert(Skill::Hitpoints, 10);
-    map
-}
+    fn get_maxed_levels() -> Levels {
+        let mut map: Levels = Levels::new();
 
-pub fn get_maxed_levels() -> Levels {
-    let mut map: Levels = Levels::new();
+        for skill in Skill::iter() {
+            map.insert(skill, 99);
+        }
 
-    for skill in Skill::iter() {
-        map.insert(skill, 99);
+        map
     }
-
-    map
 }

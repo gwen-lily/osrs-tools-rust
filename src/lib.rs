@@ -3,6 +3,7 @@ pub mod character_mod;
 pub mod combat_mod;
 pub mod config;
 pub mod data;
+pub mod effect_mod;
 pub mod loadout;
 pub mod modifiers;
 pub mod prayer_mod;
