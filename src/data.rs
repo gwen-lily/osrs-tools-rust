@@ -199,25 +199,3 @@ pub enum Slayer {
     Vampyres,
     Wyrms,
 }
-
-#[allow(dead_code)]
-#[derive(Debug, PartialEq, Eq, Hash, Clone)]
-pub enum Effect {
-    StaffOfTheDead,
-    StaminaPotion,
-    DivinePotion,
-    Overload,
-    RegenerateSpecialEnergy,
-    UpdateStats,
-    Olm(OlmEffect),
-    PrayerDrain,
-    Frozen,
-}
-
-#[allow(dead_code)]
-#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
-pub enum OlmEffect {
-    Burn,
-    Acid,
-    FallingCrystal,
-}
