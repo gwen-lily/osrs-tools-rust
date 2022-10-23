@@ -1,8 +1,6 @@
-use crate::data::{
-    StyleName::{self, LongFuse, MediumFuse, ShortFuse},
-    DT,
-};
+use crate::data::DT;
 
+use super::super::style::StyleName::{self, LongFuse, MediumFuse, ShortFuse};
 use super::StylesCategory::*;
 use super::StylesMap;
 use crate::stance_mod::stance::{RangedStance::*, Stance::*};

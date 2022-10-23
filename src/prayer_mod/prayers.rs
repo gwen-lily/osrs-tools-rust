@@ -1,7 +1,5 @@
 use crate::prayer_mod::prayer::{Prayer, PrayerStats};
 use std::collections::HashMap;
-#[allow(unused_imports)]
-use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
 
 use crate::data::{
@@ -10,7 +8,6 @@ use crate::data::{
 };
 
 /// A list of all of the names of prayers in OSRS. These are used as lookup keys for a PrayerMap.
-#[allow(dead_code)]
 #[derive(Debug, EnumIter, PartialEq, Eq, Hash, Clone, Copy)]
 pub enum PrayerName {
     ThickSkin,
@@ -45,7 +42,6 @@ pub enum PrayerName {
 }
 
 /// A PrayerMap has PrayerName keys which yield the associated Prayer struct.
-#[allow(dead_code)]
 pub type PrayerMap = HashMap<PrayerName, Prayer>;
 
 /// Return a PrayerMap of every prayer in OSRS.

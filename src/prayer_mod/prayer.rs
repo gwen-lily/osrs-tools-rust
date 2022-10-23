@@ -12,13 +12,13 @@ pub struct Prayer {
     prayer_stats: Option<PrayerStats>,
 }
 
-/** A PrayerCollection contains a collection of prayers. During creation, additional
+/** A Prayers contains a collection of prayers. During creation, additional
  *  information aggregate information is collected and stored as part of the struct
  *  which is made available by the PrayerLike trait
  */
 #[derive(Debug, PartialEq, Eq, Clone)]
-pub struct PrayerCollection {
-    pub prayers: Vec<Prayer>,
+pub struct Prayers {
+    pub prayers: Vec<&'static Prayer>,
     drain_effect: u32,
     prayer_stats: Option<PrayerStats>,
 }
@@ -43,8 +43,8 @@ impl PrayerLike for Prayer {
     }
 }
 
-/// Simple getters for PrayerCollection
-impl PrayerLike for PrayerCollection {
+/// Simple getters for Prayers
+impl PrayerLike for Prayers {
     fn get_drain_effect(&self) -> u32 {
         self.drain_effect
     }
@@ -73,14 +73,13 @@ impl Prayer {
     }
 }
 
-/// Implements creation method for PrayerCollection and validates input under the hood
-impl PrayerCollection {
-    #[allow(dead_code)]
-    pub fn new(prayers: Vec<Prayer>) -> Self {
+/// Implements creation method for Prayers and validates input under the hood
+impl Prayers {
+    pub fn new(prayers: Vec<&'static Prayer>) -> Self {
         let mut prayer_stats = PrayerStats::new();
 
-        PrayerCollection::aggregate_prayer_stats(&prayers, &mut prayer_stats);
-        let drain_effect = PrayerCollection::calculate_prayer_drain(&prayers);
+        Prayers::aggregate_prayer_stats(&prayers, &mut prayer_stats);
+        let drain_effect = Prayers::calculate_prayer_drain(&prayers);
 
         Self {
             prayers,
@@ -90,7 +89,7 @@ impl PrayerCollection {
     }
 
     /// The aggregate of prayer stats should be unique from prayers[stat] -> map[stat]
-    fn aggregate_prayer_stats(prayers: &[Prayer], map: &mut PrayerStats) {
+    fn aggregate_prayer_stats(prayers: &[&'static Prayer], map: &mut PrayerStats) {
         // Iterate through the prayers in the collection
         for prayer in prayers.iter().filter(|p| p.prayer_stats != None) {
             // For each prayer that has prayer_stats
@@ -116,7 +115,7 @@ impl PrayerCollection {
         }
 
         // Check for compatability
-        if PrayerCollection::check_compatability(map).is_err() {
+        if Prayers::check_compatability(map).is_err() {
             panic!("bad prayer collection, incompatible");
         }
     }
@@ -139,7 +138,7 @@ impl PrayerCollection {
     }
 
     /// Return the sum of each individual prayer drain effect
-    fn calculate_prayer_drain(prayers: &[Prayer]) -> u32 {
+    fn calculate_prayer_drain(prayers: &[&'static Prayer]) -> u32 {
         let mut val: u32 = 0;
 
         for prayer in prayers.iter() {

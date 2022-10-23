@@ -1,11 +1,10 @@
-use crate::data::{
-    MeleeDamageType::*,
-    StyleName::{self, Bash, DefensiveSpell, Fend, Focus, Jab, Pound, StandardSpell, Swipe},
-    DT,
-};
+use crate::data::{MeleeDamageType::*, DT};
 
 use crate::stance_mod::stance::{MagicStance::*, MeleeStance, Stance::*};
 
+use super::super::style::StyleName::{
+    self, Bash, DefensiveSpell, Fend, Focus, Jab, Pound, StandardSpell, Swipe,
+};
 use super::StylesCategory::*;
 use super::StylesMap;
 use crate::style_mod::style::{Style, Styles};

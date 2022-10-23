@@ -2,14 +2,15 @@ mod ancient_spells;
 mod powered_spells;
 mod standard_spells;
 
-use crate::spell_mod::spell::SpellLike;
 use std::collections::HashMap;
 
 use ancient_spells::add_ancient_spells;
 use powered_spells::add_powered_spells;
 use standard_spells::add_standard_spells;
 
-pub type SpellsMap = HashMap<SpellName, Box<dyn SpellLike>>;
+use super::spell::Spell;
+
+pub type SpellsMap = HashMap<SpellName, Spell>;
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 pub enum SpellName {
@@ -54,10 +55,10 @@ pub enum SpellName {
     ShadowBarrage,
     BloodBarrage,
     IceBarrage,
-    TridentOfTheSeas(i32),
-    TridentOfTheSwamp(i32),
-    SanguinestiStaff(i32),
-    TumekensShadow(i32),
+    TridentOfTheSeas,
+    TridentOfTheSwamp,
+    SanguinestiStaff,
+    TumekensShadow,
 }
 
 #[allow(dead_code)]

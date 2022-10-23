@@ -1,6 +1,8 @@
-use crate::data::{StyleName, DT};
+use crate::data::DT;
 use crate::stance_mod::stance::Stance;
 use crate::stance_mod::stance_stats::{get_all_stances, StanceMap, StanceStats};
+
+use strum_macros::EnumIter;
 
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Style {
@@ -17,6 +19,44 @@ pub struct Style {
 pub struct Styles {
     pub styles: Vec<Style>,
     pub default: usize,
+}
+
+#[derive(Debug, EnumIter, PartialEq, Eq, Hash, Clone, Copy)]
+pub enum StyleName {
+    Slash,
+    Stab,
+    Accurate,
+    Rapid,
+    Longrange,
+    Chop,
+    Smash,
+    Block,
+    Hack,
+    Lunge,
+    Swipe,
+    Pound,
+    Pummel,
+    Spike,
+    Impale,
+    Jab,
+    Fend,
+    Bash,
+    Reap,
+    Punch,
+    Kick,
+    Flick,
+    Lash,
+    Deflect,
+    ShortFuse,
+    MediumFuse,
+    LongFuse,
+    Spell,
+    Focus,
+    StandardSpell,
+    DefensiveSpell,
+    NpcMelee,
+    NpcRanged,
+    NpcMagic,
 }
 
 impl Style {

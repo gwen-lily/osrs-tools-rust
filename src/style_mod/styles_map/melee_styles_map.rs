@@ -1,11 +1,11 @@
 use crate::data::{MeleeDamageType::*, DT};
 
-use crate::data::StyleName::{
+use crate::stance_mod::stance::{MeleeStance::*, Stance::*};
+
+use super::super::style::StyleName::{
     self, Block, Chop, Deflect, Fend, Flick, Hack, Impale, Jab, Kick, Lash, Lunge, Pound, Pummel,
     Punch, Reap, Smash, Spike, Swipe,
 };
-use crate::stance_mod::stance::{MeleeStance::*, Stance::*};
-
 use super::StylesCategory::*;
 use super::StylesMap;
 use crate::style_mod::style::{Style, Styles};

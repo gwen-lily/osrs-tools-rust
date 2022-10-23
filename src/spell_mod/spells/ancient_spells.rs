@@ -1,4 +1,5 @@
-use crate::spell_mod::spell::AncientSpell;
+use crate::spell_mod::spell::Aspect::*;
+use crate::spell_mod::spell::Spell;
 
 use super::SpellName::*;
 use super::SpellsMap;
@@ -6,69 +7,69 @@ use super::SpellsMap;
 pub fn add_ancient_spells(map: &mut SpellsMap) {
     // Rush
     let key = SmokeRush;
-    let val = Box::new(AncientSpell::single_target_spell(13));
+    let val = Spell::standard(13, Some(Smoke));
     map.insert(key, val);
 
     let key = ShadowRush;
-    let val = Box::new(AncientSpell::single_target_spell(14));
+    let val = Spell::standard(14, Some(Shadow));
     map.insert(key, val);
 
     let key = BloodRush;
-    let val = Box::new(AncientSpell::single_target_spell(15));
+    let val = Spell::standard(15, Some(Blood));
     map.insert(key, val);
 
     let key = IceRush;
-    let val = Box::new(AncientSpell::single_target_spell(16));
+    let val = Spell::standard(16, Some(Ice));
     map.insert(key, val);
 
     // Burst
     let key = SmokeBurst;
-    let val = Box::new(AncientSpell::aoe_spell(17));
+    let val = Spell::aoe(17, Some(Smoke));
     map.insert(key, val);
 
     let key = ShadowBurst;
-    let val = Box::new(AncientSpell::aoe_spell(18));
+    let val = Spell::aoe(18, Some(Shadow));
     map.insert(key, val);
 
     let key = BloodBurst;
-    let val = Box::new(AncientSpell::aoe_spell(21));
+    let val = Spell::aoe(21, Some(Blood));
     map.insert(key, val);
 
     let key = IceBurst;
-    let val = Box::new(AncientSpell::aoe_spell(22));
+    let val = Spell::aoe(22, Some(Ice));
     map.insert(key, val);
 
     // Blitz
     let key = SmokeBlitz;
-    let val = Box::new(AncientSpell::single_target_spell(23));
+    let val = Spell::standard(23, Some(Smoke));
     map.insert(key, val);
 
     let key = ShadowBlitz;
-    let val = Box::new(AncientSpell::single_target_spell(24));
+    let val = Spell::standard(24, Some(Shadow));
     map.insert(key, val);
 
     let key = BloodBlitz;
-    let val = Box::new(AncientSpell::single_target_spell(25));
+    let val = Spell::standard(25, Some(Blood));
     map.insert(key, val);
 
     let key = IceBlitz;
-    let val = Box::new(AncientSpell::single_target_spell(26));
+    let val = Spell::standard(26, Some(Ice));
     map.insert(key, val);
 
     // Barrage
     let key = SmokeBarrage;
-    let val = Box::new(AncientSpell::aoe_spell(27));
+    let val = Spell::aoe(27, Some(Smoke));
     map.insert(key, val);
 
     let key = ShadowBarrage;
-    let val = Box::new(AncientSpell::aoe_spell(28));
+    let val = Spell::aoe(28, Some(Shadow));
     map.insert(key, val);
 
     let key = BloodBarrage;
-    let val = Box::new(AncientSpell::aoe_spell(29));
+    let val = Spell::aoe(29, Some(Blood));
     map.insert(key, val);
 
     let key = IceBarrage;
-    let val = Box::new(AncientSpell::aoe_spell(30));
+    let val = Spell::aoe(30, Some(Ice));
     map.insert(key, val);
 }

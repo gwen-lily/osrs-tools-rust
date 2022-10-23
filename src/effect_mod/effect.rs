@@ -1,8 +1,12 @@
 use crate::boost_mod::boost::Boost;
 
+pub struct Effect {
+    name: EffectName,
+}
+
 #[allow(dead_code)]
 #[derive(Debug, PartialEq, Eq, Clone)]
-pub enum Effect {
+pub enum EffectName {
     StaffOfTheDead,
     StaminaPotion,
     Potion(Boost),

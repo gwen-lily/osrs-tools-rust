@@ -1,8 +1,11 @@
 use std::collections::HashMap;
 
-use crate::{data::Slot, levels::Levels};
+use crate::levels::Levels;
 
-use super::gear_bonus::GearLike;
+use super::{
+    gear::{Gear, Slot},
+    gear_bonus::GearLike,
+};
 
 use super::super::{
     bonus_like::BonusLike,
@@ -10,7 +13,7 @@ use super::super::{
 };
 
 /// Equipment type is a HashMap linking Slot to Gear.
-pub type Equipment = HashMap<Slot, Box<dyn GearLike>>;
+pub type Equipment = HashMap<Slot, Gear>;
 
 /** Implement GearLike for Equipment, which aggregates individual gear fields
  *  into a returned combination object. For most field getters, this is simple addition.

@@ -1,2 +1,2 @@
 pub mod spell;
-pub mod spell_collections;
+pub mod spells;

@@ -41,8 +41,8 @@ pub enum StylesCategory {
 }
 
 #[allow(dead_code)]
-pub fn get_all_player_styles(_: ()) -> StylesMap {
-    let mut map = StylesMap::new();
+pub fn get_all_player_styles() -> StylesMap {
+    let mut map: StylesMap = StylesMap::new();
 
     add_all_melee_styles(&mut map);
     add_all_ranged_styles(&mut map);
@@ -50,3 +50,5 @@ pub fn get_all_player_styles(_: ()) -> StylesMap {
 
     map
 }
+
+// pub const ALL_STYLES: StylesMap = get_all_player_styles();

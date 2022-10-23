@@ -24,60 +24,7 @@ pub enum MeleeDamageType {
 
 /// Slot
 
-#[derive(Debug, EnumIter, PartialEq, Eq, Hash, Clone, Copy)]
-pub enum Slot {
-    Head,
-    Cape,
-    Neck,
-    Ammunition,
-    Weapon,
-    Body,
-    Shield,
-    Legs,
-    Hands,
-    Feet,
-    Ring,
-}
-
 /// Style
-
-#[derive(Debug, EnumIter, PartialEq, Eq, Hash, Clone, Copy)]
-pub enum StyleName {
-    Slash,
-    Stab,
-    Accurate,
-    Rapid,
-    Longrange,
-    Chop,
-    Smash,
-    Block,
-    Hack,
-    Lunge,
-    Swipe,
-    Pound,
-    Pummel,
-    Spike,
-    Impale,
-    Jab,
-    Fend,
-    Bash,
-    Reap,
-    Punch,
-    Kick,
-    Flick,
-    Lash,
-    Deflect,
-    ShortFuse,
-    MediumFuse,
-    LongFuse,
-    Spell,
-    Focus,
-    StandardSpell,
-    DefensiveSpell,
-    NpcMelee,
-    NpcRanged,
-    NpcMagic,
-}
 
 /// Skill
 
