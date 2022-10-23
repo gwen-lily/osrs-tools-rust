@@ -1,4 +1,7 @@
-use crate::{levels::Levels, style_mod::style::Styles};
+use crate::{
+    levels::Levels,
+    style_mod::{style::Styles, styles_map::StylesMap},
+};
 
 use super::{
     super::{
@@ -21,8 +24,8 @@ pub struct Weapon {
     two_handed: bool,
 }
 
-/// Weaponlike trait covers behavior of Weapon, SpecialWeapon, etc...
-pub trait WeaponLike {
+/// Weaponlike trait covers additional Weapon behavior
+pub trait WeaponLike: GearLike {
     fn get_styles(&self) -> &Styles;
     fn get_base_attack_speed(&self) -> &u8;
     fn is_two_handed(&self) -> &bool;
@@ -59,4 +62,32 @@ impl WeaponLike for Weapon {
     fn is_two_handed(&self) -> &bool {
         &self.two_handed
     }
+}
+
+impl Weapon {
+    pub fn new(
+        name: String,
+        agg: Agg,
+        def: Def,
+        pry: u32,
+        lvl_reqs: Levels,
+        styles: Styles,
+        base_attack_speed: u8,
+        two_handed: bool,
+    ) -> Self {
+        Self {
+            name,
+            agg,
+            def,
+            pry,
+            lvl_reqs,
+            styles,
+            base_attack_speed,
+            two_handed,
+        }
+    }
+
+    // pub fn hands() -> Self {
+    //     Self { }
+    // }
 }

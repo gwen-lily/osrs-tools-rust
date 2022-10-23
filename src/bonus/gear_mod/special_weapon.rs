@@ -26,7 +26,7 @@ pub struct SpecialWeapon {
 }
 
 /// SpecialWeaponlike trait covers behavior of Weapon, SpecialWeapon, etc...
-pub trait SpecialWeaponLike {
+pub trait SpecialWeaponLike: WeaponLike {
     fn get_special_arms(&self) -> &Option<Vec<f64>>;
     fn get_special_dms(&self) -> &Option<Vec<f64>>;
     fn get_special_defence_roll(&self) -> &Option<DT>;

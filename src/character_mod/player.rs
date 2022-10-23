@@ -1,9 +1,11 @@
 use crate::{
-    bonus::gear_mod::{equipment::Equipment, weapon::WeaponLike},
+    bonus::gear_mod::{equipment::Equipment, gear_bonus::GearLike, weapon::WeaponLike},
     boost_mod::boost::Boost,
+    data::Slot,
     effect_mod::effect::EffectLike,
     levels::Levels,
     prayer_mod::prayer::PrayerCollection,
+    style_mod::style::Styles,
 };
 
 /** The Player struct describes a player in OSRS.
@@ -18,5 +20,12 @@ pub struct Player {
 }
 
 impl Player {
-    // pub fn weapon(&self) -> Box<dyn WeaponLike> {}
+    // pub fn weapon(&self) -> Box<dyn WeaponLike> {
+    //     if let Some(wpn) = self.equipment.get(&Slot::Weapon) {
+    //         return Box::new(wpn);
+    //     } else {
+    //         panic!("panic");
+    //         // return Weapon::hands();
+    //     }
+    // }
 }
