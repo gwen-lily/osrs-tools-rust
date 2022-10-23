@@ -14,7 +14,7 @@ pub struct Style {
 
 #[allow(dead_code)]
 #[derive(Debug, PartialEq, Eq, Clone)]
-pub struct StyleCollection {
+pub struct Styles {
     pub styles: Vec<Style>,
     pub default: usize,
 }
@@ -41,7 +41,7 @@ impl Style {
     }
 }
 
-impl StyleCollection {
+impl Styles {
     pub fn new(styles: Vec<Style>, default: usize) -> Self {
         match styles.len() > default {
             true => Self { styles, default },

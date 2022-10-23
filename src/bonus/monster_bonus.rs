@@ -1,9 +1,9 @@
 use super::{
-    has_bonus::HasBonus,
+    bonus_like::BonusLike,
     secondary_bonus::{Agg, Def},
 };
 
-/** Gear struct which represents a single Gear item. Gear implements HasGearStats. Gear derives
+/** Gear struct which represents a single Gear item. Gear implements BonusLike. Gear derives
  *  default behavior, which yields a slotless husk with no bonuses or requirements
  */
 #[derive(Debug, PartialEq, Eq, Default)]
@@ -12,8 +12,8 @@ pub struct MonsterBonus {
     def: Def,
 }
 
-/// Implementing HasGearStats for Gear basically provides copies / clones of private fields
-impl HasBonus for MonsterBonus {
+/// Implementing BonusLike for Gear basically provides copies / clones of private fields
+impl BonusLike for MonsterBonus {
     fn get_agg(&self) -> Agg {
         self.agg
     }

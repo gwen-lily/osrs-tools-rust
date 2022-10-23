@@ -8,12 +8,12 @@ use crate::stance_mod::stance::{MeleeStance::*, Stance::*};
 
 use super::StylesCategory::*;
 use super::StylesMap;
-use crate::style_mod::style::{Style, StyleCollection};
+use crate::style_mod::style::{Style, Styles};
 
 pub fn add_all_melee_styles(map: &mut StylesMap) {
     // Two handed swords
     let key = TwoHandedSwords;
-    let val = StyleCollection::new(
+    let val = Styles::new(
         vec![
             Style::new(Chop, DT::Melee(Slash), Melee(Aggressive), None, None),
             Style::new(
@@ -33,7 +33,7 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
 
     // Axes
     let key = Axes;
-    let val = StyleCollection::new(
+    let val = Styles::new(
         vec![
             Style::new(Chop, DT::Melee(Slash), Melee(Accurate), None, None),
             Style::new(Hack, DT::Melee(Slash), Melee(Aggressive), None, None),
@@ -47,7 +47,7 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
 
     // BluntWeapons
     let key = BluntWeapons;
-    let val = StyleCollection::new(
+    let val = Styles::new(
         vec![
             Style::new(Pound, DT::Melee(Crush), Melee(Accurate), None, None),
             Style::new(Pummel, DT::Melee(Crush), Melee(Aggressive), None, None),
@@ -60,7 +60,7 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
 
     // Bludgeons
     let key = Bludgeons;
-    let val = StyleCollection::new(
+    let val = Styles::new(
         vec![Style::new(
             Pummel,
             DT::Melee(Crush),
@@ -75,7 +75,7 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
 
     // Bulwarks
     let key = Bulwarks;
-    let val = StyleCollection::new(
+    let val = Styles::new(
         vec![
             Style::new(Pummel, DT::Melee(Crush), Melee(Accurate), None, None),
             Style::new(Block, DT::Melee(Crush), Melee(Defensive), None, None),
@@ -87,7 +87,7 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
 
     // Claws
     let key = Claws;
-    let val = StyleCollection::new(
+    let val = Styles::new(
         vec![
             Style::new(Chop, DT::Melee(Slash), Melee(Accurate), None, None),
             Style::new(
@@ -107,7 +107,7 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
 
     // Pickaxes
     let key = Pickaxes;
-    let val = StyleCollection::new(
+    let val = Styles::new(
         vec![
             Style::new(Spike, DT::Melee(Stab), Melee(Accurate), None, None),
             Style::new(Impale, DT::Melee(Stab), Melee(Aggressive), None, None),
@@ -121,7 +121,7 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
 
     // Polearms
     let key = Polearms;
-    let val = StyleCollection::new(
+    let val = Styles::new(
         vec![
             Style::new(Jab, DT::Melee(Stab), Melee(Controlled), None, None),
             Style::new(Swipe, DT::Melee(Slash), Melee(Aggressive), None, None),
@@ -134,7 +134,7 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
 
     // Scythes
     let key = Scythes;
-    let val = StyleCollection::new(
+    let val = Styles::new(
         vec![
             Style::new(Reap, DT::Melee(Slash), Melee(Accurate), None, None),
             Style::new(Chop, DT::Melee(Slash), Melee(Aggressive), None, None),
@@ -148,7 +148,7 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
 
     // SlashSwords
     let key = SlashSwords;
-    let val = StyleCollection::new(
+    let val = Styles::new(
         vec![
             Style::new(Chop, DT::Melee(Slash), Melee(Accurate), None, None),
             Style::new(
@@ -168,7 +168,7 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
 
     // Spears
     let key = Spears;
-    let val = StyleCollection::new(
+    let val = Styles::new(
         vec![
             Style::new(Lunge, DT::Melee(Stab), Melee(Controlled), None, None),
             Style::new(Swipe, DT::Melee(Slash), Melee(Controlled), None, None),
@@ -182,7 +182,7 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
 
     // SpikedWeapons
     let key = SpikedWeapons;
-    let val = StyleCollection::new(
+    let val = Styles::new(
         vec![
             Style::new(Pound, DT::Melee(Crush), Melee(Accurate), None, None),
             Style::new(Pummel, DT::Melee(Crush), Melee(Aggressive), None, None),
@@ -196,7 +196,7 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
 
     // StabSwords
     let key = StabSwords;
-    let val = StyleCollection::new(
+    let val = Styles::new(
         vec![
             Style::new(
                 StyleName::Stab,
@@ -222,7 +222,7 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
 
     // UnarmedWeapons
     let key = UnarmedWeapons;
-    let val = StyleCollection::new(
+    let val = Styles::new(
         vec![
             Style::new(Punch, DT::Melee(Crush), Melee(Accurate), None, None),
             Style::new(Kick, DT::Melee(Crush), Melee(Aggressive), None, None),
@@ -235,7 +235,7 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
 
     // Whips
     let key = Whips;
-    let val = StyleCollection::new(
+    let val = Styles::new(
         vec![
             Style::new(Flick, DT::Melee(Slash), Melee(Accurate), None, None),
             Style::new(Lash, DT::Melee(Slash), Melee(Controlled), None, None),

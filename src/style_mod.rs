@@ -1,2 +1,2 @@
 pub mod style;
-pub mod style_collections;
+pub mod styles_map;

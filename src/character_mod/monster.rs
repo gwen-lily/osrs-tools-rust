@@ -1,4 +1,4 @@
-use crate::loadout::monster_bonus::MonsterBonus;
+use crate::bonus::monster_bonus::MonsterBonus;
 
 pub struct Monster {
     pub monster_bonus: MonsterBonus,

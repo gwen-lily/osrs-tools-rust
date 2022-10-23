@@ -1,18 +1,18 @@
-use super::{
-    gear::Gear,
-    has_bonus::HasBonus,
+use super::super::{
+    bonus_like::BonusLike,
     secondary_bonus::{Agg, Def},
 };
+use super::gear::Gear;
 
 use crate::levels::Levels;
 
 /// Trait for higher level access to prayer and level_requirements.
-pub trait HasGearStats: HasBonus {
+pub trait GearLike: BonusLike {
     fn get_pry(&self) -> u32;
     fn get_lvl_reqs(&self) -> Levels;
 }
 
-impl HasBonus for Gear {
+impl BonusLike for Gear {
     fn get_agg(&self) -> Agg {
         self.agg
     }
@@ -21,8 +21,8 @@ impl HasBonus for Gear {
     }
 }
 
-/// Implementing HasGearStats for Gear basically provides copies / clones of private fields
-impl HasGearStats for Gear {
+/// Implementing GearLike for Gear basically provides copies / clones of private fields
+impl GearLike for Gear {
     fn get_pry(&self) -> u32 {
         self.pry
     }

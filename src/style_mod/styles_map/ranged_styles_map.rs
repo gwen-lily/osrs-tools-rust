@@ -6,12 +6,12 @@ use crate::data::{
 use super::StylesCategory::*;
 use super::StylesMap;
 use crate::stance_mod::stance::{RangedStance::*, Stance::*};
-use crate::style_mod::style::{Style, StyleCollection};
+use crate::style_mod::style::{Style, Styles};
 
 pub fn add_all_ranged_styles(map: &mut StylesMap) {
     // Bows
     let key = Bows;
-    let val = StyleCollection::new(
+    let val = Styles::new(
         vec![
             Style::new(
                 StyleName::Accurate,
@@ -36,7 +36,7 @@ pub fn add_all_ranged_styles(map: &mut StylesMap) {
 
     // Chinchompas
     let key = Chinchompas;
-    let val = StyleCollection::new(
+    let val = Styles::new(
         vec![
             Style::new(ShortFuse, DT::Ranged, Ranged(Accurate), None, None),
             Style::new(MediumFuse, DT::Ranged, Ranged(Rapid), Some(-1), None),
@@ -49,7 +49,7 @@ pub fn add_all_ranged_styles(map: &mut StylesMap) {
 
     // Crossbows
     let key = Crossbows;
-    let val = StyleCollection::new(
+    let val = Styles::new(
         vec![
             Style::new(
                 StyleName::Accurate,
@@ -74,7 +74,7 @@ pub fn add_all_ranged_styles(map: &mut StylesMap) {
 
     // Thrown
     let key = Thrown;
-    let val = StyleCollection::new(
+    let val = Styles::new(
         vec![
             Style::new(
                 StyleName::Accurate,

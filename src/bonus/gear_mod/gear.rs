@@ -1,7 +1,7 @@
 use crate::data::Slot;
 use crate::levels::Levels;
 
-use super::secondary_bonus::{Agg, Def};
+use super::super::secondary_bonus::{Agg, Def};
 
 /** Gear struct which represents a single Gear item. Gear implements HasGearStats. Gear derives
  *  default behavior, which yields a slotless husk with no bonuses or requirements
@@ -17,6 +17,7 @@ pub struct Gear {
     pub(super) pry: u32,
     pub(super) lvl_reqs: Levels,
 }
+
 /// Implement new for gear which allows Gear to be constructed properly
 impl Gear {
     pub fn new(name: String, slot: Slot, agg: Agg, def: Def, pry: u32, lvl_reqs: Levels) -> Self {

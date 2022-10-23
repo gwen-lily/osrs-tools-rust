@@ -8,12 +8,12 @@ use crate::stance_mod::stance::{MagicStance::*, MeleeStance, Stance::*};
 
 use super::StylesCategory::*;
 use super::StylesMap;
-use crate::style_mod::style::{Style, StyleCollection};
+use crate::style_mod::style::{Style, Styles};
 
 pub fn add_all_magic_styles(map: &mut StylesMap) {
     // BladedStaves
     let key = BladedStaves;
-    let val = StyleCollection::new(
+    let val = Styles::new(
         vec![
             Style::new(
                 Jab,
@@ -46,7 +46,7 @@ pub fn add_all_magic_styles(map: &mut StylesMap) {
 
     // PoweredStaves
     let key = PoweredStaves;
-    let val = StyleCollection::new(
+    let val = Styles::new(
         vec![
             Style::new(StyleName::Accurate, DT::Magic, Magic(Accurate), None, None),
             Style::new(
@@ -64,7 +64,7 @@ pub fn add_all_magic_styles(map: &mut StylesMap) {
 
     // Staves
     let key = Staves;
-    let val = StyleCollection::new(
+    let val = Styles::new(
         vec![
             Style::new(
                 Bash,

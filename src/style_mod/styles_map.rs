@@ -1,18 +1,18 @@
-pub mod magic_style_collections;
-pub mod melee_style_collections;
-pub mod ranged_style_collections;
+pub mod magic_styles_map;
+pub mod melee_styles_map;
+pub mod ranged_styles_map;
 
 use std::collections::HashMap;
 #[allow(unused_imports)]
 use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
 
-use crate::style_mod::style::StyleCollection;
-use magic_style_collections::add_all_magic_styles;
-use melee_style_collections::add_all_melee_styles;
-use ranged_style_collections::add_all_ranged_styles;
+use crate::style_mod::style::Styles;
+use magic_styles_map::add_all_magic_styles;
+use melee_styles_map::add_all_melee_styles;
+use ranged_styles_map::add_all_ranged_styles;
 
-pub type StylesMap = HashMap<StylesCategory, StyleCollection>;
+pub type StylesMap = HashMap<StylesCategory, Styles>;
 
 #[derive(Debug, EnumIter, PartialEq, Eq, Hash, Clone, Copy)]
 pub enum StylesCategory {
