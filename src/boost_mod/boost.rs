@@ -9,19 +9,19 @@ pub trait Boostable {
     fn boost(&self, levels: &Levels) -> Levels;
 }
 
-impl Boostable for BoostMap {
-    fn boost(&self, levels: &Levels) -> Levels {
-        let mut boost: Boost = Boost::new();
-
-        for (skill, fun) in self.iter() {
-            if let Some(lvl) = levels.get(skill) {
-                let bst: i32 = fun(lvl);
-                if let Some(val) = boost.insert(*skill, bst) {
-                    panic!("Multiple boosts apply to the same level. {}", val);
-                }
-            }
-        }
-
-        boost
-    }
-}
+// impl Boostable for BoostMap {
+//     fn boost(&self, levels: &Levels) -> Levels {
+//         let mut boost: Boost = Boost::new();
+//
+//         for (skill, fun) in self.iter() {
+//             if let Some(lvl) = levels.get(skill) {
+//                 let bst: i32 = fun(lvl);
+//                 if let Some(val) = boost.insert(*skill, bst) {
+//                     panic!("Multiple boosts apply to the same level. {}", val);
+//                 }
+//             }
+//         }
+//
+//         boost
+//     }
+// }
