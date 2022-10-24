@@ -27,6 +27,18 @@ impl BonusLike for Equipment {
             agg = agg + gear.get_agg();
         }
 
+        todo!();
+        // if let Some(wpn) = self.get(&Slot::Weapon) {
+        //     if wpn.name == Chinchompa {
+        //         if let Some(ammo) = self.get(&Slot::Ammunition) {
+        //             agg = agg - ammo.agg;
+        //         }
+        //     } else if thrown weapon {
+        //         check blowpipe shenanigans;
+        //     } else if dinhs bulwark {
+        //         shenanigans
+        //     }
+        // }
         agg
     }
 
