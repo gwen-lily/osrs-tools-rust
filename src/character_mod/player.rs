@@ -6,7 +6,7 @@ use crate::{
     data::{Skill, Slayer, DT},
     effect_mod::effect::EffectLike,
     levels::Levels,
-    prayer_mod::prayer::{Prayer, PrayerLike, Prayers},
+    prayer_mod::prayer::{Prayer, Prayers},
     spell_mod::spell::{Spell, Spellbook},
     style_mod::style::Style,
 };

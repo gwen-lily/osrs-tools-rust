@@ -67,7 +67,7 @@ impl Prayers {
             // For each prayer that has prayer_stats
             // iterate through { (DT, Skill): prayer_stats } pairs
 
-            if let Some(prayer_stats) = prayer.prayer_stats {
+            if let Some(prayer_stats) = &prayer.prayer_stats {
                 for ((dt, skill), ps) in prayer_stats.iter() {
                     // Panic if typeless attribute, else continue
                     if *dt == Typeless {
@@ -81,7 +81,7 @@ impl Prayers {
                         _ => panic!("bad prayer"),
                     }
                     // If a previous prayer already inserted this key, panic
-                    if map.insert((dt, skill), ps).is_some() {
+                    if map.insert((*dt, *skill), *ps).is_some() {
                         panic!("bad prayer!")
                     }
                 }
@@ -116,7 +116,7 @@ impl Prayers {
         let mut val: u32 = 0;
 
         for prayer in prayers.iter() {
-            val += prayer.get_drain_effect();
+            val += prayer.drain_effect;
         }
 
         val
