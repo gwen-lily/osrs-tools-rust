@@ -68,8 +68,16 @@ pub fn add_magic_stances(map: &mut StanceMap) {
     map.insert(key, Some(val));
 
     let key = Magic(MagicStance::Longrange);
-    map.insert(key, None);
+    let mut val = StanceStats::new();
+    val.insert((DT::Magic, Attack), 1);
+    val.insert((DT::Melee(Default::default()), Defence), 3);
+    map.insert(key, Some(val));
 
     let key = Magic(MagicStance::NoStyle);
     map.insert(key, None);
+
+    let key = Magic(MagicStance::Defensive);
+    let mut val = StanceStats::new();
+    val.insert((DT::Melee(Default::default()), Defence), 3);
+    map.insert(key, Some(val));
 }

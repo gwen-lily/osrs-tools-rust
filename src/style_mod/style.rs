@@ -57,6 +57,9 @@ pub enum StyleName {
     NpcMelee,
     NpcRanged,
     NpcMagic,
+    Scorch,
+    Flare,
+    Blaze,
 }
 
 impl Style {

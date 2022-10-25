@@ -3,48 +3,48 @@ use std::ops::Add;
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 pub struct Agg {
     // aggressive bonuses
-    melee: MeleeAgg,
-    ranged: RangedAgg,
-    magic: MagicAgg,
+    pub melee: MeleeAgg,
+    pub ranged: RangedAgg,
+    pub magic: MagicAgg,
 }
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy, Default)]
 pub struct MeleeAgg {
-    attack: AttackMeleeAgg,
-    strength: i32,
+    pub attack: AttackMeleeAgg,
+    pub strength: i32,
 }
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy, Default)]
 pub struct AttackMeleeAgg {
-    stab: i32,
-    slash: i32,
-    crush: i32,
+    pub stab: i32,
+    pub slash: i32,
+    pub crush: i32,
 }
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy, Default)]
 pub struct RangedAgg {
-    attack: i32,
-    strength: i32,
+    pub attack: i32,
+    pub strength: i32,
 }
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy, Default)]
 pub struct MagicAgg {
-    attack: i32,
-    strength: i32,
+    pub attack: i32,
+    pub strength: i32,
 }
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy, Default)]
 pub struct Def {
-    melee: MeleeDef,
-    ranged: i32,
-    magic: i32,
+    pub melee: MeleeDef,
+    pub ranged: i32,
+    pub magic: i32,
 }
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy, Default)]
 pub struct MeleeDef {
-    stab: i32,
-    slash: i32,
-    crush: i32,
+    pub stab: i32,
+    pub slash: i32,
+    pub crush: i32,
 }
 
 /// Add field-wise for Agg

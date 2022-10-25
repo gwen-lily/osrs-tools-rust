@@ -105,6 +105,26 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
 
     map.insert(key, val);
 
+    // Partisans
+    let key = Partisans;
+    let val = Styles::new(
+        vec![
+            Style::new(
+                StyleName::Stab,
+                DT::Melee(Stab),
+                Melee(Accurate),
+                None,
+                None,
+            ),
+            Style::new(Lunge, DT::Melee(Stab), Melee(Aggressive), None, None),
+            Style::new(Pound, DT::Melee(Crush), Melee(Aggressive), None, None),
+            Style::new(Block, DT::Melee(Stab), Melee(Defensive), None, None),
+        ],
+        1,
+    );
+
+    map.insert(key, val);
+
     // Pickaxes
     let key = Pickaxes;
     let val = Styles::new(
@@ -128,6 +148,24 @@ pub fn add_all_melee_styles(map: &mut StylesMap) {
             Style::new(Fend, DT::Melee(Stab), Melee(Defensive), None, None),
         ],
         0,
+    );
+    map.insert(key, val);
+
+    // Polestaves
+    let key = Polestaves;
+    let val = Styles::new(
+        vec![
+            Style::new(
+                StyleName::Bash,
+                DT::Melee(Crush),
+                Melee(Accurate),
+                None,
+                None,
+            ),
+            Style::new(Pound, DT::Melee(Crush), Melee(Aggressive), None, None),
+            Style::new(Block, DT::Melee(Crush), Melee(Defensive), None, None),
+        ],
+        1,
     );
 
     map.insert(key, val);

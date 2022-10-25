@@ -3,6 +3,7 @@ use strum_macros::EnumIter;
 
 use super::{
     super::secondary_bonus::{Agg, Def},
+    all_gear::GearName,
     special_weapon::SpecialWeapon,
     weapon::Weapon,
 };
@@ -12,7 +13,7 @@ use super::{
  */
 #[derive(Debug, PartialEq, Eq)]
 pub struct Gear {
-    pub name: String,
+    pub name: GearName,
     pub slot: Slot,
     pub(super) agg: Agg,
     pub(super) def: Def,
@@ -39,7 +40,36 @@ pub enum Slot {
 
 /// Implement new for gear which allows Gear to be constructed properly
 impl Gear {
-    pub fn new(name: String, slot: Slot, agg: Agg, def: Def, pry: u32, lvl_reqs: Levels) -> Self {
+    pub fn new(
+        name: GearName,
+        slot: Slot,
+        agg: Agg,
+        def: Def,
+        pry: u32,
+        lvl_reqs: Levels,
+        weapon: Option<Weapon>,
+        special_weapon: Option<SpecialWeapon>,
+    ) -> Self {
+        Self {
+            name,
+            slot,
+            agg,
+            def,
+            pry,
+            lvl_reqs,
+            weapon,
+            special_weapon,
+        }
+    }
+
+    pub fn gear(
+        name: GearName,
+        slot: Slot,
+        agg: Agg,
+        def: Def,
+        pry: u32,
+        lvl_reqs: Levels,
+    ) -> Self {
         Self {
             name,
             slot,
@@ -53,7 +83,7 @@ impl Gear {
     }
 
     pub fn weapon(
-        name: String,
+        name: GearName,
         agg: Agg,
         def: Def,
         pry: u32,
@@ -73,7 +103,7 @@ impl Gear {
     }
 
     pub fn special_weapon(
-        name: String,
+        name: GearName,
         agg: Agg,
         def: Def,
         pry: u32,

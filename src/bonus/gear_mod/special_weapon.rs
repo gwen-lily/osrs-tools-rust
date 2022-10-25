@@ -3,9 +3,9 @@ use crate::data::DT;
 /// SpecialWeapon struct which represents a Weapon item with more fields and implementation.
 #[derive(Debug, PartialEq, Clone)]
 pub struct SpecialWeapon {
-    special_arms: Option<Vec<f64>>,
-    special_dms: Option<Vec<f64>>,
-    special_defence_roll: Option<DT>,
+    pub special_arms: Option<Vec<f64>>,
+    pub special_dms: Option<Vec<f64>>,
+    pub special_defence_roll: Option<DT>,
 }
 
 impl SpecialWeapon {

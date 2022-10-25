@@ -33,4 +33,5 @@ pub enum MagicStance {
     Accurate,
     Longrange,
     NoStyle,
+    Defensive,
 }
