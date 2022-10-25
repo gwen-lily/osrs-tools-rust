@@ -2,22 +2,14 @@ use std::{collections::HashMap, env, error::Error, ffi::OsString};
 
 use osrs_tools::{
     bonus::{
-        gear_mod::{
-            all_gear::{GearMap, GearName},
-            gear::{Gear, Slot},
-            special_weapon::SpecialWeapon,
-            weapon::Weapon,
-        },
-        secondary_bonus::{Agg, AttackMeleeAgg, Def, MagicAgg, MeleeAgg, MeleeDef, RangedAgg},
+        gear::{Gear, GearMap, GearName, Slot, SpecialWeapon, Weapon},
+        Agg, AttackMeleeAgg, Def, MagicAgg, MeleeAgg, MeleeDef, RangedAgg,
     },
     data::{MeleeDamageType, Skill, DT},
     levels::Levels,
-    style_mod::{
-        style::Styles,
-        styles_map::{
-            StylesCategory::{self, *},
-            StylesMap,
-        },
+    style::{
+        styles_map::StylesCategory::{self, *},
+        Styles,
     },
     STYLES_MAP,
 };
@@ -180,7 +172,7 @@ fn get_item_records() -> Result<Vec<ItemRecord>, Box<dyn Error>> {
 }
 
 fn get_item_record_agg(record: &ItemRecord) -> Agg {
-    let agg = Agg {
+    Agg {
         melee: MeleeAgg {
             attack: AttackMeleeAgg {
                 stab: record.stab_attack.unwrap_or(0),
@@ -197,12 +189,11 @@ fn get_item_record_agg(record: &ItemRecord) -> Agg {
             attack: record.magic_attack.unwrap_or(0),
             strength: (record.magic_damage.unwrap_or(0.0) * 100.0) as i32,
         },
-    };
-    agg
+    }
 }
 
 fn get_item_record_def(record: &ItemRecord) -> Def {
-    let def = Def {
+    Def {
         melee: MeleeDef {
             stab: record.stab_defence.unwrap_or(0),
             slash: record.slash_defence.unwrap_or(0),
@@ -210,8 +201,7 @@ fn get_item_record_def(record: &ItemRecord) -> Def {
         },
         ranged: record.ranged_defence.unwrap_or(0),
         magic: record.magic_defence.unwrap_or(0),
-    };
-    def
+    }
 }
 
 /**All weapons have an options integer, which maps to the proper value some of the time.
@@ -255,7 +245,7 @@ fn get_item_record_weapon(record: &ItemRecord) -> Result<Option<Weapon>, Box<dyn
             base_attack_range: 0,
         });
 
-        return Ok(weapon);
+        Ok(weapon)
     } else {
         panic!();
     }
@@ -265,8 +255,6 @@ fn get_item_record_weapon(record: &ItemRecord) -> Result<Option<Weapon>, Box<dyn
 fn get_item_record_special_weapon(
     record: &ItemRecord,
 ) -> Result<Option<SpecialWeapon>, Box<dyn Error>> {
-    let special_weapon: Option<SpecialWeapon>;
-
     // If no special flags, return None.
     if record.special_accuracy == None
         && record.special_damage_1 == None
@@ -286,7 +274,6 @@ fn get_item_record_special_weapon(
         special_arms = None;
     }
 
-    let special_dms: Option<Vec<f64>>;
     let mut vec: Vec<f64> = Vec::new();
 
     if let Some(spec_dmg_1) = record.special_damage_1 {
@@ -296,11 +283,7 @@ fn get_item_record_special_weapon(
         vec.push(spec_dmg_2)
     }
 
-    if vec.len() > 0 {
-        special_dms = Some(vec);
-    } else {
-        special_dms = None;
-    }
+    let special_dms: Option<Vec<f64>> = if vec.is_empty() { None } else { Some(vec) };
 
     let special_defence_roll: Option<DT>;
     if let Some(dmg_type_str) = &record.special_defence_roll_str {
@@ -329,7 +312,7 @@ fn get_item_record_special_weapon(
         special_defence_roll = None;
     }
 
-    special_weapon = Some(SpecialWeapon {
+    let special_weapon = Some(SpecialWeapon {
         special_arms,
         special_dms,
         special_defence_roll,
@@ -340,15 +323,16 @@ fn get_item_record_special_weapon(
 
 fn get_item_record_name(record: &ItemRecord) -> Result<GearName, Box<dyn Error>> {
     if let Some(name) = &record.name {
+        #[allow(clippy::match_single_binding)]
         let gear_name: GearName = match name {
             _ => GearName::FooBarBaz,
         };
 
-        return Ok(gear_name);
+        Ok(gear_name)
     } else {
         let s = format!("No name field for: {:?}", record);
-        return Err(From::from(s));
-    };
+        Err(From::from(s))
+    }
 }
 
 /// Transform the provided ItemRecords into their corresponding Gear
@@ -374,7 +358,7 @@ fn transform_item_record(record: ItemRecord) -> Result<Gear, Box<dyn Error>> {
 /// Get the nth argument from the command line and return the file_path contained.
 fn get_nth_file_path(n: usize) -> Result<OsString, Box<dyn Error>> {
     match env::args_os().nth(n) {
-        None => Err(From::from("expected a second argument, but got none")),
+        None => Err(From::from("expected an argument, but got none")),
         Some(file_path) => Ok(file_path),
     }
 }

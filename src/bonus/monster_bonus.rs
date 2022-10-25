@@ -1,7 +1,4 @@
-use super::{
-    bonus_like::BonusLike,
-    secondary_bonus::{Agg, Def},
-};
+use super::{Agg, BonusLike, Def};
 
 /** Gear struct which represents a single Gear item. Gear implements BonusLike. Gear derives
  *  default behavior, which yields a slotless husk with no bonuses or requirements

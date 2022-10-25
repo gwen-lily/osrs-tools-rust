@@ -1,25 +1,25 @@
 pub mod bonus;
-pub mod boost_mod;
-pub mod character_mod;
-pub mod combat_mod;
+pub mod boost;
+pub mod character;
+pub mod combat;
 pub mod config;
 pub mod data;
-pub mod effect_mod;
+pub mod effect;
 pub mod levels;
 pub mod modifiers;
-pub mod prayer_mod;
-pub mod spell_mod;
-pub mod stance_mod;
-pub mod style_mod;
+pub mod prayer;
+pub mod spell;
+pub mod stance;
+pub mod style;
 
 #[macro_use]
 extern crate lazy_static;
 
 use crate::{
-    prayer_mod::prayers::{get_all_prayers, PrayerMap},
-    spell_mod::spells::{get_all_spells, SpellsMap},
-    stance_mod::stance_stats::{get_all_stances, StanceMap},
-    style_mod::styles_map::{get_all_player_styles, StylesMap},
+    prayer::prayers::{get_all_prayers, PrayerMap},
+    spell::spells::{get_all_spells, SpellsMap},
+    stance::{get_all_stances, StanceMap},
+    style::styles_map::{get_all_player_styles, StylesMap},
 };
 
 lazy_static! {
