@@ -1,5 +1,5 @@
 // modules
-pub(crate) mod all_gear;
+pub mod all_gear;
 pub(crate) mod special_weapon;
 pub(crate) mod weapon;
 

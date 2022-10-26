@@ -1,8 +1,12 @@
 use std::{collections::HashMap, env, error::Error, ffi::OsString};
 
+#[allow(unused_imports)]
 use osrs_tools::{
     bonus::{
-        gear::{Gear, GearMap, GearName, Slot, SpecialWeapon, Weapon},
+        gear::{
+            all_gear::example::generate_gear_text, Gear, GearMap, GearName, Slot, SpecialWeapon,
+            Weapon,
+        },
         Agg, AttackMeleeAgg, Def, MagicAgg, MeleeAgg, MeleeDef, RangedAgg,
     },
     data::{MeleeDamageType, Skill, DT},
@@ -13,6 +17,7 @@ use osrs_tools::{
     },
     STYLES_MAP,
 };
+
 use serde::Deserialize;
 
 #[macro_use]
@@ -379,6 +384,12 @@ fn main() -> Result<(), Box<dyn Error>> {
             }
         }
     }
+
+    // let out_file = get_nth_file_path(2)?;
+    //
+    // for (k, g) in all_gear.into_iter() {
+    //     // generate_gear(g, &out_file)
+    // }
 
     Ok(())
 }

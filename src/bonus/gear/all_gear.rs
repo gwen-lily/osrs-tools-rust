@@ -1,3 +1,5 @@
+pub mod example;
+
 use super::super::gear::Gear;
 use std::collections::HashMap;
 use strum_macros::EnumIter;

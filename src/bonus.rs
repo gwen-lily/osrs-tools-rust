@@ -4,6 +4,7 @@ pub mod monster_bonus;
 
 use crate::levels::Levels;
 pub use equipment::Equipment;
+pub use gear::{Gear, GearMap, GearName};
 pub use monster_bonus::MonsterBonus;
 
 use std::ops::{Add, Sub};
