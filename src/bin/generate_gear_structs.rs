@@ -385,11 +385,11 @@ fn main() -> Result<(), Box<dyn Error>> {
         }
     }
 
-    // let out_file = get_nth_file_path(2)?;
-    //
-    // for (k, g) in all_gear.into_iter() {
-    //     // generate_gear(g, &out_file)
-    // }
+    let out_file = get_nth_file_path(2)?;
+
+    for (_, g) in all_gear.into_iter() {
+        generate_gear_text(g, &out_file)?;
+    }
 
     Ok(())
 }
