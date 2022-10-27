@@ -2,9 +2,12 @@ pub mod prayers;
 
 use std::{collections::HashMap, fmt::Error};
 
-use crate::data::{
-    Skill::{self, Attack, Defence, Strength},
-    DT::{self, Typeless},
+use crate::{
+    data::{
+        Skill::{self, Attack, Defence, Strength},
+        DT::{self, Typeless},
+    },
+    CombatMap,
 };
 
 /// A Prayer defines the drain effect and optional stat modifiers
@@ -26,7 +29,7 @@ pub struct Prayers {
 }
 
 /// A PrayerStats map matches (DT, Skill) keys to integer representations of modifiers
-pub type PrayerStats = HashMap<(DT, Skill), i32>;
+pub type PrayerStats = CombatMap<i32>;
 
 /// Implements creation methods for Prayer
 impl Prayer {

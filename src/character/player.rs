@@ -1,9 +1,8 @@
 use crate::{
-    bonus::{Equipment, Gear, GearLike, Slot, Weapon},
+    bonus::{Equipment, EquipmentInfo, EquipmentMap, Gear, GearLike, Slot, Weapon},
     boost::{Boost, BoostMap},
     combat::{effective_level, multiply_then_trunc},
     data::{MeleeDamageType, Skill, Slayer, DT},
-    effect::EffectLike,
     levels::Levels,
     prayer::{Prayer, Prayers},
     spell::{Spell, Spellbook},
@@ -14,15 +13,16 @@ use crate::{
 
 /** The Player struct describes a player in OSRS.
  */
+#[derive(Debug, PartialEq, Eq)]
 pub struct Player {
-    equipment: Equipment,
+    pub equipment_info: EquipmentInfo,
     style: &'static Style,
     spell: Option<&'static Spell>,
     levels: Levels,
     prayers: Option<Prayers>,
     boosts: Boost,
-    #[allow(dead_code)]
-    effects: Vec<Box<dyn EffectLike>>,
+    // #[allow(dead_code)]
+    // effects: Vec<Box<dyn EffectLike>>,
     #[allow(dead_code)]
     kandarin_hard: bool,
     #[allow(dead_code)]
@@ -34,9 +34,14 @@ pub struct Player {
 }
 
 impl Player {
+    /// Return a shorthand reference to equipped gear container
+    pub fn eqp(&self) -> &EquipmentMap {
+        &self.equipment_info.equipment.equipment
+    }
+
     /// Return a reference to the Weapon slot item in equipment.
     pub fn weapon(&self) -> &Gear {
-        if let Some(gear) = self.equipment.equipment.get(&Slot::Weapon) {
+        if let Some(gear) = self.eqp().get(&Slot::Weapon) {
             gear
         } else {
             todo!() // &Gear::hands()
@@ -201,7 +206,7 @@ impl Player {
 
     /// Caculate a Player's prayer drain resistance.
     pub fn prayer_drain_resistance(&self) -> u32 {
-        let pdr: u32 = (2 * self.equipment.get_pry()) + 60;
+        let pdr: u32 = (2 * self.equipment_info.equipment.get_pry()) + 60;
         pdr
     }
 

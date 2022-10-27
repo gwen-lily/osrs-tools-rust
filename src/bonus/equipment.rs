@@ -1,3 +1,6 @@
+mod equipment_info;
+mod sets;
+
 use std::collections::HashMap;
 
 use crate::{
@@ -5,10 +8,15 @@ use crate::{
     levels::Levels,
 };
 
-use super::BonusStats;
+use super::{BonusStats, GearName};
+
+pub use equipment_info::EquipmentInfo;
+pub(crate) use sets::get_all_gear_sets;
+pub use sets::{GearSetMap, SetName};
 
 /// Equipment type is a HashMap linking Slot to Gear.
 
+#[derive(Debug, PartialEq, Eq)]
 pub struct Equipment {
     pub equipment: EquipmentMap,
     bonus_stats: BonusStats,
@@ -18,6 +26,9 @@ pub struct Equipment {
 
 /// Type alias for HashMap<Slot, Gear>. The actual Gear item container.
 pub type EquipmentMap = HashMap<Slot, Gear>;
+/// Type alias for HashMap<Slot, GearName>. Used by developers to inquire about gear using a lookup
+/// value
+pub type EquipmentNameMap = HashMap<Slot, GearName>;
 
 /// Implement BonusLike for Equipment, which is element-wise addition for its getters.
 impl BonusLike for Equipment {

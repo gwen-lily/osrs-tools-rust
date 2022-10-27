@@ -1,3 +1,5 @@
+mod max_hit;
+
 use num::integer::Integer;
 use num::Bounded;
 use num::Num;

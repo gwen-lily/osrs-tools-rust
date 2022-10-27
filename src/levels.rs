@@ -10,9 +10,9 @@ pub trait HasCombatStats {
     fn combat_stats(&self) -> Levels;
 }
 
-pub trait LevelBuilders {
-    fn get_fresh_levels() -> Levels;
-    fn get_maxed_levels() -> Levels;
+pub trait LevelsBuilder {
+    fn build_fresh() -> Levels;
+    fn build_maxed() -> Levels;
 }
 
 impl HasCombatStats for Levels {
@@ -31,8 +31,8 @@ impl HasCombatStats for Levels {
     }
 }
 
-impl LevelBuilders for Levels {
-    fn get_fresh_levels() -> Levels {
+impl LevelsBuilder for Levels {
+    fn build_fresh() -> Levels {
         let mut map: Levels = Levels::new();
 
         for skill in Skill::iter() {
@@ -43,7 +43,7 @@ impl LevelBuilders for Levels {
         map
     }
 
-    fn get_maxed_levels() -> Levels {
+    fn build_maxed() -> Levels {
         let mut map: Levels = Levels::new();
 
         for skill in Skill::iter() {

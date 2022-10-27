@@ -7,7 +7,8 @@ use crate::{
     levels::Levels,
 };
 
-pub use equipment::Equipment;
+pub(crate) use equipment::{get_all_gear_sets, GearSetMap};
+pub use equipment::{Equipment, EquipmentInfo, EquipmentMap, EquipmentNameMap};
 pub use gear::special_weapon::SpecialWeapon;
 pub use gear::weapon::Weapon;
 pub use gear::{Gear, GearMap, GearName, Slot};
