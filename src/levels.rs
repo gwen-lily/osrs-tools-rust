@@ -1,9 +1,9 @@
 use crate::data::Skill::{self, Attack, Defence, Hitpoints, Magic, Ranged, Strength};
-use std::collections::HashMap;
+use crate::SkillMap;
 use strum::IntoEnumIterator;
 
 /// Type alias for HashMap<Skill, i32>
-pub type Levels = HashMap<Skill, i32>;
+pub type Levels = SkillMap<i32>;
 
 /// Trait which certifies that a HashMap has the necessary combat stats
 pub trait HasCombatStats {

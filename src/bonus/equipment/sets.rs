@@ -14,10 +14,10 @@ pub type GearSetMap = HashMap<SetName, EquipmentNameMap>;
 fn get_void_set() -> EquipmentNameMap {
     let mut map = EquipmentNameMap::new();
 
-    map.insert(Head, FooBarBaz);
-    map.insert(Body, FooBarBaz);
-    map.insert(Legs, FooBarBaz);
-    map.insert(Feet, FooBarBaz);
+    map.insert(Head, VoidHelmet);
+    map.insert(Body, VoidBody);
+    map.insert(Legs, VoidLegs);
+    map.insert(Feet, VoidGloves);
 
     map
 }
@@ -25,10 +25,10 @@ fn get_void_set() -> EquipmentNameMap {
 fn get_elite_void_set() -> EquipmentNameMap {
     let mut map = EquipmentNameMap::new();
 
-    map.insert(Head, FooBarBaz);
-    map.insert(Body, FooBarBaz);
-    map.insert(Legs, FooBarBaz);
-    map.insert(Feet, FooBarBaz);
+    map.insert(Head, VoidHelmet);
+    map.insert(Body, EliteVoidBody);
+    map.insert(Legs, EliteVoidLegs);
+    map.insert(Feet, VoidGloves);
 
     map
 }

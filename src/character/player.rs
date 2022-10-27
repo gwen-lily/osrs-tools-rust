@@ -1,5 +1,5 @@
 use crate::{
-    bonus::{Equipment, EquipmentInfo, EquipmentMap, Gear, GearLike, Slot, Weapon},
+    bonus::{EquipmentInfo, EquipmentMap, Gear, GearLike, Slot, Weapon},
     boost::{Boost, BoostMap},
     combat::{effective_level, multiply_then_trunc},
     data::{MeleeDamageType, Skill, Slayer, DT},
@@ -8,7 +8,7 @@ use crate::{
     spell::{Spell, Spellbook},
     stance::Stance,
     style::Style,
-    STANCE_MAP,
+    Result, STANCE_MAP,
 };
 
 /** The Player struct describes a player in OSRS.
@@ -16,8 +16,8 @@ use crate::{
 #[derive(Debug, PartialEq, Eq)]
 pub struct Player {
     pub equipment_info: EquipmentInfo,
-    style: &'static Style,
-    spell: Option<&'static Spell>,
+    pub style: &'static Style,
+    pub spell: Option<&'static Spell>,
     levels: Levels,
     prayers: Option<Prayers>,
     boosts: Boost,
@@ -35,13 +35,13 @@ pub struct Player {
 
 impl Player {
     /// Return a shorthand reference to equipped gear container
-    pub fn eqp(&self) -> &EquipmentMap {
+    pub fn eqpd(&self) -> &EquipmentMap {
         &self.equipment_info.equipment.equipment
     }
 
     /// Return a reference to the Weapon slot item in equipment.
     pub fn weapon(&self) -> &Gear {
-        if let Some(gear) = self.eqp().get(&Slot::Weapon) {
+        if let Some(gear) = self.eqpd().get(&Slot::Weapon) {
             gear
         } else {
             todo!() // &Gear::hands()
@@ -70,20 +70,24 @@ impl Player {
      *  This happens with overlapping stat modifiers, or modifiers across damage types that violate
      *  the rules.
      */
-    pub fn pray(&mut self, prayer: &'static Prayer) {
-        match &self.prayers {
-            Some(prys) => {
-                let mut new_prayers = vec![prayer];
-                for pry in prys.prayers.iter() {
-                    new_prayers.push(pry);
+    pub fn pray(&mut self, prayer: &'static Prayer) -> Result<()> {
+        self.prayers = match &self.prayers {
+            Some(prev_pryrs) => {
+                let mut prayers_vec = vec![prayer];
+                for pry in prev_pryrs.prayers.iter() {
+                    prayers_vec.push(pry);
                 }
 
-                self.prayers = Some(Prayers::new(new_prayers))
+                let pryrs: Prayers = Prayers::new(prayers_vec)?;
+                Some(pryrs)
             }
             None => {
-                self.prayers = Some(Prayers::new(vec![prayer]));
+                let pryrs: Prayers = Prayers::new(vec![prayer])?;
+                Some(pryrs)
             }
-        }
+        };
+
+        Ok(())
     }
 
     /// The level displayed on the stats page, the sum of a player's level and boosts.

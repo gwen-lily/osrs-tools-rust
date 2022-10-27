@@ -16,9 +16,10 @@ impl EquipmentInfo {
         self.equipment.equipment.keys().count() == 11
     }
 
-    /// Return true if all gear in eqp is found in self.equipment
-    fn equipped(&self, eqp: &EquipmentMap) -> bool {
-        for (slot, gear) in eqp.iter() {
+    /// Return true if all gear in eqpd is found in self.equipment
+    #[allow(dead_code)]
+    fn equipped(&self, eqpd: &EquipmentMap) -> bool {
+        for (slot, gear) in eqpd.iter() {
             if let Some(eqpd_gear) = self.equipment.equipment.get(slot) {
                 if eqpd_gear != gear {
                     return false;
@@ -31,8 +32,8 @@ impl EquipmentInfo {
         true
     }
 
-    fn equipped_name(&self, eqp: &EquipmentNameMap) -> bool {
-        for (slot, gear_name) in eqp.iter() {
+    fn equipped_name(&self, eqpd: &EquipmentNameMap) -> bool {
+        for (slot, gear_name) in eqpd.iter() {
             if let Some(eqpd_gear) = self.equipment.equipment.get(slot) {
                 if eqpd_gear.name != *gear_name {
                     return false;
@@ -48,7 +49,7 @@ impl EquipmentInfo {
     pub fn void_equipped(&self, elite: bool) -> bool {
         use super::sets::SetName::*;
 
-        let set_eqp_map: &EquipmentNameMap = GEAR_SETS_MAP.get(&VoidSet(elite)).unwrap();
-        self.equipped_name(set_eqp_map)
+        let set_eqpd_map: &EquipmentNameMap = GEAR_SETS_MAP.get(&VoidSet(elite)).unwrap();
+        self.equipped_name(set_eqpd_map)
     }
 }

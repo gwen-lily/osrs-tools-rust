@@ -1,13 +1,18 @@
 use crate::data::{
-    Skill::{self, Attack, Defence, Strength},
+    Skill::{Attack, Defence, Strength},
     DT,
 };
+use crate::CombatMap;
 
 use std::collections::HashMap;
 
 #[allow(unused_imports)]
 use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
+
+/// A StanceStats map matches (DT, Skill) keys to literal integer modifiers.
+pub type StanceStats = CombatMap<i32>;
+pub type StanceMap = HashMap<Stance, Option<StanceStats>>;
 
 /// An enum with the combat options and sub-stance options.
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
@@ -42,10 +47,6 @@ pub enum MagicStance {
     NoStyle,
     Defensive,
 }
-
-/// A StanceStats map matches (DT, Skill) keys to literal integer modifiers.
-pub type StanceStats = HashMap<(DT, Skill), i32>;
-pub type StanceMap = HashMap<Stance, Option<StanceStats>>;
 
 /// Return a StanceMap of all the possible Stances
 pub fn get_all_stances() -> StanceMap {

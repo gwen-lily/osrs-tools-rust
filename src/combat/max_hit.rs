@@ -1,6 +1,11 @@
 use crate::{
+    bonus::{BonusLike, BonusStats},
     character::{monster::Monster, player::Player},
-    data::DT,
+    combat::{base_damage, maximum_roll},
+    data::{Skill, DT},
+    modifiers::{player::PoweredStaffModifiers, ArMod},
+    spell::Spell,
+    OsrsError,
 };
 
 #[derive(Debug, Builder)]
@@ -8,7 +13,6 @@ use crate::{
 pub struct MaxHit {
     pub player: Player,
     pub target: Monster,
-    pub dt: DT,
     pub special_attack: bool,
     pub distance: u8,
     pub adds: u8,
@@ -24,7 +28,7 @@ impl MaxHitBuilder {
                         Ok(())
                     } else {
                         Err(
-                            "The weapon is not special, yet a special attack was specified"
+                            "Attempted to perform special attack with non-special weapon"
                                 .to_string(),
                         )
                     }
@@ -34,5 +38,59 @@ impl MaxHitBuilder {
         } else {
             Ok(())
         }
+    }
+}
+
+impl MaxHit {
+    fn explore_the_data_available(&self) -> crate::Result<()> {
+        use DT::*;
+        let ply: &Player = &self.player;
+        let tgt: &Monster = &self.target;
+
+        let dt: DT = ply.style.dt;
+        let attack_skill: Skill = match dt {
+            Melee(_) => Skill::Attack,
+            Ranged => Skill::Ranged,
+            Magic => Skill::Magic,
+            Typeless => return Err(OsrsError::Typeless),
+        };
+
+        let effective_attack_level: i32 = ply.get_effective_level(dt, attack_skill);
+        let bonus_stats: &BonusStats = ply.equipment_info.equipment.get_bonus_stats();
+        let gear_attack_bonus: i32 = *bonus_stats.get(&(dt, attack_skill)).unwrap();
+
+        let base_max: u8 = match dt {
+            Melee(_) | Ranged => {
+                let strength_skill: Skill = match dt {
+                    Melee(_) => Skill::Strength,
+                    Ranged => Skill::Ranged,
+                    Magic => return Err(OsrsError::Combat),
+                    Typeless => return Err(OsrsError::Typeless),
+                };
+                let effective_strength_level: i32 = ply.get_effective_level(dt, strength_skill);
+                let gear_strength_bonus: i32 = *bonus_stats.get(&(dt, strength_skill)).unwrap();
+                let base_damage: f64 = base_damage(&effective_strength_level, &gear_strength_bonus);
+                base_damage.trunc() as u8
+            }
+            Magic => {
+                // Magic base max comes from spells
+                use crate::spell::Spellbook::*;
+                let spl: &Spell = ply.spell.unwrap();
+
+                match spl.spellbook {
+                    Standard | Ancient | Lunar | Arceus => spl.base_max,
+                    Powered => {
+                        let calc: PoweredStaffModifiers = PoweredStaffModifiers { player: ply };
+                        calc.get_powered_spell_base_max()?
+                    }
+                }
+            }
+            Typeless => return Err(OsrsError::Typeless),
+        };
+
+        let _arms: Vec<Box<dyn ArMod>> = vec![];
+        let _drms: Vec<Box<dyn ArMod>> = vec![];
+
+        Ok(())
     }
 }

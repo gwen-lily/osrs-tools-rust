@@ -1,6 +1,5 @@
-use crate::data::Skill;
-use std::collections::HashMap;
+use crate::SkillMap;
 
 /// Type alias for HashMap<Skill, i32>
-pub type BoostMap = HashMap<Skill, Box<dyn Fn(&i32) -> i32>>;
-pub type Boost = HashMap<Skill, i32>;
+pub(crate) type BoostMap = SkillMap<Box<dyn Fn(&i32) -> i32>>;
+pub(crate) type Boost = SkillMap<i32>;

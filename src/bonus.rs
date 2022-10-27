@@ -2,10 +2,7 @@ mod equipment;
 mod gear;
 mod monster_bonus;
 
-use crate::{
-    data::{Skill, DT},
-    levels::Levels,
-};
+use crate::{levels::Levels, CombatMap};
 
 pub(crate) use equipment::{get_all_gear_sets, GearSetMap};
 pub use equipment::{Equipment, EquipmentInfo, EquipmentMap, EquipmentNameMap};
@@ -14,10 +11,8 @@ pub use gear::weapon::Weapon;
 pub use gear::{Gear, GearMap, GearName, Slot};
 pub use monster_bonus::MonsterBonus;
 
-use std::collections::HashMap;
-
 /// A BonusStats map matches (DT, Skill) keys to integer representations of modifiers
-pub type BonusStats = HashMap<(DT, Skill), i32>;
+pub type BonusStats = CombatMap<i32>;
 
 /// Trait for basic bonus containers
 pub trait BonusLike {

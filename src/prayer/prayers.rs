@@ -45,7 +45,7 @@ pub enum PrayerName {
 pub type PrayerMap = HashMap<PrayerName, Prayer>;
 
 /// Return a PrayerMap of every prayer in OSRS.
-pub fn get_all_prayers() -> PrayerMap {
+pub(crate) fn get_all_prayers() -> PrayerMap {
     use PrayerName::*;
 
     let mut prayers = PrayerMap::new();

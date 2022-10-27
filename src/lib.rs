@@ -18,12 +18,13 @@ extern crate lazy_static;
 #[macro_use]
 extern crate derive_builder;
 
-use std::collections::HashMap;
+use std::{collections::HashMap, fmt::Error};
 
-use data::{Skill, DT};
+use bonus::SpecialWeapon;
 
 use crate::{
     bonus::{get_all_gear_sets, GearSetMap},
+    data::{Skill, DT},
     prayer::prayers::{get_all_prayers, PrayerMap},
     spell::spells::{get_all_spells, SpellsMap},
     stance::{get_all_stances, StanceMap},
@@ -39,3 +40,31 @@ lazy_static! {
 }
 
 pub(crate) type CombatMap<T> = HashMap<(DT, Skill), T>;
+pub(crate) type SkillMap<T> = HashMap<Skill, T>;
+
+/// Represents fail cases of using this software
+#[derive(thiserror::Error, Debug)]
+pub enum OsrsError {
+    /// Returned when a CombatMap doesn't act right
+    #[error("An error occurred while dealing with a CombatMap")]
+    CombatMap(Option<Vec<DT>>, Option<Vec<Skill>>),
+
+    /// Returned when a Typeless calculation is executed in a non-sensical way
+    #[error("A Typeless calculation was attempted")]
+    Typeless,
+
+    /// Returned when a combat calculation don't act right
+    #[error("An error occurred while dealing with a combat calculation")]
+    Combat,
+
+    /// Returned when a special attack is performed without a special weapon
+    #[error("Tried to perform a special attack with a non-special weapon")]
+    SpecialWeapon(Option<SpecialWeapon>),
+
+    /// Returned when a spell is called for but none is found
+    #[error("Tried to cast a spell, but none was found")]
+    Spell,
+}
+
+/// A type alias used for convenience and consiceness throughout the library.
+pub type Result<T> = std::result::Result<T, OsrsError>;
