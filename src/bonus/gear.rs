@@ -4,16 +4,16 @@ pub(crate) mod special_weapon;
 pub(crate) mod weapon;
 
 // imports
-use crate::bonus::{BonusLike, GearLike};
+use crate::bonus::GearLike;
 use crate::levels::Levels;
 use strum_macros::EnumIter;
-
-use super::{Agg, Def};
 
 // higher level access to nested module
 pub use all_gear::{GearMap, GearName};
 pub use special_weapon::SpecialWeapon;
 pub use weapon::Weapon;
+
+use super::{BonusLike, BonusStats};
 
 /** Gear struct which represents a single Gear item. Gear implements HasGearStats. Gear derives
  *  default behavior, which yields a slotless husk with no bonuses or requirements
@@ -22,10 +22,9 @@ pub use weapon::Weapon;
 pub struct Gear {
     pub name: GearName,
     pub slot: Slot,
-    pub(super) agg: Agg,
-    pub(super) def: Def,
-    pub(super) pry: u32,
-    pub(super) lvl_reqs: Levels,
+    bonus_stats: BonusStats,
+    pry: u32,
+    lvl_reqs: Levels,
     pub weapon: Option<Weapon>,
     pub special_weapon: Option<SpecialWeapon>,
 }
@@ -46,30 +45,25 @@ pub enum Slot {
 }
 
 impl BonusLike for Gear {
-    fn get_agg(&self) -> Agg {
-        self.agg
-    }
-    fn get_def(&self) -> Def {
-        self.def
+    fn get_bonus_stats(&self) -> &BonusStats {
+        &self.bonus_stats
     }
 }
 
 impl GearLike for Gear {
-    fn get_pry(&self) -> u32 {
-        self.pry
+    fn get_pry(&self) -> &u32 {
+        &self.pry
     }
-    fn get_lvl_reqs(&self) -> Levels {
-        self.lvl_reqs.clone()
+    fn get_lvl_reqs(&self) -> &Levels {
+        &self.lvl_reqs
     }
 }
 
 impl Gear {
-    #[allow(clippy::too_many_arguments)]
     pub fn new(
         name: GearName,
         slot: Slot,
-        agg: Agg,
-        def: Def,
+        bonus_stats: BonusStats,
         pry: u32,
         lvl_reqs: Levels,
         weapon: Option<Weapon>,
@@ -78,8 +72,7 @@ impl Gear {
         Self {
             name,
             slot,
-            agg,
-            def,
+            bonus_stats,
             pry,
             lvl_reqs,
             weapon,
@@ -91,16 +84,14 @@ impl Gear {
     pub fn geare(
         name: GearName,
         slot: Slot,
-        agg: Agg,
-        def: Def,
+        bonus_stats: BonusStats,
         pry: u32,
         lvl_reqs: Levels,
     ) -> Self {
         Self {
             name,
             slot,
-            agg,
-            def,
+            bonus_stats,
             pry,
             lvl_reqs,
             weapon: None,
@@ -110,8 +101,7 @@ impl Gear {
 
     pub fn weapon(
         name: GearName,
-        agg: Agg,
-        def: Def,
+        bonus_stats: BonusStats,
         pry: u32,
         lvl_reqs: Levels,
         weapon: Weapon,
@@ -119,8 +109,7 @@ impl Gear {
         Self {
             name,
             slot: Slot::Weapon,
-            agg,
-            def,
+            bonus_stats,
             pry,
             lvl_reqs,
             weapon: Some(weapon),
@@ -130,8 +119,7 @@ impl Gear {
 
     pub fn special_weapon(
         name: GearName,
-        agg: Agg,
-        def: Def,
+        bonus_stats: BonusStats,
         pry: u32,
         lvl_reqs: Levels,
         weapon: Weapon,
@@ -140,8 +128,7 @@ impl Gear {
         Self {
             name,
             slot: Slot::Weapon,
-            agg,
-            def,
+            bonus_stats,
             pry,
             lvl_reqs,
             weapon: Some(weapon),

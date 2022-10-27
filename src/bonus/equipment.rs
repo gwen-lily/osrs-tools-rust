@@ -1,65 +1,74 @@
 use std::collections::HashMap;
 
 use crate::{
-    bonus::gear::{all_gear::GearName, Gear, Slot},
+    bonus::{BonusLike, Gear, GearLike, Slot},
     levels::Levels,
 };
 
-use super::GearLike;
-use crate::bonus::{Agg, BonusLike, Def};
+use super::BonusStats;
 
 /// Equipment type is a HashMap linking Slot to Gear.
-pub type Equipment = HashMap<Slot, Gear>;
 
-/** Implement GearLike for Equipment, which aggregates individual gear fields
- *  into a returned combination object. For most field getters, this is simple addition.
- */
+pub struct Equipment {
+    pub equipment: EquipmentMap,
+    bonus_stats: BonusStats,
+    lvl_reqs: Levels,
+    pry: u32,
+}
+
+/// Type alias for HashMap<Slot, Gear>. The actual Gear item container.
+pub type EquipmentMap = HashMap<Slot, Gear>;
+
+/// Implement BonusLike for Equipment, which is element-wise addition for its getters.
 impl BonusLike for Equipment {
-    /// Get the sum of all aggressive stats
-    fn get_agg(&self) -> Agg {
-        let mut agg: Agg = Agg::default();
-
-        for gear in self.values() {
-            agg = agg + gear.get_agg();
-        }
-
-        if let Some(wpn) = self.get(&Slot::Weapon) {
-            #[allow(clippy::collapsible_if)]
-            if wpn.weapon.is_some() {
-                if wpn.name == GearName::Chinchompa
-                    || wpn.name == GearName::RedChinchompa
-                    || wpn.name == GearName::BlackChinchompa
-                {
-                    if let Some(ammo) = self.get(&Slot::Ammunition) {
-                        agg = agg - ammo.agg;
-                    }
-                }
-                // } else if wpn.name == GearName::ToxicBlowpipe {
-                // } else {
-                // }
-            }
-        }
-        agg
-    }
-
-    /// Get the sum of all defensive stats
-    fn get_def(&self) -> Def {
-        let mut def: Def = Def::default();
-
-        for gear in self.values() {
-            def = def + gear.get_def();
-        }
-
-        def
+    fn get_bonus_stats(&self) -> &BonusStats {
+        &self.bonus_stats
     }
 }
 
 impl GearLike for Equipment {
     /// Get the sum prayer bonus
-    fn get_pry(&self) -> u32 {
+    fn get_pry(&self) -> &u32 {
+        &self.pry
+    }
+
+    fn get_lvl_reqs(&self) -> &Levels {
+        &self.lvl_reqs
+    }
+}
+
+impl Equipment {
+    pub fn new(equipment: EquipmentMap) -> Self {
+        Self {
+            bonus_stats: Self::calc_bonus_stats(&equipment),
+            lvl_reqs: Self::calc_lvl_reqs(&equipment),
+            pry: Self::calc_pry(&equipment),
+            equipment,
+        }
+    }
+
+    fn calc_bonus_stats(equipment: &EquipmentMap) -> BonusStats {
+        let mut map = BonusStats::new();
+
+        for gear in equipment.values() {
+            for ((dt, skill), gear_val) in gear.get_bonus_stats().iter() {
+                if let Some(existing_val) = map.get(&(*dt, *skill)) {
+                    let new_val: i32 = existing_val + gear_val;
+                    map.insert((*dt, *skill), new_val);
+                } else {
+                    map.insert((*dt, *skill), *gear_val);
+                }
+            }
+        }
+
+        map
+    }
+
+    /// Add the prayer bonus of all gear
+    fn calc_pry(equipment: &EquipmentMap) -> u32 {
         let mut pry: u32 = 0;
 
-        for gear in self.values() {
+        for gear in equipment.values() {
             pry += gear.get_pry();
         }
 
@@ -67,10 +76,10 @@ impl GearLike for Equipment {
     }
 
     /// Get the minimum required stats to equip ALL of the gear in Equipment.
-    fn get_lvl_reqs(&self) -> Levels {
+    fn calc_lvl_reqs(equipment: &EquipmentMap) -> Levels {
         let mut levels: Levels = Levels::new();
 
-        for gear in self.values() {
+        for gear in equipment.values() {
             for (skill, gear_req) in gear.get_lvl_reqs().iter() {
                 match levels.get(skill) {
                     Some(cur_req) => {

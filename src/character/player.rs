@@ -1,8 +1,5 @@
 use crate::{
-    bonus::{
-        gear::{weapon::Weapon, Gear, Slot},
-        Equipment, GearLike,
-    },
+    bonus::{Equipment, Gear, GearLike, Slot, Weapon},
     boost::{Boost, BoostMap},
     combat::{effective_level, multiply_then_trunc},
     data::{MeleeDamageType, Skill, Slayer, DT},
@@ -39,7 +36,7 @@ pub struct Player {
 impl Player {
     /// Return a reference to the Weapon slot item in equipment.
     pub fn weapon(&self) -> &Gear {
-        if let Some(gear) = self.equipment.get(&Slot::Weapon) {
+        if let Some(gear) = self.equipment.equipment.get(&Slot::Weapon) {
             gear
         } else {
             todo!() // &Gear::hands()
@@ -73,7 +70,7 @@ impl Player {
             Some(prys) => {
                 let mut new_prayers = vec![prayer];
                 for pry in prys.prayers.iter() {
-                    new_prayers.insert(0, pry);
+                    new_prayers.push(pry);
                 }
 
                 self.prayers = Some(Prayers::new(new_prayers))
@@ -158,7 +155,7 @@ impl Player {
     }
 
     /// Apply a boost map, taking previous buffs & debuffs into account.
-    pub fn apply_boost(&mut self, boost: BoostMap) {
+    pub fn apply_boost(&mut self, boost: &BoostMap) {
         for (skill, mod_func) in boost.iter() {
             if let Some(prev_boost) = self.boosts.get(skill) {
                 let active_level: i32 = if *prev_boost < 0 {
@@ -181,7 +178,7 @@ impl Player {
     /// Calculate a Player's combat level.
     pub fn combat_level(&self) -> i32 {
         let atk: &i32 = self.levels.get(&Skill::Attack).unwrap();
-        let str: &i32 = self.levels.get(&Skill::Strength).unwrap();
+        let stn: &i32 = self.levels.get(&Skill::Strength).unwrap();
         let def: &i32 = self.levels.get(&Skill::Defence).unwrap();
         let rng: &i32 = self.levels.get(&Skill::Ranged).unwrap();
         let mag: &i32 = self.levels.get(&Skill::Magic).unwrap();
@@ -193,7 +190,7 @@ impl Player {
         let base_lvl: f64 = (1.0 / 4.0) * (base_lvl as f64);
 
         // Specialized level
-        let melee_lvl: f64 = (13.0 / 40.0) * (atk + str) as f64;
+        let melee_lvl: f64 = (13.0 / 40.0) * (atk + stn) as f64;
         let magic_lvl: f64 = (13.0 / 40.0) * (mag + mag / 2) as f64;
         let ranged_lvl: f64 = (13.0 / 40.0) * (rng + rng / 2) as f64;
         let type_lvl: f64 = melee_lvl.max(magic_lvl).max(ranged_lvl);
