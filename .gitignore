@@ -1,3 +1,4 @@
 /target
 scratch.txt
 .~lock*
+Cargo.lock

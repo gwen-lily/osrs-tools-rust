@@ -29,8 +29,7 @@ pub struct Player {
     special_energy: u32,
     #[allow(dead_code)]
     run_energy: u32,
-    #[allow(dead_code)]
-    slayer_task: Option<Slayer>,
+    pub slayer_task: Option<Slayer>,
 }
 
 impl Player {

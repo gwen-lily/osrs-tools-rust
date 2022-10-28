@@ -26,4 +26,10 @@ pub enum GearName {
     SanguinestiStaff,
     TridentOfTheSwamp,
     TridentOfTheSeas,
+    SalveAmuletEI,
+    SalveAmuletI,
+    MysticSmokeStaff,
+    SmokeBattlestaff,
+    SeerCull,
+    SlayerHelmetI,
 }

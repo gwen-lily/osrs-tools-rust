@@ -57,7 +57,7 @@ pub enum Skill {
 
 #[allow(dead_code)]
 #[derive(Debug, PartialEq, Eq, Hash, Clone)]
-pub enum MonsterType {
+pub enum MonsterAttribute {
     Demon,
     Draconic,
     Fiery,

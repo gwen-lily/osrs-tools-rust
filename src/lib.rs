@@ -18,7 +18,7 @@ extern crate lazy_static;
 #[macro_use]
 extern crate derive_builder;
 
-use std::{collections::HashMap, fmt::Error};
+use std::collections::HashMap;
 
 use bonus::SpecialWeapon;
 

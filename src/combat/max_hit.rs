@@ -3,7 +3,7 @@ use crate::{
     character::{monster::Monster, player::Player},
     combat::{base_damage, maximum_roll},
     data::{Skill, DT},
-    modifiers::{player::PoweredStaffModifiers, ArMod},
+    modifiers::{player::PoweredStaffModifiers, ArMod, DmgBuff},
     spell::Spell,
     OsrsError,
 };
@@ -81,7 +81,7 @@ impl MaxHit {
                     Standard | Ancient | Lunar | Arceus => spl.base_max,
                     Powered => {
                         let calc: PoweredStaffModifiers = PoweredStaffModifiers { player: ply };
-                        calc.get_powered_spell_base_max()?
+                        spl.base_max + calc.damage_buff().unwrap()
                     }
                 }
             }
@@ -90,6 +90,12 @@ impl MaxHit {
 
         let _arms: Vec<Box<dyn ArMod>> = vec![];
         let _drms: Vec<Box<dyn ArMod>> = vec![];
+
+        // get_arms();
+        // get_drms();
+        // get_dms();
+        // get_dms();
+        // get_lms();
 
         Ok(())
     }

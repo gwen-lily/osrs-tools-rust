@@ -20,10 +20,6 @@ pub trait DmgMod {
     fn damage_mod(&self) -> Option<f64>;
 }
 
-pub trait DmgModFunction {
-    fn damage_mod_fn(&self) -> Option<Box<dyn Fn(&u8) -> u8>>;
-}
-
 /** Level Modifiers (LvlMod) apply directly to levels, flooring in between applications.
  */
 pub trait LvlMod {
@@ -35,16 +31,21 @@ pub trait CmbMod {
     fn combat_mod(&self) -> Option<CombatMap<f64>>;
 }
 
-/** Gear Modifiers (GearMod) apply to gear (or monster gear-like) bonuses (Agg, Def, pry). Gear
+/** Gear Modifiers (BnsMod) apply to gear (or monster gear-like) bonuses (Agg, Def, pry). Gear
  * Modifiers are quite rare and I can only think of the Dinh's bulwark strength bonus offhand.
  */
-pub trait BnsMod<T: BonusLike> {
+pub trait BnsMod {
     fn bonus_mod(&self) -> Option<BonusStats>;
 }
 
+/// Bonus
+pub trait TumMod<T: BonusLike> {
+    fn bonus_mod(&self) -> Option<CombatMap<f64>>;
+}
+
 /** Damage Buffs (DmgBuff) are directly added to max hits, usually as a final step, after damage
- * modifiers are applied.
+ * modifiers are applied. Or as a powered spell!
  */
 pub trait DmgBuff {
-    fn damage_buff(&self) -> Option<i32>;
+    fn damage_buff(&self) -> Option<u8>;
 }

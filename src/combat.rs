@@ -73,7 +73,7 @@ pub fn effective_level(
 }
 
 /// Return the truncated multiplication of an integer and float as the same type as integer.
-pub fn multiply_then_trunc<T: Integer + Bounded + Num + NumCast + PartialOrd + Clone>(
+pub(crate) fn multiply_then_trunc<T: Integer + Bounded + Num + NumCast + PartialOrd + Clone>(
     value: T,
     modifier: f64,
 ) -> T

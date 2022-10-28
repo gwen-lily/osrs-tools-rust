@@ -6,6 +6,8 @@ use crate::STANCE_MAP;
 
 use strum_macros::EnumIter;
 
+pub use styles_map::StylesCategory;
+
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Style {
     pub name: StyleName,
