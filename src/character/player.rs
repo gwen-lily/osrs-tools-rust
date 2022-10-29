@@ -1,14 +1,15 @@
 use crate::{
     bonus::{EquipmentInfo, EquipmentMap, Gear, GearLike, Slot, Weapon},
     boost::{Boost, BoostMap},
+    character::Slayer,
     combat::{effective_level, multiply_then_trunc},
-    data::{MeleeDamageType, Skill, Slayer, DT},
+    data::MeleeDamageType,
     levels::Levels,
     prayer::{Prayer, Prayers},
     spell::{Spell, Spellbook},
     stance::Stance,
     style::Style,
-    Result, STANCE_MAP,
+    Result, Skill, DT, STANCE_MAP,
 };
 
 /** The Player struct describes a player in OSRS.
@@ -18,7 +19,7 @@ pub struct Player {
     pub equipment_info: EquipmentInfo,
     pub style: &'static Style,
     pub spell: Option<&'static Spell>,
-    levels: Levels,
+    pub levels: Levels,
     prayers: Option<Prayers>,
     boosts: Boost,
     // #[allow(dead_code)]

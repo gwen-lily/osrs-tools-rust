@@ -1,12 +1,14 @@
 use crate::{
     bonus::{BonusLike, BonusStats},
     character::{monster::Monster, player::Player},
-    combat::{base_damage, maximum_roll},
+    combat::base_damage,
     data::{Skill, DT},
-    modifiers::{player::PoweredStaffModifiers, ArMod, DmgBuff},
+    modifiers::{DmgBuff, PlayerModifiers},
     spell::Spell,
     OsrsError,
 };
+
+use crate::modifiers::player::powered_staff::PoweredStaffModifiers;
 
 #[derive(Debug, Builder)]
 #[builder(pattern = "owned", build_fn(validate = "Self::validate"))]
@@ -88,14 +90,20 @@ impl MaxHit {
             Typeless => return Err(OsrsError::Typeless),
         };
 
-        let _arms: Vec<Box<dyn ArMod>> = vec![];
-        let _drms: Vec<Box<dyn ArMod>> = vec![];
+        let pmods: PlayerModifiers = PlayerModifiers {
+            player: ply,
+            target: tgt,
+            // special_attack: self.special_attack,
+            distance: &self.distance,
+            // adds: &self.adds,
+        };
 
-        // get_arms();
-        // get_drms();
-        // get_dms();
-        // get_dms();
-        // get_lms();
+        let arms = pmods.get_all_arms();
+        let drms = pmods.get_all_drms();
+        let gear_bonus_mods = pmods.get_all_bns_mods();
+        let dms = pmods.get_all_dms();
+        let dmg_buffs = pmods.get_all_dmg_buffs();
+        let cmbs = pmods.get_all_cmb_mods();
 
         Ok(())
     }

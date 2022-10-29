@@ -6,11 +6,17 @@ use crate::{
 
 pub mod player;
 
+pub(crate) use player::PlayerModifiers;
+
 /** Roll Modifiers (ArMod) apply directly to maximum rolls for offence and defence, flooring in
  *  between applications.
  */
 pub trait ArMod {
     fn accuracy_roll_mod(&self) -> Option<f64>;
+}
+
+pub trait ArIntMod {
+    fn accuracy_roll_int_mod(&self) -> Option<i32>;
 }
 
 /** Damage Modifiers (DmgMod) apply directly to maximum hit calculations, flooring in between
@@ -26,7 +32,7 @@ pub trait LvlMod {
     fn levels_mod(&self) -> Option<Levels>;
 }
 
-/// Combat Modifiers (CmbMod) are float modifiers applied directly to ()
+/// Combat Modifiers (CmbMod) are float modifiers applied directly to (). Void comes to mind.
 pub trait CmbMod {
     fn combat_mod(&self) -> Option<CombatMap<f64>>;
 }
@@ -48,4 +54,10 @@ pub trait TumMod<T: BonusLike> {
  */
 pub trait DmgBuff {
     fn damage_buff(&self) -> Option<u8>;
+}
+
+/// Activation trait for bundling logic shared between different modifier implementations
+pub(crate) trait ConditionalModifier {
+    /// Returns true when the conditions are met, as needed by the struct
+    fn activate(&self) -> bool;
 }
