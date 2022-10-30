@@ -5,12 +5,18 @@ use strum_macros::EnumIter;
 
 #[derive(Debug, PartialEq, Eq)]
 pub struct Monster {
-    pub name: String,
+    pub name: MonsterName,
     pub monster_bonus: MonsterBonus,
     pub location: MonsterLocation,
     pub slayer: Option<Slayer>,
     pub attributes: Option<Vec<MonsterAttribute>>,
     pub levels: Levels,
+}
+
+#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
+pub enum MonsterName {
+    StoneGuardian,
+    IceDemon,
 }
 
 #[allow(dead_code)]

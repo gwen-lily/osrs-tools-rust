@@ -42,8 +42,8 @@ pub fn base_damage(effective_strength_level: &i32, strength_bonus: &i32) -> f64 
 }
 
 /// Multiply a base damage calculation by damage modifiers, flooring in between
-pub fn max_hit(base_damage: f64, damage_modifiers: &[f64]) -> u32 {
-    let mut max_hit: u32 = base_damage.trunc() as u32;
+pub fn max_hit(base_damage: u8, damage_modifiers: &[f64]) -> u32 {
+    let mut max_hit: u32 = base_damage as u32;
 
     for dmg_mod in damage_modifiers.iter() {
         max_hit = multiply_then_trunc(max_hit, *dmg_mod);

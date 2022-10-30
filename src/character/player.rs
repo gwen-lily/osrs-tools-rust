@@ -91,12 +91,12 @@ impl Player {
     }
 
     /// The level displayed on the stats page, the sum of a player's level and boosts.
-    pub fn get_visible_level(&self, skill: Skill) -> i32 {
+    pub fn get_visible_level(&self, skill: &Skill) -> i32 {
         let minimum_visible_level: i32 = 1;
         let maximum_visible_level: i32 = 125;
 
         let mut visible_level: i32 =
-            self.levels.get(&skill).unwrap() + self.boosts.get(&skill).unwrap_or(&0);
+            self.levels.get(skill).unwrap() + self.boosts.get(skill).unwrap_or(&0);
 
         visible_level = visible_level
             .max(minimum_visible_level)
@@ -106,12 +106,12 @@ impl Player {
     }
 
     /// Return the invisible level, which is the visible level modified by the prayer modifier.
-    pub fn get_invisible_level(&self, dt: DT, skill: Skill) -> i32 {
+    pub fn get_invisible_level(&self, dt: &DT, skill: &Skill) -> i32 {
         let mut invisible_level: i32 = self.get_visible_level(skill);
 
         if let Some(prys) = &self.prayers {
             if let Some(prayer_stats) = &prys.prayer_stats {
-                if let Some(pray_mod) = prayer_stats.get(&(dt, skill)) {
+                if let Some(pray_mod) = prayer_stats.get(&(*dt, *skill)) {
                     let pray_mod_f64 = (100 + pray_mod) as f64 / 100.0;
                     invisible_level = multiply_then_trunc(invisible_level, pray_mod_f64);
                 }
@@ -123,13 +123,13 @@ impl Player {
     /** Return the effective level, which is the level used in further accuracy / damage
      *  calculations
      */
-    pub fn get_effective_level(&self, dt: DT, skill: Skill) -> i32 {
+    pub fn get_effective_level(&self, dt: &DT, skill: &Skill) -> i32 {
         let invis_lvl: i32 = self.get_invisible_level(dt, skill);
         let stance_mod: Option<i32>;
         let stance: Stance = self.style.stance;
 
         if let Some(Some(stance_stats)) = STANCE_MAP.get(&stance) {
-            if let Some(st_mod) = stance_stats.get(&(dt, skill)) {
+            if let Some(st_mod) = stance_stats.get(&(*dt, *skill)) {
                 stance_mod = Some(*st_mod)
             } else {
                 stance_mod = None
@@ -139,12 +139,12 @@ impl Player {
         }
 
         // For magic defence, employ recursion. OSRS has some weird formulas.
-        if dt == DT::Magic && skill == Skill::Defence {
+        if *dt == DT::Magic && *skill == Skill::Defence {
             let mut adj_def: i32 =
-                self.get_effective_level(DT::Melee(MeleeDamageType::Default), Skill::Defence);
+                self.get_effective_level(&DT::Melee(MeleeDamageType::Default), &Skill::Defence);
             adj_def = multiply_then_trunc(adj_def, 0.30);
 
-            let mut adj_mag: i32 = self.get_effective_level(DT::Magic, Skill::Attack);
+            let mut adj_mag: i32 = self.get_effective_level(&DT::Magic, &Skill::Attack);
             adj_mag = multiply_then_trunc(adj_mag, 0.70);
 
             let eff_mag_def: i32 = adj_def + adj_mag;

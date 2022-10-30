@@ -69,4 +69,6 @@ pub enum GearName {
     InquisitorsHauberk,
     InquisitorsPlateskirt,
     BrimstoneRing,
+    AbyssalBludgeon,
+    TomeOfFire,
 }

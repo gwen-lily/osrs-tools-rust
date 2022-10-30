@@ -12,7 +12,7 @@ pub(crate) struct PoweredStaffModifiers<'a> {
 impl<'a> DmgBuff for PoweredStaffModifiers<'a> {
     fn damage_buff(&self) -> Option<u8> {
         let wpn: &Gear = self.player.weapon();
-        let visible_magic_level: i32 = self.player.get_visible_level(Skill::Magic);
+        let visible_magic_level: i32 = self.player.get_visible_level(&Skill::Magic);
 
         match wpn.name {
             TumekensShadow => {

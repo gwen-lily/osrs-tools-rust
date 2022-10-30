@@ -21,7 +21,7 @@ impl<'a> DmgMod for DharokModifier<'a> {
         };
 
         let base_hp: i32 = *self.player.levels.get(&Hitpoints).unwrap();
-        let curr_hp: i32 = self.player.get_visible_level(Hitpoints);
+        let curr_hp: i32 = self.player.get_visible_level(&Hitpoints);
         let dmg_mod: f64 = 1.0 + { (base_hp - curr_hp) as f64 / 100.0 * (base_hp as f64 / 100.0) };
 
         Some(dmg_mod)

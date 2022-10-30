@@ -1,11 +1,14 @@
 pub(crate) mod arclight;
 pub(crate) mod berserker;
 pub(crate) mod brimstone;
+pub(crate) mod chaos_gauntlets;
 pub(crate) mod chin;
 pub(crate) mod crystal;
 pub(crate) mod dharok;
 pub(crate) mod dinhs;
 pub(crate) mod draconic;
+pub(crate) mod guardian;
+pub(crate) mod ice_demon;
 pub(crate) mod inquisitor;
 pub(crate) mod kalphite;
 pub(crate) mod leafy;
@@ -15,6 +18,7 @@ pub(crate) mod powered_staff;
 pub(crate) mod salve;
 pub(crate) mod slayer;
 pub(crate) mod smoke;
+pub(crate) mod tome;
 pub(crate) mod tumeken;
 pub(crate) mod twisted_bow;
 pub(crate) mod void;
@@ -76,20 +80,21 @@ impl<'a> PlayerModifiers<'a> {
     }
 
     pub(crate) fn get_all_drms(&self) -> Vec<f64> {
-        let player = self.player;
-        let target = self.target;
-        let mut mod_vec: Vec<f64> = vec![];
+        // let player = self.player;
+        // let target = self.target;
+        let mut _mod_vec: Vec<f64> = vec![];
 
         // self.extract_arm(
         //     brimstone::BrimstoneModifier { player, target },
         //     &mut mod_vec,
         // );
 
-        mod_vec
+        _mod_vec
     }
 
     pub(crate) fn get_all_bns_mods(&self) -> Vec<BonusStats> {
         let player = self.player;
+        let target = self.target;
         let mut mod_vec: Vec<BonusStats> = vec![];
 
         self.extract_bonus_mods(dinhs::DinhsModifier { player }, &mut mod_vec);
@@ -123,22 +128,21 @@ impl<'a> PlayerModifiers<'a> {
             berserker::BerserkerNecklaceModifier { player },
             &mut mod_vec,
         );
-        // self.extract_dmg_mod(guardian::GuardianModifier { player, target }, &mut mod_vec);
-        // self.extract_dmg_mod(ice_demon::IceDemonModifier { player, target }, &mut mod_vec);
-        // self.extract_dmg_mod(tome::TomeModifier { player }, &mut mod_vec);
+        self.extract_dmg_mod(guardian::GuardianModifier { player, target }, &mut mod_vec);
+        self.extract_dmg_mod(ice_demon::IceDemonModifier { player, target }, &mut mod_vec);
+        self.extract_dmg_mod(tome::TomeOfFireModifier { player }, &mut mod_vec);
 
         mod_vec
     }
 
     pub(crate) fn get_all_dmg_buffs(&self) -> Vec<u8> {
         let player = self.player;
-        let target = self.target;
         let mut mod_vec: Vec<u8> = vec![];
 
-        // self.extract_dmg_buff(
-        //     chaos_gauntlets::ChaosGauntletsModifier { player },
-        //     &mut mod_vec,
-        // );
+        self.extract_dmg_buff(
+            chaos_gauntlets::ChaosGauntletModifier { player },
+            &mut mod_vec,
+        );
 
         mod_vec
     }
@@ -149,6 +153,7 @@ impl<'a> PlayerModifiers<'a> {
         let mut mod_vec: Vec<CombatMap<f64>> = vec![];
 
         self.extract_cmb_mod(void::VoidModifiers { player }, &mut mod_vec);
+        self.extract_cmb_mod(tumeken::TumekensModifier { player, target }, &mut mod_vec);
 
         mod_vec
     }
