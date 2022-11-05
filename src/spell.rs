@@ -6,7 +6,7 @@ pub use spells::{SpellName, SpellsMap};
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 pub struct Spell {
     pub name: SpellName,
-    pub base_max: u8,
+    pub base_max: u32,
     pub attack_speed: u8,
     pub max_targets: u8,
     pub spellbook: Spellbook,
@@ -37,7 +37,7 @@ pub enum Aspect {
 use Spellbook::*;
 
 impl Spell {
-    pub fn standard(name: SpellName, base_max: u8, aspect: Option<Aspect>) -> Self {
+    pub fn standard(name: SpellName, base_max: u32, aspect: Option<Aspect>) -> Self {
         Self {
             name,
             base_max,
@@ -48,7 +48,7 @@ impl Spell {
         }
     }
 
-    pub fn ancient(name: SpellName, base_max: u8, aspect: Option<Aspect>) -> Self {
+    pub fn ancient(name: SpellName, base_max: u32, aspect: Option<Aspect>) -> Self {
         Self {
             name,
             base_max,
@@ -59,7 +59,7 @@ impl Spell {
         }
     }
 
-    pub fn aoe(name: SpellName, base_max: u8, aspect: Option<Aspect>) -> Self {
+    pub fn aoe(name: SpellName, base_max: u32, aspect: Option<Aspect>) -> Self {
         Self {
             name,
             base_max,
@@ -70,7 +70,7 @@ impl Spell {
         }
     }
 
-    pub fn powered(name: SpellName, base_max: u8, attack_speed: u8) -> Self {
+    pub fn powered(name: SpellName, base_max: u32, attack_speed: u8) -> Self {
         Self {
             name,
             base_max,

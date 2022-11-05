@@ -22,7 +22,7 @@ impl<'a> ConditionalModifier for BerserkerNecklaceModifier<'a> {
 
 impl<'a> DmgMod for BerserkerNecklaceModifier<'a> {
     fn damage_mod(&self) -> Option<f64> {
-        if self.activate() == false {
+        if !self.activate() {
             return None;
         };
 

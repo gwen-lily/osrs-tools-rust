@@ -1,9 +1,7 @@
-use crate::bonus::BonusStats;
 use crate::character::{Monster, MonsterLocation, Player};
-use crate::modifiers::{BnsMod, CmbMod, ConditionalModifier};
+use crate::modifiers::{CmbMod, ConditionalModifier};
 use crate::{CombatMap, Skill, DT};
 
-use crate::bonus::GearName::*;
 use crate::spell::SpellName;
 
 pub(crate) struct TumekensModifier<'a> {

@@ -20,8 +20,6 @@ extern crate derive_builder;
 
 use std::collections::HashMap;
 
-use bonus::SpecialWeapon;
-
 use crate::{
     bonus::{get_all_gear_sets, GearSetMap},
     data::{Skill, DT},
@@ -59,7 +57,7 @@ pub enum OsrsError {
 
     /// Returned when a special attack is performed without a special weapon
     #[error("Tried to perform a special attack with a non-special weapon")]
-    SpecialWeapon(Option<SpecialWeapon>),
+    SpecialWeapon,
 
     /// Returned when a spell is called for but none is found
     #[error("Tried to cast a spell, but none was found")]

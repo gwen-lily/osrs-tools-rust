@@ -15,7 +15,7 @@ impl<'a> ConditionalModifier for SalveModifier<'a> {
         if let Some(attrs) = &tgt.attributes {
             if attrs.contains(&MonsterAttribute::Undead) {
                 if let Some(neck) = self.player.eqpd().get(&Neck) {
-                    match neck.name {
+                    match neck.gear_info.name {
                         SalveAmuletI | SalveAmuletEI => return true,
                         _ => return false,
                     };
@@ -28,11 +28,11 @@ impl<'a> ConditionalModifier for SalveModifier<'a> {
 
 impl<'a> ArMod for SalveModifier<'a> {
     fn accuracy_roll_mod(&self) -> Option<f64> {
-        if self.activate() == false {
+        if !self.activate() {
             return None;
         };
 
-        match self.player.eqpd().get(&Neck).unwrap().name {
+        match self.player.eqpd().get(&Neck).unwrap().gear_info.name {
             SalveAmuletI => Some(7.0 / 6.0),
             SalveAmuletEI => Some(1.2),
             _ => panic!(),
@@ -42,11 +42,11 @@ impl<'a> ArMod for SalveModifier<'a> {
 
 impl<'a> DmgMod for SalveModifier<'a> {
     fn damage_mod(&self) -> Option<f64> {
-        if self.activate() == false {
+        if !self.activate() {
             return None;
         };
 
-        match self.player.eqpd().get(&Neck).unwrap().name {
+        match self.player.eqpd().get(&Neck).unwrap().gear_info.name {
             SalveAmuletI => Some(7.0 / 6.0),
             SalveAmuletEI => Some(1.2),
             _ => panic!(),

@@ -89,6 +89,7 @@ pub fn get_all_gear_sets() -> GearSetMap {
     map.insert(ObsidianSet, get_obsidian_set());
     map.insert(CrystalSet, get_crystal_set());
     map.insert(InquisitorSet, get_inquisitor_set());
+    map.insert(DharokSet, get_dharok_set());
 
     map
 }

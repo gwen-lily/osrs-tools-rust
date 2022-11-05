@@ -10,23 +10,25 @@ use strum_macros::EnumIter;
 
 // higher level access to nested module
 pub use all_gear::{GearMap, GearName};
-pub use special_weapon::SpecialWeapon;
 pub use weapon::Weapon;
 
 use super::{BonusLike, BonusStats};
 
-/** Gear struct which represents a single Gear item. Gear implements HasGearStats. Gear derives
+/** GearInfo struct which represents a single GearInfo item. GearInfo implements HasGearInfoStats. GearInfo derives
  *  default behavior, which yields a slotless husk with no bonuses or requirements
  */
-#[derive(Debug, PartialEq, Eq)]
-pub struct Gear {
+#[derive(Debug, PartialEq, Eq, Clone)]
+pub struct GearInfo {
     pub name: GearName,
     pub slot: Slot,
     bonus_stats: BonusStats,
     pry: u32,
     lvl_reqs: Levels,
-    pub weapon: Option<Weapon>,
-    pub special_weapon: Option<SpecialWeapon>,
+}
+
+#[derive(Debug, PartialEq, Eq, Clone)]
+pub struct Gear {
+    pub gear_info: GearInfo,
 }
 
 #[derive(Debug, EnumIter, PartialEq, Eq, Hash, Clone, Copy)]
@@ -46,28 +48,26 @@ pub enum Slot {
 
 impl BonusLike for Gear {
     fn get_bonus_stats(&self) -> &BonusStats {
-        &self.bonus_stats
+        &self.gear_info.bonus_stats
     }
 }
 
 impl GearLike for Gear {
     fn get_pry(&self) -> &u32 {
-        &self.pry
+        &self.gear_info.pry
     }
     fn get_lvl_reqs(&self) -> &Levels {
-        &self.lvl_reqs
+        &self.gear_info.lvl_reqs
     }
 }
 
-impl Gear {
+impl GearInfo {
     pub fn new(
         name: GearName,
         slot: Slot,
         bonus_stats: BonusStats,
         pry: u32,
         lvl_reqs: Levels,
-        weapon: Option<Weapon>,
-        special_weapon: Option<SpecialWeapon>,
     ) -> Self {
         Self {
             name,
@@ -75,64 +75,23 @@ impl Gear {
             bonus_stats,
             pry,
             lvl_reqs,
-            weapon,
-            special_weapon,
         }
     }
 
-    /// Yep, geare. Clippy yells at me otherwise.
-    pub fn geare(
-        name: GearName,
-        slot: Slot,
-        bonus_stats: BonusStats,
-        pry: u32,
-        lvl_reqs: Levels,
-    ) -> Self {
+    fn hands() -> Self {
         Self {
-            name,
-            slot,
-            bonus_stats,
-            pry,
-            lvl_reqs,
-            weapon: None,
-            special_weapon: None,
-        }
-    }
-
-    pub fn weapon(
-        name: GearName,
-        bonus_stats: BonusStats,
-        pry: u32,
-        lvl_reqs: Levels,
-        weapon: Weapon,
-    ) -> Self {
-        Self {
-            name,
+            name: GearName::Hands,
             slot: Slot::Weapon,
-            bonus_stats,
-            pry,
-            lvl_reqs,
-            weapon: Some(weapon),
-            special_weapon: None,
+            bonus_stats: BonusStats::new(),
+            pry: 0,
+            lvl_reqs: Levels::new(),
         }
     }
+}
 
-    pub fn special_weapon(
-        name: GearName,
-        bonus_stats: BonusStats,
-        pry: u32,
-        lvl_reqs: Levels,
-        weapon: Weapon,
-        special_weapon: SpecialWeapon,
-    ) -> Self {
-        Self {
-            name,
-            slot: Slot::Weapon,
-            bonus_stats,
-            pry,
-            lvl_reqs,
-            weapon: Some(weapon),
-            special_weapon: Some(special_weapon),
-        }
+// hands default gear
+impl Default for GearInfo {
+    fn default() -> Self {
+        GearInfo::hands()
     }
 }

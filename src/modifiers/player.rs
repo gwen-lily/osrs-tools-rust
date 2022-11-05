@@ -33,10 +33,11 @@ use crate::{
 
 use super::{ArMod, BnsMod, CmbMod, DmgBuff, DmgMod, LvlMod};
 
-pub(crate) struct PlayerModifiers<'a> {
+pub struct PlayerModifiers<'a> {
     pub player: &'a Player,
     pub target: &'a Monster,
     pub distance: &'a u8,
+    pub special_attack: &'a bool,
 }
 
 impl<'a> PlayerModifiers<'a> {
@@ -94,7 +95,6 @@ impl<'a> PlayerModifiers<'a> {
 
     pub(crate) fn get_all_bns_mods(&self) -> Vec<BonusStats> {
         let player = self.player;
-        let target = self.target;
         let mut mod_vec: Vec<BonusStats> = vec![];
 
         self.extract_bonus_mods(dinhs::DinhsModifier { player }, &mut mod_vec);
@@ -135,17 +135,17 @@ impl<'a> PlayerModifiers<'a> {
         mod_vec
     }
 
-    pub(crate) fn get_all_dmg_buffs(&self) -> Vec<u8> {
-        let player = self.player;
-        let mut mod_vec: Vec<u8> = vec![];
-
-        self.extract_dmg_buff(
-            chaos_gauntlets::ChaosGauntletModifier { player },
-            &mut mod_vec,
-        );
-
-        mod_vec
-    }
+    // pub(crate) fn get_all_dmg_buffs(&self) -> Vec<u8> {
+    //     let player = self.player;
+    //     let mut mod_vec: Vec<u8> = vec![];
+    //
+    //     self.extract_dmg_buff(
+    //         chaos_gauntlets::ChaosGauntletModifier { player },
+    //         &mut mod_vec,
+    //     );
+    //
+    //     mod_vec
+    // }
 
     pub(crate) fn get_all_cmb_mods(&self) -> Vec<CombatMap<f64>> {
         let player = self.player;
@@ -176,7 +176,7 @@ impl<'a> PlayerModifiers<'a> {
         }
     }
 
-    fn extract_dmg_buff<T: DmgBuff + 'a>(&self, box_mod: T, mod_vec: &mut Vec<u8>) {
+    fn extract_dmg_buff<T: DmgBuff + 'a>(&self, box_mod: T, mod_vec: &mut Vec<u32>) {
         if let Some(md) = box_mod.damage_buff() {
             mod_vec.push(md)
         }

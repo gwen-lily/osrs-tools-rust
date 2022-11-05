@@ -1,5 +1,5 @@
 use crate::{
-    bonus::{Equipment, EquipmentMap, EquipmentNameMap, GearName::*, Slot::*},
+    bonus::{Equipment, EquipmentMap, EquipmentNameMap, GearName::*},
     GEAR_SETS_MAP,
 };
 
@@ -7,7 +7,6 @@ use super::SetName;
 
 ///
 /// EquipmentInfo provides information functions on the sets and gear contained within.
-#[derive(Debug, PartialEq, Eq)]
 pub struct EquipmentInfo {
     pub equipment: Equipment,
 }
@@ -37,7 +36,7 @@ impl EquipmentInfo {
     pub(crate) fn equipped_name(&self, eqpd: &EquipmentNameMap) -> bool {
         for (slot, gear_name) in eqpd.iter() {
             if let Some(eqpd_gear) = self.equipment.equipment.get(slot) {
-                if eqpd_gear.name != *gear_name {
+                if eqpd_gear.gear_info.name != *gear_name {
                     return false;
                 };
             } else {
@@ -54,24 +53,19 @@ impl EquipmentInfo {
     }
 
     pub(crate) fn obsidian_weapon_equipped(&self) -> bool {
-        if let Some(wpn) = self.equipment.equipment.get(&Weapon) {
-            match wpn.name {
-                ObsidianDagger | ObsidianMace | ObsidianMaul | ObsidianSword => {
-                    return true;
-                }
-                _ => return false,
-            }
+        if let Some(wpn) = &self.equipment.weapon {
+            matches!(
+                wpn.gear_info.name,
+                ObsidianDagger | ObsidianMace | ObsidianMaul | ObsidianSword
+            )
         } else {
-            return false;
+            false
         }
     }
 
     pub(crate) fn crystal_weapon_equipped(&self) -> bool {
-        if let Some(wpn) = self.equipment.equipment.get(&Weapon) {
-            match wpn.name {
-                CrystalBow | BowOfFaerdhinen => true,
-                _ => false,
-            }
+        if let Some(wpn) = &self.equipment.weapon {
+            matches!(wpn.gear_info.name, CrystalBow | BowOfFaerdhinen)
         } else {
             false
         }

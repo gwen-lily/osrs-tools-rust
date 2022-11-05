@@ -1,4 +1,5 @@
 pub mod example;
+mod osmumtens_fang;
 
 use super::super::gear::Gear;
 use std::collections::HashMap;
@@ -71,4 +72,12 @@ pub enum GearName {
     BrimstoneRing,
     AbyssalBludgeon,
     TomeOfFire,
+    OsmumtensFang,
+    BoneDagger,
+    DorgeshuunCrossbow,
+    DragonClaws,
+    AbyssalDagger,
+    DragonDagger,
+    ScytheOfVitur,
+    Hands,
 }

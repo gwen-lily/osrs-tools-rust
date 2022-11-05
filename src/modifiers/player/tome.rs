@@ -1,3 +1,4 @@
+use crate::bonus::GearName::TomeOfFire;
 use crate::bonus::Slot;
 use crate::character::Player;
 use crate::modifiers::{ConditionalModifier, DmgMod};
@@ -13,7 +14,7 @@ impl<'a> ConditionalModifier for TomeOfFireModifier<'a> {
             if let Some(aspct) = spl.aspect {
                 if aspct == Aspect::Fire {
                     if let Some(shield) = self.player.eqpd().get(&Slot::Shield) {
-                        return true;
+                        return shield.gear_info.name == TomeOfFire;
                     }
                 }
             }

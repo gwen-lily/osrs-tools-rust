@@ -15,7 +15,7 @@ impl<'a> ConditionalModifier for DraconicModifier<'a> {
                 return false;
             };
 
-            match self.player.weapon().name {
+            match self.player.weapon().gear_info.name {
                 DragonHunterLance | DragonHunterCrossbow => return true,
                 _ => return false,
             }
@@ -26,11 +26,11 @@ impl<'a> ConditionalModifier for DraconicModifier<'a> {
 
 impl<'a> ArMod for DraconicModifier<'a> {
     fn accuracy_roll_mod(&self) -> Option<f64> {
-        if self.activate() == false {
+        if !self.activate() {
             return None;
         };
 
-        match self.player.weapon().name {
+        match self.player.weapon().gear_info.name {
             DragonHunterLance => Some(1.2),
             DragonHunterCrossbow => Some(1.3),
             _ => None,
@@ -40,11 +40,11 @@ impl<'a> ArMod for DraconicModifier<'a> {
 
 impl<'a> DmgMod for DraconicModifier<'a> {
     fn damage_mod(&self) -> Option<f64> {
-        if self.activate() == false {
+        if !self.activate() {
             return None;
         };
 
-        match self.player.weapon().name {
+        match self.player.weapon().gear_info.name {
             DragonHunterLance => Some(1.2),
             DragonHunterCrossbow => Some(1.3),
             _ => None,

@@ -53,7 +53,7 @@ pub trait TumMod<T: BonusLike> {
  * modifiers are applied. Or as a powered spell!
  */
 pub trait DmgBuff {
-    fn damage_buff(&self) -> Option<u8>;
+    fn damage_buff(&self) -> Option<u32>;
 }
 
 /// Activation trait for bundling logic shared between different modifier implementations

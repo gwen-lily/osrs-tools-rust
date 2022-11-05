@@ -11,13 +11,13 @@ pub(crate) struct TwistedBowModifier<'a> {
 
 impl<'a> ConditionalModifier for TwistedBowModifier<'a> {
     fn activate(&self) -> bool {
-        self.player.weapon().name == TwistedBow
+        self.player.weapon().gear_info.name == TwistedBow
     }
 }
 
 impl<'a> ArMod for TwistedBowModifier<'a> {
     fn accuracy_roll_mod(&self) -> Option<f64> {
-        if self.activate() == false {
+        if !self.activate() {
             return None;
         };
 
@@ -41,7 +41,7 @@ impl<'a> ArMod for TwistedBowModifier<'a> {
 
 impl<'a> DmgMod for TwistedBowModifier<'a> {
     fn damage_mod(&self) -> Option<f64> {
-        if self.activate() == false {
+        if !self.activate() {
             return None;
         };
 

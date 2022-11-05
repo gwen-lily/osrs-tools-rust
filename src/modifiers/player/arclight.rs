@@ -13,7 +13,7 @@ impl<'a> ConditionalModifier for ArclightModifier<'a> {
         let ply = self.player;
         let tgt = self.target;
 
-        match ply.weapon().name {
+        match ply.weapon().gear_info.name {
             Arclight | Darklight => {
                 if let Some(attrs) = &tgt.attributes {
                     if attrs.contains(&MonsterAttribute::Demon) {
@@ -39,7 +39,7 @@ impl<'a> ArMod for ArclightModifier<'a> {
 
 impl<'a> DmgMod for ArclightModifier<'a> {
     fn damage_mod(&self) -> Option<f64> {
-        if self.activate() == false {
+        if !self.activate() {
             return None;
         };
 

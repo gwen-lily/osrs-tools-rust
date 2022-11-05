@@ -16,14 +16,14 @@ impl<'a> ArMod for ChinModifier<'a> {
             ShortFuse => {
                 if dst <= 3 {
                     Some(1.00)
-                } else if 4 <= dst && dst <= 6 {
+                } else if (4..=6).contains(&dst) {
                     Some(0.75)
                 } else {
                     Some(0.50)
                 }
             }
             MediumFuse => {
-                if 4 <= dst && dst <= 6 {
+                if (4..=6).contains(&dst) {
                     Some(1.00)
                 } else {
                     Some(0.75)
@@ -32,7 +32,7 @@ impl<'a> ArMod for ChinModifier<'a> {
             LongFuse => {
                 if dst <= 3 {
                     Some(0.50)
-                } else if 4 <= dst && dst <= 6 {
+                } else if (4..=6).contains(&dst) {
                     Some(0.75)
                 } else {
                     Some(1.00)

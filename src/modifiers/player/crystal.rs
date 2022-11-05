@@ -22,7 +22,7 @@ impl<'a> CrystalModifier<'a> {
 
         for (slot, gear_name) in crystal_pieces.iter() {
             if let Some(g) = eqpd.get(slot) {
-                if g.name == *gear_name {
+                if g.gear_info.name == *gear_name {
                     pieces_cnt += 1;
                 };
             };
@@ -34,7 +34,7 @@ impl<'a> CrystalModifier<'a> {
 
 impl<'a> ArMod for CrystalModifier<'a> {
     fn accuracy_roll_mod(&self) -> Option<f64> {
-        if self.activate() == false {
+        if !self.activate() {
             return None;
         };
 
@@ -53,7 +53,7 @@ impl<'a> ArMod for CrystalModifier<'a> {
 
 impl<'a> DmgMod for CrystalModifier<'a> {
     fn damage_mod(&self) -> Option<f64> {
-        if self.activate() == false {
+        if !self.activate() {
             return None;
         };
 

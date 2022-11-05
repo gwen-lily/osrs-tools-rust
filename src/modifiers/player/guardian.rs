@@ -20,7 +20,7 @@ impl<'a> ConditionalModifier for GuardianModifier<'a> {
 
 impl<'a> DmgMod for GuardianModifier<'a> {
     fn damage_mod(&self) -> Option<f64> {
-        if self.activate() == false {
+        if !self.activate() {
             return None;
         };
 

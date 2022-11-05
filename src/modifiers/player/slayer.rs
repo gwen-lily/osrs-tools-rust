@@ -15,7 +15,7 @@ impl<'a> ConditionalModifier for SlayerModifier<'a> {
         let ply: &Player = self.player;
         let tgt: &Monster = self.target;
 
-        if ply.weapon().name == SeerCull {
+        if ply.weapon().gear_info.name == SeerCull {
             return false;
         };
 
@@ -32,7 +32,7 @@ impl<'a> ConditionalModifier for SlayerModifier<'a> {
         };
 
         if let Some(head) = ply.eqpd().get(&Head) {
-            match head.name {
+            match head.gear_info.name {
                 SlayerHelmetI => return true,
                 _ => return false,
             }
@@ -44,7 +44,7 @@ impl<'a> ConditionalModifier for SlayerModifier<'a> {
 
 impl<'a> ArMod for SlayerModifier<'a> {
     fn accuracy_roll_mod(&self) -> Option<f64> {
-        if self.activate() == false {
+        if !self.activate() {
             return None;
         };
 
@@ -59,7 +59,7 @@ impl<'a> ArMod for SlayerModifier<'a> {
 
 impl<'a> DmgMod for SlayerModifier<'a> {
     fn damage_mod(&self) -> Option<f64> {
-        if self.activate() == false {
+        if !self.activate() {
             return None;
         };
 

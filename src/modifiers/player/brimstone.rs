@@ -2,7 +2,7 @@ use crate::{
     bonus::Slot,
     character::{Monster, Player},
     data::DT,
-    modifiers::{ArIntMod, ConditionalModifier},
+    modifiers::ConditionalModifier,
 };
 
 use crate::bonus::GearName::BrimstoneRing;
@@ -19,7 +19,7 @@ impl<'a> ConditionalModifier for BrimstoneModifier<'a> {
         };
 
         if let Some(ring) = self.player.eqpd().get(&Slot::Ring) {
-            if ring.name == BrimstoneRing {
+            if ring.gear_info.name == BrimstoneRing {
                 return true;
             };
         }

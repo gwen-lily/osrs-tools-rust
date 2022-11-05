@@ -15,7 +15,7 @@ impl<'a> ConditionalModifier for LeafyModifier<'a> {
                 return false;
             };
 
-            match self.player.weapon().name {
+            match self.player.weapon().gear_info.name {
                 LeafBladedSpear | LeafBladedSword | LeafBladedBattleaxe => return true,
                 _ => return false,
             }
@@ -26,7 +26,7 @@ impl<'a> ConditionalModifier for LeafyModifier<'a> {
 
 impl<'a> ArMod for LeafyModifier<'a> {
     fn accuracy_roll_mod(&self) -> Option<f64> {
-        if self.activate() == false {
+        if !self.activate() {
             return None;
         };
 
@@ -36,7 +36,7 @@ impl<'a> ArMod for LeafyModifier<'a> {
 
 impl<'a> DmgMod for LeafyModifier<'a> {
     fn damage_mod(&self) -> Option<f64> {
-        if self.activate() == false {
+        if !self.activate() {
             return None;
         };
 

@@ -16,7 +16,7 @@ impl<'a> ConditionalModifier for ObsidianModifier<'a> {
 
 impl<'a> ArMod for ObsidianModifier<'a> {
     fn accuracy_roll_mod(&self) -> Option<f64> {
-        if self.activate() == false {
+        if !self.activate() {
             return None;
         };
 
@@ -26,7 +26,7 @@ impl<'a> ArMod for ObsidianModifier<'a> {
 
 impl<'a> DmgMod for ObsidianModifier<'a> {
     fn damage_mod(&self) -> Option<f64> {
-        if self.activate() == false {
+        if !self.activate() {
             return None;
         };
 

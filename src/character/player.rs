@@ -1,5 +1,5 @@
 use crate::{
-    bonus::{EquipmentInfo, EquipmentMap, Gear, GearLike, Slot, Weapon},
+    bonus::{EquipmentInfo, EquipmentMap, GearLike, Weapon},
     boost::{Boost, BoostMap},
     character::Slayer,
     combat::{effective_level, multiply_then_trunc},
@@ -14,7 +14,6 @@ use crate::{
 
 /** The Player struct describes a player in OSRS.
  */
-#[derive(Debug, PartialEq, Eq)]
 pub struct Player {
     pub equipment_info: EquipmentInfo,
     pub style: &'static Style,
@@ -31,6 +30,8 @@ pub struct Player {
     #[allow(dead_code)]
     run_energy: u32,
     pub slayer_task: Option<Slayer>,
+    // Should be hands
+    default_weapon: &'static Weapon,
 }
 
 impl Player {
@@ -40,17 +41,16 @@ impl Player {
     }
 
     /// Return a reference to the Weapon slot item in equipment.
-    pub fn weapon(&self) -> &Gear {
-        if let Some(gear) = self.eqpd().get(&Slot::Weapon) {
-            gear
-        } else {
-            todo!() // &Gear::hands()
+    pub fn weapon(&self) -> &Weapon {
+        match &self.equipment_info.equipment.weapon {
+            Some(wpn) => wpn,
+            None => self.default_weapon,
         }
     }
 
     /// Return the actual attack speed, accounting for style and spell modifiers.
     pub fn attack_speed(&self) -> u8 {
-        let mut atk_spd: u8 = self.weapon().weapon.as_ref().unwrap().base_attack_speed;
+        let mut atk_spd: u8 = self.weapon().weapon_info.base_attack_speed;
         let stance_modifier: i8 = self.style.attack_speed_mod.unwrap_or(0);
         atk_spd = ((atk_spd as i8) + stance_modifier) as u8;
 
@@ -228,9 +228,9 @@ impl Player {
     pub fn attack_range(&self) -> u8 {
         let min_range: u8 = 0;
         let max_range: u8 = 10;
-        let weapon: &Weapon = self.weapon().weapon.as_ref().unwrap();
+        let weapon: &Weapon = self.weapon();
 
-        let mut atk_rng: u8 = weapon.base_attack_range;
+        let mut atk_rng: u8 = weapon.weapon_info.base_attack_range;
 
         // Apply stance modifier
         if let Some(stance_mod) = self.style.attack_speed_mod {

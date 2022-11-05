@@ -1,4 +1,5 @@
-mod max_hit;
+pub(crate) mod damage_distribution;
+pub(crate) mod max_hit;
 
 use num::integer::Integer;
 use num::Bounded;

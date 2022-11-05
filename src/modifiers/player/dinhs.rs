@@ -26,7 +26,7 @@ impl<'a> ConditionalModifier for DinhsModifier<'a> {
 
 impl<'a> BnsMod for DinhsModifier<'a> {
     fn bonus_mod(&self) -> Option<BonusStats> {
-        if self.activate() == false {
+        if !self.activate() {
             return None;
         };
 

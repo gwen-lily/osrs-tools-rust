@@ -10,7 +10,7 @@ pub(crate) struct SmokeModifier<'a> {
 
 impl<'a> ConditionalModifier for SmokeModifier<'a> {
     fn activate(&self) -> bool {
-        let wpn_name: GearName = self.player.weapon().name;
+        let wpn_name: GearName = self.player.weapon().gear_info.name;
 
         match wpn_name {
             SmokeBattlestaff | MysticSmokeStaff => match self.player.spell {

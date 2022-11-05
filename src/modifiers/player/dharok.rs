@@ -16,7 +16,7 @@ impl<'a> ConditionalModifier for DharokModifier<'a> {
 
 impl<'a> DmgMod for DharokModifier<'a> {
     fn damage_mod(&self) -> Option<f64> {
-        if self.activate() == false {
+        if !self.activate() {
             return None;
         };
 

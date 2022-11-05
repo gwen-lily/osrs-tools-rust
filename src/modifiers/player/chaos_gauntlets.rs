@@ -9,17 +9,15 @@ pub(crate) struct ChaosGauntletModifier<'a> {
 impl<'a> ConditionalModifier for ChaosGauntletModifier<'a> {
     fn activate(&self) -> bool {
         if let Some(spl) = self.player.spell {
-            match spl.name {
-                WindBolt | WaterBolt | EarthBolt | FireBolt => true,
-                _ => false,
-            };
+            matches!(spl.name, WindBolt | WaterBolt | EarthBolt | FireBolt)
+        } else {
+            false
         }
-        false
     }
 }
 
 impl<'a> DmgBuff for ChaosGauntletModifier<'a> {
-    fn damage_buff(&self) -> Option<u8> {
+    fn damage_buff(&self) -> Option<u32> {
         if !self.activate() {
             return None;
         };

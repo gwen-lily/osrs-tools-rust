@@ -15,7 +15,7 @@ impl<'a> ConditionalModifier for KalphiteModifier<'a> {
                 return false;
             };
 
-            match self.player.weapon().name {
+            match self.player.weapon().gear_info.name {
                 Keris
                 | KerisPartisan
                 | KerisPartisanOfBreaching
@@ -30,11 +30,11 @@ impl<'a> ConditionalModifier for KalphiteModifier<'a> {
 
 impl<'a> ArMod for KalphiteModifier<'a> {
     fn accuracy_roll_mod(&self) -> Option<f64> {
-        if self.activate() == false {
+        if !self.activate() {
             return None;
         };
 
-        match self.player.weapon().name {
+        match self.player.weapon().gear_info.name {
             KerisPartisanOfBreaching => Some(1.33),
             Keris | KerisPartisan | KerisPartisanOfCorruption | KerisPartisanOfTheSun => None,
             _ => panic!(),
@@ -44,7 +44,7 @@ impl<'a> ArMod for KalphiteModifier<'a> {
 
 impl<'a> DmgMod for KalphiteModifier<'a> {
     fn damage_mod(&self) -> Option<f64> {
-        if self.activate() == false {
+        if !self.activate() {
             return None;
         };
 
