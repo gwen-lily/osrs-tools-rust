@@ -1,5 +1,4 @@
-pub mod example;
-mod osmumtens_fang;
+mod weapons;
 
 use super::super::gear::Gear;
 use std::collections::HashMap;
@@ -80,4 +79,22 @@ pub enum GearName {
     DragonDagger,
     ScytheOfVitur,
     Hands,
+    BronzeCrossbow,
+    BluriteCrossbow,
+    IronCrossbow,
+    SteelCrossbow,
+    MithrilCrossbow,
+    AdamantCrossbow,
+    RuneCrossbow,
+    DragonCrossbow,
+    ArmadylCrossbow,
+    ZaryteCrossbow,
+    RubyDragonBoltsE,
+    RubyBoltsE,
+    DiamondDragonBoltsE,
+    DiamondBoltsE,
+    DragonstoneDragonBoltsE,
+    DragonstoneBoltsE,
+    OnyxDragonBoltsE,
+    OnyxBoltsE,
 }

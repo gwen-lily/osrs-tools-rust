@@ -2,7 +2,7 @@ use crate::bonus::BonusLike;
 use crate::bonus::GearName::*;
 use crate::character::{Monster, MonsterAttribute, Player};
 use crate::modifiers::{ArMod, ConditionalModifier, DmgMod};
-use crate::{Skill, DT};
+use crate::{CombatAspect, Skill, DT};
 
 pub(crate) struct TwistedBowModifier<'a> {
     pub(crate) player: &'a Player,
@@ -79,7 +79,7 @@ impl<'a> TwistedBowModifier<'a> {
             .target
             .monster_bonus
             .get_bonus_stats()
-            .get(&(DT::Magic, Skill::Attack))
+            .get(&(DT::Magic, CombatAspect::Attack))
             .unwrap();
 
         // order important

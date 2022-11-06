@@ -38,6 +38,7 @@ pub struct PlayerModifiers<'a> {
     pub target: &'a Monster,
     pub distance: &'a u8,
     pub special_attack: &'a bool,
+    pub additional_targets: &'a Option<u8>,
 }
 
 impl<'a> PlayerModifiers<'a> {
@@ -93,46 +94,46 @@ impl<'a> PlayerModifiers<'a> {
         _mod_vec
     }
 
-    pub(crate) fn get_all_bns_mods(&self) -> Vec<BonusStats> {
-        let player = self.player;
-        let mut mod_vec: Vec<BonusStats> = vec![];
-
-        self.extract_bonus_mods(dinhs::DinhsModifier { player }, &mut mod_vec);
-
-        mod_vec
-    }
+    // pub(crate) fn get_all_bns_mods(&self) -> Vec<BonusStats> {
+    //     let player = self.player;
+    //     let mut mod_vec: Vec<BonusStats> = vec![];
+    //
+    //     self.extract_bonus_mods(dinhs::DinhsModifier { player }, &mut mod_vec);
+    //
+    //     mod_vec
+    // }
 
     pub(crate) fn get_all_dms(&self) -> Vec<f64> {
         let player = self.player;
         let target = self.target;
-        let mut mod_vec: Vec<f64> = vec![];
+        let mut dms_vec: Vec<f64> = vec![];
 
         // Attack roll & damage modifiers
-        self.extract_dmg_mod(crystal::CrystalModifier { player }, &mut mod_vec);
-        self.extract_dmg_mod(arclight::ArclightModifier { player, target }, &mut mod_vec);
-        self.extract_dmg_mod(draconic::DraconicModifier { player, target }, &mut mod_vec);
+        self.extract_dmg_mod(crystal::CrystalModifier { player }, &mut dms_vec);
+        self.extract_dmg_mod(arclight::ArclightModifier { player, target }, &mut dms_vec);
+        self.extract_dmg_mod(draconic::DraconicModifier { player, target }, &mut dms_vec);
         self.extract_dmg_mod(
             wilderness::WildernessModifier { player, target },
-            &mut mod_vec,
+            &mut dms_vec,
         );
         self.extract_dmg_mod(
             twisted_bow::TwistedBowModifier { player, target },
-            &mut mod_vec,
+            &mut dms_vec,
         );
-        self.extract_dmg_mod(obsidian::ObsidianModifier { player }, &mut mod_vec);
-        self.extract_dmg_mod(inquisitor::InquisitorModifier { player }, &mut mod_vec);
+        self.extract_dmg_mod(obsidian::ObsidianModifier { player }, &mut dms_vec);
+        self.extract_dmg_mod(inquisitor::InquisitorModifier { player }, &mut dms_vec);
 
         // Damage modifiers
-        self.extract_dmg_mod(magic_damage::MagicDamageModifier { player }, &mut mod_vec);
+        self.extract_dmg_mod(magic_damage::MagicDamageModifier { player }, &mut dms_vec);
         self.extract_dmg_mod(
             berserker::BerserkerNecklaceModifier { player },
-            &mut mod_vec,
+            &mut dms_vec,
         );
-        self.extract_dmg_mod(guardian::GuardianModifier { player, target }, &mut mod_vec);
-        self.extract_dmg_mod(ice_demon::IceDemonModifier { player, target }, &mut mod_vec);
-        self.extract_dmg_mod(tome::TomeOfFireModifier { player }, &mut mod_vec);
+        self.extract_dmg_mod(guardian::GuardianModifier { player, target }, &mut dms_vec);
+        self.extract_dmg_mod(ice_demon::IceDemonModifier { player, target }, &mut dms_vec);
+        self.extract_dmg_mod(tome::TomeOfFireModifier { player }, &mut dms_vec);
 
-        mod_vec
+        dms_vec
     }
 
     // pub(crate) fn get_all_dmg_buffs(&self) -> Vec<u8> {

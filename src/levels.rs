@@ -1,6 +1,6 @@
 use crate::data::Skill::{self, Attack, Defence, Hitpoints, Magic, Ranged, Strength};
-use crate::data::DT;
-use crate::{OsrsError, Result, SkillMap};
+use crate::data::{CombatAspect, DT};
+use crate::SkillMap;
 use strum::IntoEnumIterator;
 
 /// Type alias for HashMap<Skill, i32>
@@ -57,27 +57,23 @@ impl LevelsBuilder for Levels {
 
 /// This only works in the meanwhile where I consider pvm mechanics.
 /// Eventually this should be made more generic.
-pub(crate) fn combat_skill(dt: DT, skill: Skill) -> Result<Skill> {
-    let skl = match dt {
-        DT::Melee(_) => match skill {
-            Attack => Attack,
-            Strength => Strength,
-            Defence => Defence,
-            _ => return Err(OsrsError::Combat),
+pub(crate) fn combat_skill(dt: DT, aspect: CombatAspect) -> Skill {
+    match dt {
+        DT::Melee(_) => match aspect {
+            CombatAspect::Attack => Attack,
+            CombatAspect::Strength => Strength,
+            CombatAspect::Defence => Defence,
         },
-        DT::Ranged => match skill {
-            Attack => Ranged,
-            Strength => Ranged,
-            Defence => Defence,
-            _ => return Err(OsrsError::Combat),
+        DT::Ranged => match aspect {
+            CombatAspect::Attack => Ranged,
+            CombatAspect::Strength => Ranged,
+            CombatAspect::Defence => Defence,
         },
-        DT::Magic => match skill {
-            Attack => Magic,
-            Defence => Magic,
-            _ => return Err(OsrsError::Combat),
+        DT::Magic => match aspect {
+            CombatAspect::Attack => Magic,
+            CombatAspect::Strength => Magic,
+            CombatAspect::Defence => Magic,
         },
-        DT::Typeless => return Err(OsrsError::Typeless),
-    };
-
-    Ok(skl)
+        DT::Typeless => todo!(),
+    }
 }

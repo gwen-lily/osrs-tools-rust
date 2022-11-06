@@ -18,7 +18,12 @@ extern crate lazy_static;
 #[macro_use]
 extern crate derive_builder;
 
+#[macro_use]
+extern crate float_cmp;
+
 use std::collections::HashMap;
+
+use data::CombatAspect;
 
 use crate::{
     bonus::{get_all_gear_sets, GearSetMap},
@@ -37,7 +42,7 @@ lazy_static! {
     pub static ref SPELL_MAP: SpellsMap = get_all_spells();
 }
 
-pub(crate) type CombatMap<T> = HashMap<(DT, Skill), T>;
+pub(crate) type CombatMap<T> = HashMap<(DT, CombatAspect), T>;
 pub(crate) type SkillMap<T> = HashMap<Skill, T>;
 
 /// Represents fail cases of using this software
@@ -45,7 +50,7 @@ pub(crate) type SkillMap<T> = HashMap<Skill, T>;
 pub enum OsrsError {
     /// Returned when a CombatMap doesn't act right
     #[error("An error occurred while dealing with a CombatMap")]
-    CombatMap(Option<Vec<DT>>, Option<Vec<Skill>>),
+    CombatMap(Option<Vec<DT>>, Option<Vec<CombatAspect>>),
 
     /// Returned when a Typeless calculation is executed in a non-sensical way
     #[error("A Typeless calculation was attempted")]

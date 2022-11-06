@@ -28,14 +28,14 @@ impl<'a> DmgMod for GuardianModifier<'a> {
         let pick_styles = STYLES_MAP.get(&StylesCategory::Pickaxes).unwrap();
 
         if pick_styles.styles.contains(style) {
-            let mining_req = self
+            let mining_req: u32 = *self
                 .player
                 .weapon()
                 .get_lvl_reqs()
                 .get(&Skill::Mining)
-                .unwrap();
+                .unwrap() as u32;
 
-            let mining_clmp: i32 = self.player.get_visible_level(&Skill::Mining).min(100);
+            let mining_clmp: u32 = self.player.get_visible_level(Skill::Mining).min(100);
             let dm: f64 = (50 + mining_clmp + mining_req) as f64 / 150.0;
             Some(dm)
         } else {

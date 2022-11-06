@@ -3,7 +3,8 @@ use crate::{bonus::MonsterBonus, levels::Levels};
 use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
 
-#[derive(Debug, PartialEq, Eq)]
+use super::Player;
+
 pub struct Monster {
     pub name: MonsterName,
     pub monster_bonus: MonsterBonus,
@@ -11,6 +12,7 @@ pub struct Monster {
     pub slayer: Option<Slayer>,
     pub attributes: Option<Vec<MonsterAttribute>>,
     pub levels: Levels,
+    pub last_attacked_by: Option<Player>,
 }
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]

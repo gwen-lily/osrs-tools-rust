@@ -10,7 +10,7 @@ pub(crate) struct DharokModifier<'a> {
 
 impl<'a> ConditionalModifier for DharokModifier<'a> {
     fn activate(&self) -> bool {
-        self.player.equipment_info.set_equipped(&DharokSet)
+        self.player.equipment_info.set_equipped(DharokSet)
     }
 }
 
@@ -21,8 +21,8 @@ impl<'a> DmgMod for DharokModifier<'a> {
         };
 
         let base_hp: i32 = *self.player.levels.get(&Hitpoints).unwrap();
-        let curr_hp: i32 = self.player.get_visible_level(&Hitpoints);
-        let dmg_mod: f64 = 1.0 + { (base_hp - curr_hp) as f64 / 100.0 * (base_hp as f64 / 100.0) };
+        let hp_diff: u32 = (base_hp - self.player.hitpoints as i32).max(0) as u32;
+        let dmg_mod: f64 = 1.0 + { hp_diff as f64 / 100.0 * (base_hp as f64 / 100.0) };
 
         Some(dmg_mod)
     }

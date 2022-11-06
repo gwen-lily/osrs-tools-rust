@@ -4,7 +4,7 @@ use crate::{
     data::MeleeDamageType::*,
     modifiers::{BnsMod, ConditionalModifier},
     style::StylesCategory::Bulwarks,
-    Skill::{Defence, Strength},
+    CombatAspect::{Defence, Strength},
     DT::*,
     STYLES_MAP,
 };

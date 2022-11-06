@@ -1,3 +1,5 @@
+pub(crate) mod chinchompa_weapon_trait;
+pub(crate) mod crossbow_weapon_trait;
 pub(crate) mod weapon_trait;
 
 use crate::{

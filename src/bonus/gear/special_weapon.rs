@@ -28,19 +28,19 @@ pub(crate) struct NormalSpecialWeapon {}
 impl SpecialWeaponTrait for NormalSpecialWeapon {}
 
 pub trait SpecialWeaponTrait {
-    fn get_special_arms(&self, pmods: &PlayerModifiers) -> Result<Option<Vec<f64>>> {
+    fn get_special_arms(&self, pmods: &PlayerModifiers) -> Option<Vec<f64>> {
         let spec_wpn_info: SpecialWeaponInfo = self.get_special_weapon_info(pmods).expect("foo");
-        Ok(spec_wpn_info.special_arms)
+        spec_wpn_info.special_arms
     }
 
-    fn get_special_dms(&self, pmods: &PlayerModifiers) -> Result<Option<Vec<f64>>> {
+    fn get_special_dms(&self, pmods: &PlayerModifiers) -> Option<Vec<f64>> {
         let spec_wpn_info: SpecialWeaponInfo = self.get_special_weapon_info(pmods).expect("bar");
-        Ok(spec_wpn_info.special_dms)
+        spec_wpn_info.special_dms
     }
 
-    fn get_special_defence_roll(&self, pmods: &PlayerModifiers) -> Result<Option<DT>> {
+    fn get_special_defence_roll(&self, pmods: &PlayerModifiers) -> Option<DT> {
         let spec_wpn_info: SpecialWeaponInfo = self.get_special_weapon_info(pmods).expect("baz");
-        Ok(spec_wpn_info.special_defence_roll)
+        spec_wpn_info.special_defence_roll
     }
 
     fn get_special_weapon_info(&self, pmods: &PlayerModifiers) -> Result<SpecialWeaponInfo> {

@@ -1,5 +1,5 @@
 use crate::data::{
-    Skill::{Attack, Defence, Strength},
+    CombatAspect::{Attack, Defence, Strength},
     DT,
 };
 use crate::CombatMap;
@@ -10,7 +10,7 @@ use std::collections::HashMap;
 use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
 
-/// A StanceStats map matches (DT, Skill) keys to literal integer modifiers.
+/// A StanceStats map matches (DT, CombatAspect) keys to literal integer modifiers.
 pub type StanceStats = CombatMap<i32>;
 pub type StanceMap = HashMap<Stance, Option<StanceStats>>;
 

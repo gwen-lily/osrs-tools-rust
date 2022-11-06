@@ -3,8 +3,9 @@ use crate::{
     boost::{Boost, BoostMap},
     character::Slayer,
     combat::{effective_level, multiply_then_trunc},
-    data::MeleeDamageType,
-    levels::Levels,
+    data::{CombatAspect, MeleeDamageType},
+    levels::{combat_skill, Levels},
+    modifiers::{player::void::VoidModifiers, CmbMod},
     prayer::{Prayer, Prayers},
     spell::{Spell, Spellbook},
     stance::Stance,
@@ -23,8 +24,7 @@ pub struct Player {
     boosts: Boost,
     // #[allow(dead_code)]
     // effects: Vec<Box<dyn EffectLike>>,
-    #[allow(dead_code)]
-    kandarin_hard: bool,
+    pub kandarin_hard: bool,
     #[allow(dead_code)]
     special_energy: u32,
     #[allow(dead_code)]
@@ -32,6 +32,15 @@ pub struct Player {
     pub slayer_task: Option<Slayer>,
     // Should be hands
     default_weapon: &'static Weapon,
+    pub uid: u32,
+    pub hitpoints: u32,
+    pub prayer: u32,
+}
+
+impl PartialEq for Player {
+    fn eq(&self, other: &Self) -> bool {
+        self.uid == other.uid
+    }
 }
 
 impl Player {
@@ -90,15 +99,22 @@ impl Player {
         Ok(())
     }
 
+    pub fn get_prayers(&self) -> &Option<Prayers> {
+        &self.prayers
+    }
+
     /// The level displayed on the stats page, the sum of a player's level and boosts.
-    pub fn get_visible_level(&self, skill: &Skill) -> i32 {
-        let minimum_visible_level: i32 = 1;
-        let maximum_visible_level: i32 = 125;
+    pub fn get_visible_level(&self, skill: Skill) -> u32 {
+        let minimum_visible_level: u32 = 1;
+        let maximum_visible_level: u32 = 125;
 
-        let mut visible_level: i32 =
-            self.levels.get(skill).unwrap() + self.boosts.get(skill).unwrap_or(&0);
+        let visible_level: i32 =
+            self.levels.get(&skill).unwrap() + self.boosts.get(&skill).unwrap_or(&0);
 
-        visible_level = visible_level
+        // sanity check before type cast
+        assert!((minimum_visible_level..=maximum_visible_level).contains(&(visible_level as u32)));
+
+        let visible_level: u32 = (visible_level as u32)
             .max(minimum_visible_level)
             .min(maximum_visible_level);
 
@@ -106,12 +122,13 @@ impl Player {
     }
 
     /// Return the invisible level, which is the visible level modified by the prayer modifier.
-    pub fn get_invisible_level(&self, dt: &DT, skill: &Skill) -> i32 {
-        let mut invisible_level: i32 = self.get_visible_level(skill);
+    pub fn get_invisible_level(&self, dt: DT, aspect: CombatAspect) -> u32 {
+        let skill: Skill = combat_skill(dt, aspect);
+        let mut invisible_level: u32 = self.get_visible_level(skill);
 
         if let Some(prys) = &self.prayers {
             if let Some(prayer_stats) = &prys.prayer_stats {
-                if let Some(pray_mod) = prayer_stats.get(&(*dt, *skill)) {
+                if let Some(pray_mod) = prayer_stats.get(&(dt, aspect)) {
                     let pray_mod_f64 = (100 + pray_mod) as f64 / 100.0;
                     invisible_level = multiply_then_trunc(invisible_level, pray_mod_f64);
                 }
@@ -123,13 +140,13 @@ impl Player {
     /** Return the effective level, which is the level used in further accuracy / damage
      *  calculations
      */
-    pub fn get_effective_level(&self, dt: &DT, skill: &Skill) -> i32 {
-        let invis_lvl: i32 = self.get_invisible_level(dt, skill);
+    pub fn get_effective_level(&self, dt: DT, aspect: CombatAspect) -> u32 {
+        let invis_lvl: u32 = self.get_invisible_level(dt, aspect);
         let stance_mod: Option<i32>;
         let stance: Stance = self.style.stance;
 
         if let Some(Some(stance_stats)) = STANCE_MAP.get(&stance) {
-            if let Some(st_mod) = stance_stats.get(&(*dt, *skill)) {
+            if let Some(st_mod) = stance_stats.get(&(dt, aspect)) {
                 stance_mod = Some(*st_mod)
             } else {
                 stance_mod = None
@@ -139,28 +156,43 @@ impl Player {
         }
 
         // For magic defence, employ recursion. OSRS has some weird formulas.
-        if *dt == DT::Magic && *skill == Skill::Defence {
-            let mut adj_def: i32 =
-                self.get_effective_level(&DT::Melee(MeleeDamageType::Default), &Skill::Defence);
+        if dt == DT::Magic && aspect == CombatAspect::Defence {
+            let mut adj_def: u32 = self
+                .get_effective_level(DT::Melee(MeleeDamageType::Default), CombatAspect::Defence);
             adj_def = multiply_then_trunc(adj_def, 0.30);
 
-            let mut adj_mag: i32 = self.get_effective_level(&DT::Magic, &Skill::Attack);
+            let mut adj_mag: u32 = self.get_effective_level(DT::Magic, CombatAspect::Attack);
             adj_mag = multiply_then_trunc(adj_mag, 0.70);
 
-            let eff_mag_def: i32 = adj_def + adj_mag;
+            let eff_mag_def: u32 = adj_def + adj_mag;
             return eff_mag_def;
         }
 
-        let void_mod = None;
-        // todo!();
-        // if self.equipment.wearing(void) {
-        //     get void modifiers
-        // } else {
-        //     void modifiers = None
-        // }
+        let void_modifiers = VoidModifiers { player: self };
+        let void_mod = if let Some(void_mods) = void_modifiers.combat_mod() {
+            // // interesting rust corner
+            // // I wrote this...
+            //
+            // if let Some(lvl_mod) = void_mods.get(&(dt, aspect)) {
+            //     Some(*lvl_mod)
+            // } else {
+            //     None
+            // }
+            //
+            // // This was suggested by the compiler as a first replacement...
+            //
+            // void_mods.get(&(dt, aspect)).map(|lvl_mod| *lvl_mod)
+            //
+            // // Which then suggested this...
+            //
+            void_mods.get(&(dt, aspect)).copied()
+            //
+            // // In short, cool language!
+        } else {
+            None
+        };
 
-        let eff_lvl: i32 = effective_level(invis_lvl, stance_mod, void_mod);
-        eff_lvl
+        effective_level(invis_lvl, stance_mod, void_mod)
     }
 
     /// Apply a boost map, taking previous buffs & debuffs into account.

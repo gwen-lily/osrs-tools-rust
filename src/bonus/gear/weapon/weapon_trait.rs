@@ -1,16 +1,12 @@
 use crate::bonus::{BonusLike, BonusStats};
 use crate::character::{Monster, Player};
-use crate::combat::{accuracy, base_damage, maximum_roll};
+use crate::combat::{self, accuracy, base_damage, maximum_roll, DamageDistribution, Hitsplats};
 use crate::modifiers::player::{
     dinhs::DinhsModifier, powered_staff::PoweredStaffModifiers, tumeken::TumekensModifier,
 };
 use crate::modifiers::{BnsMod, CmbMod, DmgBuff, PlayerModifiers};
 use crate::spell::Spell;
-use crate::{levels, OsrsError, Result};
-use crate::{
-    Skill::{self, *},
-    DT,
-};
+use crate::{levels, CombatAspect, Skill, DT};
 
 /// A vanilla weapon with completely default behavior wrt. what constitutes a "weapon" function
 
@@ -20,28 +16,28 @@ pub struct NormalWeaponTrait {}
 impl WeaponTrait for NormalWeaponTrait {}
 
 pub trait WeaponTrait {
-    fn attack_skill(&self, player: &Player) -> Result<Skill> {
+    fn attack_skill(&self, player: &Player) -> Skill {
         let dt: DT = player.style.dt;
-        levels::combat_skill(dt, Attack)
+        levels::combat_skill(dt, CombatAspect::Attack)
     }
 
-    fn strength_skill(&self, player: &Player) -> Result<Skill> {
+    fn strength_skill(&self, player: &Player) -> Skill {
         let dt: DT = player.style.dt;
-        levels::combat_skill(dt, Strength)
+        levels::combat_skill(dt, CombatAspect::Strength)
     }
 
-    fn defence_skill(&self, pmods: &PlayerModifiers) -> Result<Skill> {
+    fn defence_skill(&self, pmods: &PlayerModifiers) -> Skill {
         // Determine dt
-        // If there's a weapon...
         let player = pmods.player;
 
+        // If there's a weapon...
         let dt: DT = if let Some(wpn) = &player.equipment_info.equipment.weapon {
             // If that weapon is a special weapon...
             if let Some(spec_wpn) = &wpn.special_weapon_info {
                 // If that special weapon has special functions...
                 if let Some(spec_fns) = &wpn.unique_spec_fns {
                     // If those special functions produce a unique dt...
-                    if let Some(spec_dt) = spec_fns.get_special_defence_roll(pmods)? {
+                    if let Some(spec_dt) = spec_fns.get_special_defence_roll(pmods) {
                         spec_dt
                     } else {
                         player.style.dt
@@ -62,22 +58,21 @@ pub trait WeaponTrait {
             player.style.dt
         };
 
-        levels::combat_skill(dt, Defence)
+        levels::combat_skill(dt, CombatAspect::Defence)
     }
 
-    fn get_effective_level(&self, player: &Player, skill: Skill) -> Result<i32> {
-        let dt: DT = player.style.dt;
-
-        let combat_skill: Skill = match levels::combat_skill(dt, skill) {
-            Ok(cmb_skl) => cmb_skl,
-            Err(err) => return Err(err),
-        };
-
-        let effective_level: i32 = player.get_effective_level(&dt, &combat_skill);
-        Ok(effective_level)
+    fn get_invisible_level(&self, pmods: &PlayerModifiers, dt: DT, aspect: CombatAspect) -> u32 {
+        pmods.player.get_invisible_level(dt, aspect)
     }
 
-    fn bonus_stats(&self, player: &Player, target: &Monster) -> BonusStats {
+    fn get_effective_level(&self, pmods: &PlayerModifiers, dt: DT, aspect: CombatAspect) -> u32 {
+        pmods.player.get_effective_level(dt, aspect)
+    }
+
+    fn bonus_stats(&self, pmods: &PlayerModifiers) -> BonusStats {
+        let player: &Player = pmods.player;
+        let target: &Monster = pmods.target;
+
         let mut bs: BonusStats = player.equipment_info.equipment.get_bonus_stats().clone();
 
         // dinhs
@@ -111,77 +106,96 @@ pub trait WeaponTrait {
         bs
     }
 
-    fn base_max(&self, player: &Player, target: &Monster) -> Result<u32> {
+    fn base_max(&self, pmods: &PlayerModifiers) -> u32 {
+        let player: &Player = pmods.player;
         let dt: DT = player.style.dt;
 
         match dt {
             DT::Melee(_) | DT::Ranged => {
-                let strength_skill = self.strength_skill(player)?;
-                let effective_strength_level: i32 =
-                    match self.get_effective_level(player, strength_skill) {
-                        Ok(esl) => esl,
-                        Err(err) => return Err(err),
-                    };
+                let effective_strength_level: u32 =
+                    self.get_effective_level(pmods, dt, CombatAspect::Strength);
 
                 let gear_str_bns: i32 = *self
-                    .bonus_stats(player, target)
-                    .get(&(dt, strength_skill))
+                    .bonus_stats(pmods)
+                    .get(&(dt, CombatAspect::Strength))
                     .unwrap();
-                let base_dmg: f64 = base_damage(&effective_strength_level, &gear_str_bns);
-                Ok(base_dmg.trunc() as u32)
+
+                base_damage(effective_strength_level, gear_str_bns).trunc() as u32
             }
             DT::Magic => {
                 use crate::spell::Spellbook::*;
                 let spl: &Spell = player.spell.unwrap();
 
-                let base_max: u32 = match spl.spellbook {
+                match spl.spellbook {
                     Standard | Ancient | Lunar | Arceus => spl.base_max,
                     Powered => {
                         let pwr_stf_mod: PoweredStaffModifiers = PoweredStaffModifiers { player };
                         spl.base_max + pwr_stf_mod.damage_buff().unwrap()
                     }
-                };
-
-                Ok(base_max)
+                }
             }
-            DT::Typeless => Err(OsrsError::Typeless),
+            DT::Typeless => todo!(),
         }
     }
 
-    // fn actual_max(&self, pmods: &PlayerModifiers) -> Result<u32> {}
+    fn actual_max(&self, pmods: &PlayerModifiers) -> u32 {
+        let base_max: u32 = self.base_max(pmods);
+        let mut dms: Vec<f64> = pmods.get_all_dms();
 
-    fn attack_maximum_roll(&self, pmods: &PlayerModifiers) -> i32 {
-        let player: &Player = pmods.player;
-        let target: &Monster = pmods.target;
+        if *pmods.special_attack {
+            if let Some(spec_dms) = &pmods
+                .player
+                .weapon()
+                .special_weapon_info
+                .as_ref()
+                .unwrap()
+                .special_dms
+            {
+                dms.append(&mut spec_dms.clone());
+            }
+        }
 
-        let dt = player.style.dt;
-        let msg: &str = "maximum roll";
-
-        let eff_atk_lvl = &self.get_effective_level(player, Attack).expect(msg);
-        let attack_skill = self.attack_skill(player).expect(msg);
-        let gear_atk_bns: i32 = *self
-            .bonus_stats(player, target)
-            .get(&(dt, attack_skill))
-            .unwrap();
-
-        let arm_mods: &[f64] = &pmods.get_all_arms();
-
-        maximum_roll(eff_atk_lvl, &gear_atk_bns, arm_mods)
+        combat::max_hit(base_max, &dms)
     }
 
-    fn defence_maximum_roll(&self, pmods: &PlayerModifiers) -> i32 {
+    fn attack_maximum_roll(&self, pmods: &PlayerModifiers) -> u32 {
+        let player: &Player = pmods.player;
+        let dt = player.style.dt;
+
+        let eff_atk_lvl = self.get_effective_level(pmods, dt, CombatAspect::Attack);
+        let gear_atk_bns: i32 = *self
+            .bonus_stats(pmods)
+            .get(&(dt, CombatAspect::Attack))
+            .unwrap();
+        let mut arm_mods: Vec<f64> = pmods.get_all_arms();
+
+        if *pmods.special_attack {
+            if let Some(spec_arms) = &player
+                .weapon()
+                .special_weapon_info
+                .as_ref()
+                .unwrap()
+                .special_arms
+            {
+                arm_mods.append(&mut spec_arms.clone());
+            }
+        }
+
+        maximum_roll(eff_atk_lvl, gear_atk_bns, &arm_mods)
+    }
+
+    fn defence_maximum_roll(&self, pmods: &PlayerModifiers) -> u32 {
         let player: &Player = pmods.player;
         let target: &Monster = pmods.target;
 
         let dt = player.style.dt;
-        let msg: &str = "maximum roll";
 
         // get the defence skill & level of the target, based on the player's weapon / spec weapon
-        let defence_skill: &Skill = &self.defence_skill(pmods).expect(msg);
-        let effective_def_lvl = target.levels.get(defence_skill).unwrap();
+        let defence_skill: Skill = self.defence_skill(pmods);
+        let effective_def_lvl: u32 = *target.levels.get(&defence_skill).unwrap() as u32;
 
         let monster_bns_stats: &BonusStats = target.monster_bonus.get_bonus_stats();
-        let def_bns: &i32 = monster_bns_stats.get(&(dt, *defence_skill)).unwrap();
+        let def_bns: i32 = *monster_bns_stats.get(&(dt, CombatAspect::Defence)).unwrap();
 
         let drms: &[f64] = &pmods.get_all_drms();
 
@@ -189,11 +203,23 @@ pub trait WeaponTrait {
     }
 
     fn accuracy(&self, pmods: &PlayerModifiers) -> f64 {
-        let atk_roll: &i32 = &self.attack_maximum_roll(pmods);
-        let def_roll: &i32 = &self.defence_maximum_roll(pmods);
+        let atk_roll: u32 = self.attack_maximum_roll(pmods);
+        let def_roll: u32 = self.defence_maximum_roll(pmods);
 
         accuracy(atk_roll, def_roll)
     }
 
-    // fn damage_distribution(&self, pmods: &PlayerModifiers) -> DamageDistribution {}
+    fn hp_cap(&self, pmods: &PlayerModifiers) -> u32 {
+        let target: &Monster = pmods.target;
+        *target.levels.get(&Skill::Hitpoints).unwrap() as u32
+    }
+
+    fn damage_distribution(&self, pmods: &PlayerModifiers) -> Hitsplats {
+        let max_hit: u32 = self.actual_max(pmods);
+        let accuracy: f64 = self.accuracy(pmods);
+        let hp_cap: u32 = self.hp_cap(pmods);
+
+        let hs = DamageDistribution::simple(max_hit, accuracy, Some(hp_cap));
+        vec![hs]
+    }
 }

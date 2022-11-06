@@ -9,7 +9,7 @@ pub(crate) struct ObsidianModifier<'a> {
 
 impl<'a> ConditionalModifier for ObsidianModifier<'a> {
     fn activate(&self) -> bool {
-        self.player.equipment_info.set_equipped(&ObsidianSet)
+        self.player.equipment_info.set_equipped(ObsidianSet)
             && self.player.equipment_info.obsidian_weapon_equipped()
     }
 }

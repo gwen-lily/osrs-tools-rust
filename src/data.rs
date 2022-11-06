@@ -1,3 +1,6 @@
+pub(crate) mod bolts;
+pub(crate) mod weapons;
+
 #[allow(unused_imports)]
 use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
@@ -22,11 +25,13 @@ pub enum MeleeDamageType {
     Default,
 }
 
-/// Slot
-
-/// Style
-
-/// Skill
+/// The corresponding accuracy, strength, and defensive values associated with DT
+#[derive(Debug, EnumIter, PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Hash)]
+pub enum CombatAspect {
+    Attack,
+    Strength,
+    Defence,
+}
 
 #[derive(Debug, EnumIter, PartialEq, Eq, Hash, Clone, Copy)]
 pub enum Skill {

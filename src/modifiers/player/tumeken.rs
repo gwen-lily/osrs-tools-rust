@@ -1,6 +1,6 @@
 use crate::character::{Monster, MonsterLocation, Player};
 use crate::modifiers::{CmbMod, ConditionalModifier};
-use crate::{CombatMap, Skill, DT};
+use crate::{CombatAspect, CombatMap, DT};
 
 use crate::spell::SpellName;
 
@@ -33,7 +33,7 @@ impl<'a> CmbMod for TumekensModifier<'a> {
         };
 
         let mut map: CombatMap<f64> = CombatMap::new();
-        map.insert((DT::Magic, Skill::Strength), tum_mod);
+        map.insert((DT::Magic, CombatAspect::Strength), tum_mod);
 
         Some(map)
     }

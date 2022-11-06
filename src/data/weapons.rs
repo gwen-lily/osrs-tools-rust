@@ -1,0 +1,1 @@
+pub const ABYSSAL_BLUDGEON_DMG_MOD_PER_PP: f64 = 0.005;

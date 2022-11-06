@@ -1,5 +1,5 @@
 use crate::character::Player;
-use crate::data::{MeleeDamageType, Skill, DT};
+use crate::data::{CombatAspect::*, MeleeDamageType, DT};
 use crate::modifiers::CmbMod;
 use crate::CombatMap;
 
@@ -11,29 +11,29 @@ pub(crate) struct VoidModifiers<'a> {
 
 impl<'a> CmbMod for VoidModifiers<'a> {
     fn combat_mod(&self) -> Option<CombatMap<f64>> {
-        if self.player.equipment_info.set_equipped(&NormalVoidSet) {
+        if self.player.equipment_info.set_equipped(NormalVoidSet) {
             let mut combat_mod: CombatMap<f64> = CombatMap::new();
             // Melee
-            combat_mod.insert((DT::Melee(MeleeDamageType::Default), Skill::Attack), 1.10);
-            combat_mod.insert((DT::Melee(MeleeDamageType::Default), Skill::Strength), 1.10);
+            combat_mod.insert((DT::Melee(MeleeDamageType::Default), Attack), 1.10);
+            combat_mod.insert((DT::Melee(MeleeDamageType::Default), Strength), 1.10);
             // Ranged
-            combat_mod.insert((DT::Ranged, Skill::Attack), 1.10);
-            combat_mod.insert((DT::Ranged, Skill::Strength), 1.10);
+            combat_mod.insert((DT::Ranged, Attack), 1.10);
+            combat_mod.insert((DT::Ranged, Strength), 1.10);
             // Magic
-            combat_mod.insert((DT::Magic, Skill::Attack), 1.45);
+            combat_mod.insert((DT::Magic, Attack), 1.45);
 
             Some(combat_mod)
-        } else if self.player.equipment_info.set_equipped(&EliteVoidSet) {
+        } else if self.player.equipment_info.set_equipped(EliteVoidSet) {
             let mut combat_mod: CombatMap<f64> = CombatMap::new();
             // Melee
-            combat_mod.insert((DT::Melee(MeleeDamageType::Default), Skill::Attack), 1.10);
-            combat_mod.insert((DT::Melee(MeleeDamageType::Default), Skill::Strength), 1.10);
+            combat_mod.insert((DT::Melee(MeleeDamageType::Default), Attack), 1.10);
+            combat_mod.insert((DT::Melee(MeleeDamageType::Default), Strength), 1.10);
             // Ranged
-            combat_mod.insert((DT::Ranged, Skill::Attack), 1.10);
-            combat_mod.insert((DT::Ranged, Skill::Strength), 1.125);
+            combat_mod.insert((DT::Ranged, Attack), 1.10);
+            combat_mod.insert((DT::Ranged, Strength), 1.125);
             // Magic
-            combat_mod.insert((DT::Magic, Skill::Attack), 1.45);
-            combat_mod.insert((DT::Magic, Skill::Strength), 1.025);
+            combat_mod.insert((DT::Magic, Attack), 1.45);
+            combat_mod.insert((DT::Magic, Strength), 1.025);
 
             Some(combat_mod)
         } else {

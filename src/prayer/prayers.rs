@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use strum_macros::EnumIter;
 
 use crate::data::{
-    Skill::{Attack, Defence, Strength},
+    CombatAspect::{Attack, Defence, Strength},
     DT::{Magic, Melee, Ranged},
 };
 

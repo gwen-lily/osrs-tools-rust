@@ -2,7 +2,7 @@ pub mod prayers;
 
 use crate::{
     data::{
-        Skill::{Attack, Defence, Strength},
+        CombatAspect::{Attack, Strength},
         DT::{self, Typeless},
     },
     CombatMap, OsrsError, Result,
@@ -69,21 +69,16 @@ impl Prayers {
         for prayer in prayers.iter() {
             // For each prayer that has prayer_stats
             if let Some(prayer_stats) = &prayer.prayer_stats {
-                // iterate through { (DT, Skill): prayer_stats } pairs
-                for ((dt, skill), ps) in prayer_stats.iter() {
+                // iterate through { (DT, CombatAspect): prayer_stats } pairs
+                for ((dt, aspect), ps) in prayer_stats.iter() {
                     // Panic if typeless attribute, else continue
                     if *dt == Typeless {
                         panic!("bad prayer!")
                     }
 
-                    // Panic if unrelated to existing prayer attributes
-                    if !(*skill == Attack || *skill == Strength || *skill == Defence) {
-                        panic!("bad prayer");
-                    };
-
                     // If a previous prayer already inserted this key, panic
-                    if let Some(_prev_ps) = map.insert((*dt, *skill), *ps) {
-                        return Err(OsrsError::CombatMap(Some(vec![*dt]), Some(vec![*skill])));
+                    if let Some(_prev_ps) = map.insert((*dt, *aspect), *ps) {
+                        return Err(OsrsError::CombatMap(Some(vec![*dt]), Some(vec![*aspect])));
                     };
                 }
             };
@@ -102,15 +97,15 @@ impl Prayers {
     fn check_compatability(map: &PrayerStats) -> Result<()> {
         let no_dupes = [Attack, Strength];
 
-        for skill in no_dupes.into_iter() {
+        for aspect in no_dupes.into_iter() {
             let keys: Vec<DT> = map
                 .keys()
-                .filter(|(_dt, sk)| *sk == skill)
+                .filter(|(_dt, sk)| *sk == aspect)
                 .map(|(dt, _sk)| *dt)
                 .collect();
 
             if keys.len() > 1 {
-                return Err(OsrsError::CombatMap(Some(keys), Some(vec![skill])));
+                return Err(OsrsError::CombatMap(Some(keys), Some(vec![aspect])));
             }
         }
         Ok(())

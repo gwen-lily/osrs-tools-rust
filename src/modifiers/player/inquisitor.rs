@@ -18,7 +18,7 @@ impl<'a> ConditionalModifier for InquisitorModifier<'a> {
 
 impl<'a> InquisitorModifier<'a> {
     fn inquisitor_pieces_equipped(&self) -> usize {
-        if self.player.equipment_info.set_equipped(&InquisitorSet) {
+        if self.player.equipment_info.set_equipped(InquisitorSet) {
             return 3;
         };
 
