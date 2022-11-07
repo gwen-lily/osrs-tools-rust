@@ -22,7 +22,7 @@ impl<'a> ArMod for TwistedBowModifier<'a> {
         };
 
         let accuracy_mod_ceil: f64 = 1.40;
-        let magic: i32 = self.target_magic();
+        let magic: u32 = self.target_magic();
 
         let accuracy_mod_pcnt = {
             140 + { ((10 * 3 * magic) as f64 / 10.0 - 10.0) / 100.0 }.trunc() as i32 - {
@@ -46,7 +46,7 @@ impl<'a> DmgMod for TwistedBowModifier<'a> {
         };
 
         let damage_mod_ceil: f64 = 2.50;
-        let magic: i32 = self.target_magic();
+        let magic: u32 = self.target_magic();
 
         let damage_mod_pcnt = {
             250 + { ((10 * 3 * magic) as f64 / 10.0 - 14.0) / 100.0 }.trunc() as i32 - {
@@ -64,7 +64,7 @@ impl<'a> DmgMod for TwistedBowModifier<'a> {
 }
 
 impl<'a> TwistedBowModifier<'a> {
-    fn target_magic_ceiling(&self) -> i32 {
+    fn target_magic_ceiling(&self) -> u32 {
         if let Some(attrs) = &self.target.attributes {
             if attrs.contains(&MonsterAttribute::Xerician) {
                 return 350;
@@ -73,8 +73,8 @@ impl<'a> TwistedBowModifier<'a> {
         250
     }
 
-    fn target_magic(&self) -> i32 {
-        let magic_lvl: i32 = *self.target.levels.get(&Skill::Magic).unwrap();
+    fn target_magic(&self) -> u32 {
+        let magic_lvl: u32 = *self.target.levels.get(&Skill::Magic).unwrap();
         let magic_agg_bns: i32 = *self
             .target
             .monster_bonus
@@ -83,8 +83,11 @@ impl<'a> TwistedBowModifier<'a> {
             .unwrap();
 
         // order important
-        magic_lvl
+        let unchecked_magic: i32 = (magic_lvl as i32)
             .max(magic_agg_bns)
-            .min(self.target_magic_ceiling())
+            .min(self.target_magic_ceiling() as i32);
+
+        assert!(unchecked_magic > 0);
+        unchecked_magic as u32
     }
 }

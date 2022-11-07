@@ -112,11 +112,13 @@ impl Player {
         let minimum_visible_level: u32 = 1;
         let maximum_visible_level: u32 = 125;
 
-        let visible_level: i32 =
-            self.levels.get(&skill).unwrap() + self.boosts.get(&skill).unwrap_or(&0);
+        let mut visible_level: i32 = *self.levels.get(&skill).unwrap() as i32;
+        visible_level += self.boosts.get(&skill).unwrap_or(&0);
 
         // sanity check before type cast
-        assert!((minimum_visible_level..=maximum_visible_level).contains(&(visible_level as u32)));
+        assert!(
+            (minimum_visible_level as i32..=maximum_visible_level as i32).contains(&visible_level)
+        );
 
         let visible_level: u32 = (visible_level as u32)
             .max(minimum_visible_level)
@@ -201,10 +203,16 @@ impl Player {
 
     /// Apply a boost map, taking previous buffs & debuffs into account.
     pub fn apply_boost(&mut self, boost: &BoostMap) {
+        // For each (skill, |u32| -> i32)...
         for (skill, mod_func) in boost.iter() {
+            // If a boost is already in place...
             if let Some(prev_boost) = self.boosts.get(skill) {
-                let active_level: i32 = if *prev_boost < 0 {
-                    self.levels.get(skill).unwrap() + prev_boost
+                // If the previous boost was a net debuff...
+                let active_level: u32 = if *prev_boost < 0 {
+                    // Use the debuffed level to calculate the new boost
+                    let unclamped_active_level: i32 =
+                        *self.levels.get(skill).unwrap() as i32 + prev_boost;
+                    unclamped_active_level.max(0).min(99) as u32
                 } else {
                     *self.levels.get(skill).unwrap()
                 };
@@ -212,8 +220,9 @@ impl Player {
                 let diff_boost: i32 = mod_func(&active_level);
                 let new_boost: i32 = prev_boost + diff_boost;
                 self.boosts.insert(*skill, new_boost);
+            // If no boost exists...
             } else {
-                let active_level: &i32 = self.levels.get(skill).unwrap();
+                let active_level: &u32 = self.levels.get(skill).unwrap();
                 let diff_boost: i32 = mod_func(active_level);
                 self.boosts.insert(*skill, diff_boost);
             }
@@ -221,17 +230,17 @@ impl Player {
     }
 
     /// Calculate a Player's combat level.
-    pub fn combat_level(&self) -> i32 {
-        let atk: &i32 = self.levels.get(&Skill::Attack).unwrap();
-        let stn: &i32 = self.levels.get(&Skill::Strength).unwrap();
-        let def: &i32 = self.levels.get(&Skill::Defence).unwrap();
-        let rng: &i32 = self.levels.get(&Skill::Ranged).unwrap();
-        let mag: &i32 = self.levels.get(&Skill::Magic).unwrap();
-        let pry: &i32 = self.levels.get(&Skill::Prayer).unwrap();
-        let htp: &i32 = self.levels.get(&Skill::Hitpoints).unwrap();
+    pub fn combat_level(&self) -> u32 {
+        let atk: &u32 = self.levels.get(&Skill::Attack).unwrap();
+        let stn: &u32 = self.levels.get(&Skill::Strength).unwrap();
+        let def: &u32 = self.levels.get(&Skill::Defence).unwrap();
+        let rng: &u32 = self.levels.get(&Skill::Ranged).unwrap();
+        let mag: &u32 = self.levels.get(&Skill::Magic).unwrap();
+        let pry: &u32 = self.levels.get(&Skill::Prayer).unwrap();
+        let htp: &u32 = self.levels.get(&Skill::Hitpoints).unwrap();
 
         // Base level
-        let base_lvl: i32 = def + htp + (pry / 2);
+        let base_lvl: u32 = def + htp + (pry / 2);
         let base_lvl: f64 = (1.0 / 4.0) * (base_lvl as f64);
 
         // Specialized level
@@ -240,7 +249,7 @@ impl Player {
         let ranged_lvl: f64 = (13.0 / 40.0) * (rng + rng / 2) as f64;
         let type_lvl: f64 = melee_lvl.max(magic_lvl).max(ranged_lvl);
 
-        let combat_lvl: i32 = (base_lvl + type_lvl).trunc() as i32;
+        let combat_lvl: u32 = (base_lvl + type_lvl).trunc() as u32;
         combat_lvl
     }
 
