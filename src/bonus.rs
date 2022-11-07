@@ -6,6 +6,7 @@ use crate::{levels::Levels, CombatMap};
 
 pub(crate) use equipment::{get_all_gear_sets, GearSetMap};
 pub use equipment::{Equipment, EquipmentInfo, EquipmentMap, EquipmentNameMap, SetName};
+pub use gear::weapon::weapon_trait::WeaponTrait;
 pub use gear::weapon::Weapon;
 pub use gear::{Gear, GearMap, GearName, Slot};
 pub use monster_bonus::MonsterBonus;

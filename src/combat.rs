@@ -1,3 +1,4 @@
+pub(crate) mod damage_analysis;
 pub(crate) mod damage_distribution;
 pub(crate) mod max_hit;
 

@@ -8,6 +8,7 @@ pub mod effect;
 pub mod levels;
 pub mod modifiers;
 pub mod prayer;
+pub mod simulation;
 pub mod spell;
 pub mod stance;
 pub mod style;

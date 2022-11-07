@@ -24,14 +24,9 @@ pub(crate) mod twisted_bow;
 pub(crate) mod void;
 pub(crate) mod wilderness;
 
-use crate::{
-    bonus::BonusStats,
-    character::{player::Player, Monster},
-    levels::Levels,
-    CombatMap,
-};
+use crate::character::{player::Player, Monster};
 
-use super::{ArMod, BnsMod, CmbMod, DmgBuff, DmgMod, LvlMod};
+use super::{ArMod, DmgMod};
 
 pub struct PlayerModifiers<'a> {
     pub player: &'a Player,
@@ -94,15 +89,6 @@ impl<'a> PlayerModifiers<'a> {
         _mod_vec
     }
 
-    // pub(crate) fn get_all_bns_mods(&self) -> Vec<BonusStats> {
-    //     let player = self.player;
-    //     let mut mod_vec: Vec<BonusStats> = vec![];
-    //
-    //     self.extract_bonus_mods(dinhs::DinhsModifier { player }, &mut mod_vec);
-    //
-    //     mod_vec
-    // }
-
     pub(crate) fn get_all_dms(&self) -> Vec<f64> {
         let player = self.player;
         let target = self.target;
@@ -136,61 +122,14 @@ impl<'a> PlayerModifiers<'a> {
         dms_vec
     }
 
-    // pub(crate) fn get_all_dmg_buffs(&self) -> Vec<u8> {
-    //     let player = self.player;
-    //     let mut mod_vec: Vec<u8> = vec![];
-    //
-    //     self.extract_dmg_buff(
-    //         chaos_gauntlets::ChaosGauntletModifier { player },
-    //         &mut mod_vec,
-    //     );
-    //
-    //     mod_vec
-    // }
-
-    pub(crate) fn get_all_cmb_mods(&self) -> Vec<CombatMap<f64>> {
-        let player = self.player;
-        let target = self.target;
-        let mut mod_vec: Vec<CombatMap<f64>> = vec![];
-
-        self.extract_cmb_mod(void::VoidModifiers { player }, &mut mod_vec);
-        self.extract_cmb_mod(tumeken::TumekensModifier { player, target }, &mut mod_vec);
-
-        mod_vec
-    }
-
     fn extract_arm<T: ArMod + 'a>(&self, box_mod: T, mod_vec: &mut Vec<f64>) {
         if let Some(md) = box_mod.accuracy_roll_mod() {
             mod_vec.push(md)
         }
     }
 
-    fn extract_bonus_mods<T: BnsMod + 'a>(&self, box_mod: T, mod_vec: &mut Vec<BonusStats>) {
-        if let Some(md) = box_mod.bonus_mod() {
-            mod_vec.push(md)
-        }
-    }
-
     fn extract_dmg_mod<T: DmgMod + 'a>(&self, box_mod: T, mod_vec: &mut Vec<f64>) {
         if let Some(md) = box_mod.damage_mod() {
-            mod_vec.push(md)
-        }
-    }
-
-    fn extract_dmg_buff<T: DmgBuff + 'a>(&self, box_mod: T, mod_vec: &mut Vec<u32>) {
-        if let Some(md) = box_mod.damage_buff() {
-            mod_vec.push(md)
-        }
-    }
-
-    fn extract_lvl_mod<T: LvlMod + 'a>(&self, box_mod: T, mod_vec: &mut Vec<Levels>) {
-        if let Some(md) = box_mod.levels_mod() {
-            mod_vec.push(md)
-        }
-    }
-
-    fn extract_cmb_mod<T: CmbMod + 'a>(&self, box_mod: T, mod_vec: &mut Vec<CombatMap<f64>>) {
-        if let Some(md) = box_mod.combat_mod() {
             mod_vec.push(md)
         }
     }

@@ -123,6 +123,7 @@ impl EquipmentInfo {
     }
 
     /// Return true if any variant of enchanted bolts is equipped
+    #[allow(dead_code)]
     pub(crate) fn enchanted_bolts_equipped(&self) -> bool {
         self.enchanted_ruby_bolts()
             || self.enchanted_diamond_bolts()
@@ -133,6 +134,7 @@ impl EquipmentInfo {
     /** Return true if a crossbow that is capable of procuring a bolt effect is equipped. Note that
      * this does not return true for various "crossbows" such as Karil's or Hunter's
      */
+    #[allow(dead_code)]
     pub(crate) fn crossbow_equipped(&self) -> bool {
         if let Some(wpn) = &self.equipment.weapon {
             match wpn.gear_info.name {
@@ -145,6 +147,7 @@ impl EquipmentInfo {
         false
     }
 
+    #[allow(dead_code)]
     pub(crate) fn armadyl_crossbow_equipped(&self) -> bool {
         if let Some(wpn) = &self.equipment.weapon {
             wpn.gear_info.name == ArmadylCrossbow
@@ -153,6 +156,7 @@ impl EquipmentInfo {
         }
     }
 
+    #[allow(dead_code)]
     pub(crate) fn zaryte_crossbow_equipped(&self) -> bool {
         if let Some(wpn) = &self.equipment.weapon {
             wpn.gear_info.name == ZaryteCrossbow

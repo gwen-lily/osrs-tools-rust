@@ -21,7 +21,7 @@ impl<'a> DmgMod for DharokModifier<'a> {
         };
 
         let base_hp: i32 = *self.player.levels.get(&Hitpoints).unwrap();
-        let hp_diff: u32 = (base_hp - self.player.hitpoints as i32).max(0) as u32;
+        let hp_diff: u32 = (base_hp - self.player.resources.hitpoints as i32).max(0) as u32;
         let dmg_mod: f64 = 1.0 + { hp_diff as f64 / 100.0 * (base_hp as f64 / 100.0) };
 
         Some(dmg_mod)

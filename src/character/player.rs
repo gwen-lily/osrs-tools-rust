@@ -25,14 +25,18 @@ pub struct Player {
     // #[allow(dead_code)]
     // effects: Vec<Box<dyn EffectLike>>,
     pub kandarin_hard: bool,
-    #[allow(dead_code)]
-    special_energy: u32,
-    #[allow(dead_code)]
-    run_energy: u32,
     pub slayer_task: Option<Slayer>,
     // Should be hands
     default_weapon: &'static Weapon,
     pub uid: u32,
+    pub resources: PlayerResources,
+}
+
+pub struct PlayerResources {
+    #[allow(dead_code)]
+    special_energy: u32,
+    #[allow(dead_code)]
+    run_energy: u32,
     pub hitpoints: u32,
     pub prayer: u32,
 }

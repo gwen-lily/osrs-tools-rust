@@ -2,8 +2,8 @@ pub type Hitsplats = Vec<DamageDistribution>;
 
 #[derive(PartialEq, Eq, PartialOrd, Clone, Debug)]
 pub struct DamageDistribution {
-    damage: Vec<u32>,
-    probability: Vec<f64>,
+    pub damage: Vec<u32>,
+    pub probability: Vec<f64>,
 }
 
 impl DamageDistribution {

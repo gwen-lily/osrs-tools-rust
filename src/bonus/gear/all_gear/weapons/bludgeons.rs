@@ -13,7 +13,8 @@ impl WeaponTrait for AbyssalBludgeon {
 
         if *pmods.special_attack {
             let player: &Player = pmods.player;
-            let pp_diff: i32 = *player.levels.get(&Skill::Prayer).unwrap() - player.prayer as i32;
+            let pp_diff: i32 =
+                *player.levels.get(&Skill::Prayer).unwrap() - player.resources.prayer as i32;
             let pp_missing: u32 = 0_i32.max(pp_diff) as u32;
             // +0.5% for each prayer point missing
             let dmg_mod: f64 = 1.0 + (0.005 * pp_missing as f64);
