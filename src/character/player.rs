@@ -217,12 +217,12 @@ impl Player {
                     *self.levels.get(skill).unwrap()
                 };
 
-                let diff_boost: i32 = mod_func(&active_level);
+                let diff_boost: i32 = mod_func(active_level);
                 let new_boost: i32 = prev_boost + diff_boost;
                 self.boosts.insert(*skill, new_boost);
             // If no boost exists...
             } else {
-                let active_level: &u32 = self.levels.get(skill).unwrap();
+                let active_level: u32 = *self.levels.get(skill).unwrap();
                 let diff_boost: i32 = mod_func(active_level);
                 self.boosts.insert(*skill, diff_boost);
             }
