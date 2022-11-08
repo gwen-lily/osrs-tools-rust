@@ -255,8 +255,7 @@ impl Player {
 
     /// Caculate a Player's prayer drain resistance.
     pub fn prayer_drain_resistance(&self) -> u32 {
-        let pdr: u32 = (2 * self.equipment_info.equipment.get_pry()) + 60;
-        pdr
+        (2 * self.equipment_info.equipment.get_pry()) + 60
     }
 
     /// Calculate a the ticks it takes to lose one prayer point

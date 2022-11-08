@@ -24,6 +24,7 @@ extern crate float_cmp;
 
 use std::collections::HashMap;
 
+use bonus::Slot;
 use data::CombatAspect;
 
 use crate::{
@@ -68,6 +69,11 @@ pub enum OsrsError {
     /// Returned when a spell is called for but none is found
     #[error("Tried to cast a spell, but none was found")]
     Spell,
+
+    /// Returned when a two-handed weapon is equipped with a shield. The optional contained
+    /// Slot is the one that attempted to equip most recently, causing the invalid state.
+    #[error("Tried to equip a two-handed weapon & shield at the same time")]
+    TwoHandedError(Option<Slot>),
 }
 
 /// A type alias used for convenience and consiceness throughout the library.

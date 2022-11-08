@@ -1,11 +1,13 @@
 mod equipment_info;
 mod sets;
+pub mod utils;
 
 use std::collections::HashMap;
 
 use crate::{
     bonus::{BonusLike, Gear, GearLike, Slot},
     levels::Levels,
+    OsrsError, Result,
 };
 
 use super::{BonusStats, GearName, Weapon};
@@ -24,11 +26,14 @@ pub struct Equipment {
     pry: u32,
 }
 
+/// Type alias for HashMap<Slot, T>
+pub type SlotMap<T> = HashMap<Slot, T>;
+
 /// Type alias for HashMap<Slot, Gear>. The actual Gear item container.
-pub type EquipmentMap = HashMap<Slot, Gear>;
+pub type EquipmentMap = SlotMap<Gear>;
 /// Type alias for HashMap<Slot, GearName>. Used by developers to inquire about gear using a lookup
 /// value
-pub type EquipmentNameMap = HashMap<Slot, GearName>;
+pub type EquipmentNameMap = SlotMap<GearName>;
 
 /// Implement BonusLike for Equipment, which is element-wise addition for its getters.
 impl BonusLike for Equipment {
@@ -50,10 +55,7 @@ impl GearLike for Equipment {
 
 impl Equipment {
     pub fn new(equipment: EquipmentMap, weapon: Option<Weapon>) -> Self {
-        if let Some(_wpn) = equipment.get(&Slot::Weapon) {
-            panic!("Weapon must be distinct, not part of an EquipmentMap")
-        }
-
+        Equipment::validate(equipment, weapon);
         Self {
             bonus_stats: Self::calc_bonus_stats(&equipment, &weapon),
             lvl_reqs: Self::calc_lvl_reqs(&equipment, &weapon),
@@ -61,6 +63,22 @@ impl Equipment {
             equipment,
             weapon,
         }
+    }
+
+    fn validate(equipment: EquipmentMap, weapon: Option<Weapon>) -> Result<()> {
+        if let Some(_wpn) = equipment.get(&Slot::Weapon) {
+            panic!("Weapon must be distinct, not part of an EquipmentMap")
+        }
+
+        if let Some(wpn) = weapon {
+            if wpn.weapon_info.two_handed {
+                if let Some(shld) = equipment.get(&Slot::Shield) {
+                    return Err(OsrsError::TwoHandedError(None));
+                }
+            }
+        }
+
+        Ok(())
     }
 
     fn calc_bonus_stats(equipment: &EquipmentMap, weapon: &Option<Weapon>) -> BonusStats {
